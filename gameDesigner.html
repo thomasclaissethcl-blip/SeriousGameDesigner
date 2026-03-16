@@ -1261,7 +1261,7 @@ function defaultProject() {
       {
         id: uid("diag"),
         title: "Accumulation de fragilités",
-        text: "Plusieurs décisions ont progressivement fragilisé la cohérence générale du système.",
+        text: "Plusieurs décisions ont progressivement fragilisé la solidité générale du système.",
         operator: "AND",
         conditions: [
           { variable: "risk", operator: ">", value: 0 }
@@ -1384,7 +1384,7 @@ function defaultProject() {
         choices: [
           {
             title: "Prendre le temps de justifier la décision",
-            desc: "Vous consolidez la cohérence de l’ensemble.",
+            desc: "Vous améliorez la solidité de l’ensemble.",
             decisionLog: "Vous avez privilégié une décision argumentée et structurée.",
             goto: "ending_success",
             effects: {
@@ -2684,7 +2684,7 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
 
       const stateLines = [
         {
-          label: "Cohérence",
+          label: "Solidité",
           expr: "score"
         },
         {
@@ -2854,7 +2854,7 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
 
       <div class="stats">
         <div class="stat"><div class="stat-label">Progression</div><div class="stat-value" id="stepLabel">0 / 0</div></div>
-        <div class="stat"><div class="stat-label">Cohérence</div><div class="stat-value" id="scoreLabel">0</div></div>
+        <div class="stat"><div class="stat-label">Solidité</div><div class="stat-value" id="scoreLabel">0</div></div>
         <div class="stat"><div class="stat-label">Fragilités</div><div class="stat-value" id="riskLabel">0</div></div>
         <div class="stat"><div class="stat-label">Infos retenues</div><div class="stat-value" id="infoLabel">0</div></div>
       </div>
@@ -3217,7 +3217,7 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
           html += \`
             <div class="ending">
               <p class="bad"><strong>Issue : diagnostic</strong></p>
-              <p class="muted">Cohérence : \${state.score}. Fragilités : \${state.risk}. Étape atteinte : \${state.step} / \${TOTAL_STEPS}.</p>
+              <p class="muted">Solidité : \${state.score}. Fragilités : \${state.risk}. Étape atteinte : \${state.step} / \${TOTAL_STEPS}.</p>
             </div>
             <div class="diagnosis">
               \${items.map(item => \`
@@ -3466,19 +3466,22 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
     });
 
     els.metaTitle.addEventListener("input", () => {
-      project.meta.title = els.metaTitle.value;
-      renderAll();
-    });
+  project.meta.title = els.metaTitle.value;
+  renderJsonPreview();
+  renderValidation();
+});
 
     els.metaSubtitle.addEventListener("input", () => {
-      project.meta.subtitle = els.metaSubtitle.value;
-      renderAll();
-    });
+  project.meta.subtitle = els.metaSubtitle.value;
+  renderJsonPreview();
+  renderValidation();
+});
 
     els.metaAuthor.addEventListener("input", () => {
-      project.meta.author = els.metaAuthor.value;
-      renderAll();
-    });
+  project.meta.author = els.metaAuthor.value;
+  renderJsonPreview();
+  renderValidation();
+});
 
     els.metaStartScene.addEventListener("change", () => {
       project.meta.startScene = els.metaStartScene.value;
@@ -3491,14 +3494,16 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
     });
 
     els.helpTitle.addEventListener("input", () => {
-      project.help.title = els.helpTitle.value;
-      renderAll();
-    });
+  project.help.title = els.helpTitle.value;
+  renderJsonPreview();
+  renderValidation();
+});
 
     els.helpContent.addEventListener("input", () => {
-      project.help.content = splitParagraphs(els.helpContent.value);
-      renderAll();
-    });
+  project.help.content = splitParagraphs(els.helpContent.value);
+  renderJsonPreview();
+  renderValidation();
+});
 
     els.openHelpOnStart.addEventListener("change", () => {
       project.ui.openHelpOnStart = els.openHelpOnStart.checked;
@@ -3510,16 +3515,18 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
     });
 
     els.sceneChapter.addEventListener("input", () => {
-      if (!project.scenes[selectedSceneId]) return;
-      project.scenes[selectedSceneId].chapter = els.sceneChapter.value;
-      renderAll();
-    });
+  if (!project.scenes[selectedSceneId]) return;
+  project.scenes[selectedSceneId].chapter = els.sceneChapter.value;
+  renderJsonPreview();
+  renderValidation();
+});
 
     els.sceneTitle.addEventListener("input", () => {
-      if (!project.scenes[selectedSceneId]) return;
-      project.scenes[selectedSceneId].title = els.sceneTitle.value;
-      renderAll();
-    });
+  if (!project.scenes[selectedSceneId]) return;
+  project.scenes[selectedSceneId].title = els.sceneTitle.value;
+  renderJsonPreview();
+  renderValidation();
+});
 
     els.sceneType.addEventListener("change", () => {
       if (!project.scenes[selectedSceneId]) return;
@@ -3538,10 +3545,11 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
     });
 
     els.sceneText.addEventListener("input", () => {
-      if (!project.scenes[selectedSceneId]) return;
-      project.scenes[selectedSceneId].text = splitParagraphs(els.sceneText.value);
-      renderAll();
-    });
+  if (!project.scenes[selectedSceneId]) return;
+  project.scenes[selectedSceneId].text = splitParagraphs(els.sceneText.value);
+  renderJsonPreview();
+  renderValidation();
+});
 
     document.body.addEventListener("click", (event) => {
       const btn = event.target.closest("button[data-action]");
@@ -3613,85 +3621,96 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
     });
 
     document.body.addEventListener("input", (event) => {
-      const el = event.target;
-     if (action === "choiceSalvage" || action === "choiceFatal") {
-  return;
-}
+  const el = event.target;
+  const action = el.dataset.action;
+  if (!action) return;
 
-      const idx = Number(el.dataset.index);
-      const cIdx = Number(el.dataset.cindex);
+  if (action === "choiceSalvage" || action === "choiceFatal") {
+    return;
+  }
 
-      if (action === "varName") {
-        project.variables[idx].name = el.value.trim();
-      } else if (action === "varLabel") {
-        project.variables[idx].label = el.value;
-      } else if (action === "varType") {
-        project.variables[idx].type = el.value;
-        project.variables[idx].initial = el.value === "boolean" ? false : 0;
-      } else if (action === "varInitialBool") {
-        project.variables[idx].initial = el.value === "true";
-      } else if (action === "varInitialNumber") {
-        project.variables[idx].initial = Number(el.value) || 0;
-      } else if (action === "varCategory") {
-        project.variables[idx].category = el.value;
-      } else if (action === "varDescription") {
-        project.variables[idx].description = el.value;
-      } else if (action === "ruleName") {
-        project.rules.collapse[idx].name = el.value;
-      } else if (action === "ruleOperator") {
-        project.rules.collapse[idx].operator = el.value;
-      } else if (action === "ruleGoto") {
-        project.rules.collapse[idx].goto = el.value;
-      } else if (action === "ruleCondVariable") {
-        project.rules.collapse[idx].conditions[cIdx].variable = el.value;
-      } else if (action === "ruleCondOperator") {
-        project.rules.collapse[idx].conditions[cIdx].operator = el.value;
-      } else if (action === "ruleCondValue") {
-        project.rules.collapse[idx].conditions[cIdx].value = el.value;
-      } else if (action === "diagTitle") {
-        project.diagnostics[idx].title = el.value;
-      } else if (action === "diagText") {
-        project.diagnostics[idx].text = el.value;
-      } else if (action === "diagOperator") {
-        project.diagnostics[idx].operator = el.value;
-      } else if (action === "diagCondVariable") {
-        project.diagnostics[idx].conditions[cIdx].variable = el.value;
-      } else if (action === "diagCondOperator") {
-        project.diagnostics[idx].conditions[cIdx].operator = el.value;
-      } else if (action === "diagCondValue") {
-        project.diagnostics[idx].conditions[cIdx].value = el.value;
-      } else {
-        const scene = project.scenes[selectedSceneId];
-        if (!scene) return;
-        const choice = scene.choices[idx];
-        if (!choice) return;
+  const idx = Number(el.dataset.index);
+  const cIdx = Number(el.dataset.cindex);
+  let needsFullRender = false;
 
-        if (action === "choiceTitle") choice.title = el.value;
-        else if (action === "choiceDesc") choice.desc = el.value;
-        else if (action === "choiceDecisionLog") choice.decisionLog = el.value;
-        else if (action === "choiceGoto") choice.goto = el.value;
-        else if (action === "choiceScore") choice.effects.score = Number(el.value) || 0;
-        else if (action === "choiceRisk") choice.effects.risk = Number(el.value) || 0;
-        else if (action === "choiceStepDelta") choice.effects.stepDelta = Number(el.value) || 0;
-        else if (action === "choiceLogs") {
-          choice.effects.logs = String(el.value)
-            .split("\n")
-            .map(t => t.trim())
-            .filter(Boolean);
-        }
-        else if (action === "choiceInventory") {
-          choice.effects.inventory = parseInventory(el.value);
-        }
-        else if (action === "choiceSetFlags") {
-          choice.effects.setFlags = parseMap(el.value, "auto");
-        }
-        else if (action === "choiceBumpFlags") {
-          choice.effects.bumpFlags = parseMap(el.value, "number");
-        }
-      }
+  if (action === "varName") {
+    project.variables[idx].name = el.value;
+    needsFullRender = true;
+  } else if (action === "varLabel") {
+    project.variables[idx].label = el.value;
+  } else if (action === "varType") {
+    project.variables[idx].type = el.value;
+    project.variables[idx].initial = el.value === "boolean" ? false : 0;
+    needsFullRender = true;
+  } else if (action === "varInitialBool") {
+    project.variables[idx].initial = el.value === "true";
+  } else if (action === "varInitialNumber") {
+    project.variables[idx].initial = Number(el.value) || 0;
+  } else if (action === "varCategory") {
+    project.variables[idx].category = el.value;
+  } else if (action === "varDescription") {
+    project.variables[idx].description = el.value;
+  } else if (action === "ruleName") {
+    project.rules.collapse[idx].name = el.value;
+  } else if (action === "ruleOperator") {
+    project.rules.collapse[idx].operator = el.value;
+  } else if (action === "ruleGoto") {
+    project.rules.collapse[idx].goto = el.value;
+  } else if (action === "ruleCondVariable") {
+    project.rules.collapse[idx].conditions[cIdx].variable = el.value;
+  } else if (action === "ruleCondOperator") {
+    project.rules.collapse[idx].conditions[cIdx].operator = el.value;
+  } else if (action === "ruleCondValue") {
+    project.rules.collapse[idx].conditions[cIdx].value = el.value;
+  } else if (action === "diagTitle") {
+    project.diagnostics[idx].title = el.value;
+  } else if (action === "diagText") {
+    project.diagnostics[idx].text = el.value;
+  } else if (action === "diagOperator") {
+    project.diagnostics[idx].operator = el.value;
+  } else if (action === "diagCondVariable") {
+    project.diagnostics[idx].conditions[cIdx].variable = el.value;
+  } else if (action === "diagCondOperator") {
+    project.diagnostics[idx].conditions[cIdx].operator = el.value;
+  } else if (action === "diagCondValue") {
+    project.diagnostics[idx].conditions[cIdx].value = el.value;
+  } else {
+    const scene = project.scenes[selectedSceneId];
+    if (!scene) return;
+    const choice = scene.choices[idx];
+    if (!choice) return;
 
-      renderAll();
-    });
+    if (action === "choiceTitle") choice.title = el.value;
+    else if (action === "choiceDesc") choice.desc = el.value;
+    else if (action === "choiceDecisionLog") choice.decisionLog = el.value;
+    else if (action === "choiceGoto") choice.goto = el.value;
+    else if (action === "choiceScore") choice.effects.score = Number(el.value) || 0;
+    else if (action === "choiceRisk") choice.effects.risk = Number(el.value) || 0;
+    else if (action === "choiceStepDelta") choice.effects.stepDelta = Number(el.value) || 0;
+    else if (action === "choiceLogs") {
+      choice.effects.logs = String(el.value)
+        .split("\n")
+        .map(t => t.trim())
+        .filter(Boolean);
+    }
+    else if (action === "choiceInventory") {
+      choice.effects.inventory = parseInventory(el.value);
+    }
+    else if (action === "choiceSetFlags") {
+      choice.effects.setFlags = parseMap(el.value, "auto");
+    }
+    else if (action === "choiceBumpFlags") {
+      choice.effects.bumpFlags = parseMap(el.value, "number");
+    }
+  }
+
+  if (needsFullRender) {
+    renderAll();
+  } else {
+    renderJsonPreview();
+    renderValidation();
+  }
+});
     
     document.body.addEventListener("change", (event) => {
       const el = event.target;
