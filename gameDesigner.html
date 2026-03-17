@@ -2925,10 +2925,11 @@ function parseLiteralValue(raw) {
 }
 
 function evaluateInlineCondition(variableName, operator, rawValue, state) {
+  const normalizedOperator = normalizeInlineOperator(operator);
   const left = getStateValue(variableName, state);
   const right = parseLiteralValue(rawValue);
 
-  switch (operator) {
+  switch (normalizedOperator) {
     case "==": return left == right;
     case "!=": return left != right;
     case ">": return left > right;
@@ -3264,6 +3265,23 @@ function interpolateText(text, state) {
   font-weight:800;
   line-height:1;
   vertical-align:middle;
+}
+
+.log-item.old{
+font-style:italic;
+  background:#5e553d;
+  border-color:#d2b48c;
+  color:#241f12;
+  opacity:.92;
+}
+
+.decision-item.old{
+font-style:italic;
+  background:#5e553d;
+  border-left:4px solid #d2b48c;
+  border-color:#d2b48c;
+  color:#241f12;
+  opacity:.92;
 }
 
 .logItemHead{
@@ -3607,11 +3625,25 @@ function restart() {
 }
 
     function addLog(text) {
+  const resolvedText = resolveTemplateText(text, state);
+
   state.log.unshift({
-    text,
+    text: resolvedText,
     isNew: true
   });
+
   if (state.log.length > 24) state.log.pop();
+}
+
+function addDecision(text) {
+  const resolvedText = resolveTemplateText(text, state);
+
+  state.decisions.unshift({
+    text: resolvedText,
+    isNew: true
+  });
+
+  if (state.decisions.length > 30) state.decisions.pop();
 }
 
 function addDecision(text) {
@@ -3714,35 +3746,37 @@ function addDecision(text) {
       }
 
       function applyEffects(effects = {}, choice = null) {
-        if (choice) addDecision(choice.decisionLog || choice.title);
+  if (typeof effects.score === "number") state.score += effects.score;
+  if (typeof effects.risk === "number") state.risk += effects.risk;
+  if (typeof effects.stepDelta === "number") state.step += effects.stepDelta;
 
-        if (typeof effects.score === "number") state.score += effects.score;
-        if (typeof effects.risk === "number") state.risk += effects.risk;
-        if (typeof effects.stepDelta === "number") state.step += effects.stepDelta;
+  if (effects.setFlags) {
+    Object.keys(effects.setFlags).forEach(key => {
+      state.flags[key] = effects.setFlags[key];
+    });
+  }
 
-        if (Array.isArray(effects.logs)) {
-          effects.logs.forEach(addLog);
-        }
+  if (effects.bumpFlags) {
+    Object.keys(effects.bumpFlags).forEach(key => {
+      state.flags[key] = (state.flags[key] || 0) + effects.bumpFlags[key];
+    });
+  }
 
-        if (Array.isArray(effects.inventory)) {
-          effects.inventory.forEach(item => addInfo(item.key, item.label, item.relevant));
-        }
+  if (choice) {
+    addDecision(choice.decisionLog || choice.title);
+  }
 
-        if (effects.setFlags) {
-          Object.keys(effects.setFlags).forEach(key => {
-            state.flags[key] = effects.setFlags[key];
-          });
-        }
+  if (Array.isArray(effects.logs)) {
+    effects.logs.forEach(addLog);
+  }
 
-        if (effects.bumpFlags) {
-          Object.keys(effects.bumpFlags).forEach(key => {
-            state.flags[key] = (state.flags[key] || 0) + effects.bumpFlags[key];
-          });
-        }
+  if (Array.isArray(effects.inventory)) {
+    effects.inventory.forEach(item => addInfo(item.key, item.label, item.relevant));
+  }
 
-        if (effects.goto) state.current = effects.goto;
-        if (effects.fatal) state.fatal = true;
-      }
+  if (effects.goto) state.current = effects.goto;
+  if (effects.fatal) state.fatal = true;
+}
 
       function choose(choice) {
   snapshot();
@@ -3791,7 +3825,7 @@ function renderLog() {
           return;
         }
         box.innerHTML = state.log.map(item => \`
-          <div class="log-item">
+          <div class="log-item \${item.isNew ? 'new' : 'old'}">
             <div class="logItemHead">
               <span>\${escapeHtml(item.text)}</span>
               \${item.isNew ? '<span class="newMark">⭐</span>' : ""}
@@ -3807,7 +3841,7 @@ function renderDecisionLog() {
           return;
         }
         box.innerHTML = state.decisions.map(item => \`
-          <div class="decision-item">
+          <div class="decision-item \${item.isNew ? 'new' : 'old'}">
             <div class="logItemHead">
               <span>\${escapeHtml(item.text)}</span>
               \${item.isNew ? '<span class="newMark">⭐</span>' : ""}
@@ -3870,12 +3904,25 @@ function getStateValue(key, state) {
 
         return String(value);
       }
+      
+      
+
+function normalizeInlineOperator(operator) {
+        const op = String(operator || "").trim();
+
+        if (op === "=<") return "<=";
+        if (op === "=>") return ">=";
+        if (op === "=") return "==";
+
+        return op;
+      }
 
       function evaluateInlineCondition(key, operator, rawValue, state) {
+        const normalizedOperator = normalizeInlineOperator(operator);
         const left = getStateValue(key, state);
         const right = parseConditionValue(key, rawValue);
 
-        switch (operator) {
+        switch (normalizedOperator) {
           case "==": return left == right;
           case "!=": return left != right;
           case ">": return left > right;
@@ -3886,11 +3933,11 @@ function getStateValue(key, state) {
         }
       }
 
-function resolveTemplateText(text, state) {
+      function resolveTemplateText(text, state) {
         let output = String(text);
 
         output = output.replace(
-          /\\{\\{if\\s+([a-zA-Z0-9_]+)\\s*(==|!=|>=|<=|>|<)\\s*(.*?)\\}\\}([\\s\\S]*?)\\{\\{endif\\}\\}/g,
+          /\\{\\{if\\s+([a-zA-Z0-9_]+)\\s*(==|!=|>=|<=|=>|=<|=|>|<)\\s*(.*?)\\}\\}([\\s\\S]*?)\\{\\{endif\\}\\}/g,
           function(match, key, operator, rawValue, content) {
             return evaluateInlineCondition(
               key.trim(),
