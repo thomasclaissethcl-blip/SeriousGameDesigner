@@ -127,8 +127,48 @@
 
     textarea{
       min-height:90px;
-      resize:vertical;
+      resize:none;
     }
+    
+    .resizableTextareaWrap{
+  position:relative;
+}
+
+.resizableTextarea{
+  padding-bottom:28px;
+}
+
+.textareaResizeHandle{
+  position:absolute;
+  right:8px;
+  bottom:8px;
+  width:20px;
+  height:20px;
+  border-radius:6px;
+  border:1px solid var(--border);
+  background:#273158;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:ns-resize;
+  user-select:none;
+  touch-action:none;
+}
+
+.textareaResizeHandle::before{
+  content:"↕";
+  font-size:.72rem;
+  line-height:1;
+  color:var(--muted);
+}
+
+.textareaResizeHandle.armed{
+  background:#3b4c86;
+}
+
+.textareaResizeHandle.resizing{
+  background:#1e4a3b;
+}
 
     label{
       display:block;
@@ -476,6 +516,96 @@
 .editorSection > .panel{
   padding-top:14px;
 }
+
+.sceneEditorModal{
+  position:fixed;
+  inset:0;
+  display:none;
+  z-index:9999;
+}
+
+.sceneEditorModal.open{
+  display:block;
+}
+
+.sceneEditorModalOverlay{
+  position:absolute;
+  inset:0;
+  background:rgba(5,10,20,.72);
+}
+
+.sceneEditorModalDialog{
+  position:relative;
+  width:min(100vw - 24px, 900px);
+  max-height:calc(100vh - 24px);
+  margin:12px auto;
+  background:linear-gradient(180deg, rgba(23,29,54,.98), rgba(32,40,71,.98));
+  border:1px solid var(--border);
+  border-radius:16px;
+  box-shadow:var(--shadow);
+  overflow:hidden;
+}
+
+.sceneEditorModalHeader{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:12px;
+  padding:14px 16px;
+  border-bottom:1px solid var(--border);
+}
+
+.sceneEditorModalContent{
+  padding:14px;
+  overflow:auto;
+  max-height:calc(100vh - 120px);
+}
+
+.sceneEditorMobileActions{
+  display:none;
+}
+
+@media (max-width: 1099px){
+  .rightCol{
+    display:none;
+  }
+
+  #duplicateSceneBtn,
+  #deleteSceneBtn{
+    display:none;
+  }
+
+  .sceneEditorMobileActions{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+  }
+
+  .sceneEditorModalDialog{
+    width:calc(100vw - 16px);
+    max-height:calc(100vh - 16px);
+    margin:8px auto;
+  }
+
+  .sceneEditorModalHeader{
+    flex-direction:column;
+    align-items:stretch;
+  }
+  
+  .sceneEditorMobileActions button.bad{
+  margin-right:10px;
+}
+
+  .sceneEditorModalContent{
+    max-height:calc(100vh - 150px);
+  }
+}
+
+@media (min-width: 1100px){
+  .sceneEditorModal{
+    display:none !important;
+  }
+}
   </style>
 </head>
 <body>
@@ -806,7 +936,7 @@ Ne créez que les variables nécessaires pour représenter les éléments import
             <div class="centerCol">
 <section class="card">
   <details class="editorSection">
-    <summary class="editorSectionSummary">Scènes</summary>
+    <summary class="editorSectionSummary">Sélecteur de scènes</summary>
     <div class="section">
       <div class="itemHead">
         <div>
@@ -835,9 +965,9 @@ Ne créez que les variables nécessaires pour représenter les éléments import
     <p class="muted small">Créez les scènes, puis sélectionnez-en une pour l’éditer.</p>
   </div>
   <div class="inlineBtns">
-    <button id="addSceneBtn">Ajouter une scène</button>
-    <button id="duplicateSceneBtn" class="secondary">Dupliquer la scène</button>
-    <button id="deleteSceneBtn" class="bad">Supprimer la scène</button>
+    <button id="addSceneBtn">➕ Ajouter une scène</button>
+    <button id="duplicateSceneBtn" class="secondary">📋 Dupliquer la scène</button>
+    <button id="deleteSceneBtn" class="bad">🗑️ Supprimer la scène</button>
   </div>
 </div>
                   <div id="scenesList" class="list"></div>
@@ -1075,6 +1205,51 @@ Ne créez que les variables nécessaires pour représenter les éléments import
         </div>
       </div>
     </section>
+  </div>
+  
+  <div
+    id="sceneEditorModal"
+    class="sceneEditorModal"
+    aria-hidden="true"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="sceneEditorModalTitle"
+  >
+    <div class="sceneEditorModalOverlay" data-action="closeSceneModal"></div>
+
+    <div class="sceneEditorModalDialog">
+      <div class="sceneEditorModalHeader">
+        <div>
+          <h2 id="sceneEditorModalTitle" style="margin:0;">Édition de scène</h2>
+          <p class="muted small" style="margin:6px 0 0;">Travaillez sur la scène sélectionnée.</p>
+        </div>
+
+        <div class="itemActions sceneEditorMobileActions">
+
+  <button id="deleteSceneBtnMobile"
+          type="button"
+          class="bad">
+    Supprimer
+  </button>
+
+  <button id="duplicateSceneBtnMobile"
+          type="button"
+          class="secondary">
+    Dupliquer
+  </button>
+
+  <button id="closeSceneEditorModalBtn"
+          type="button"
+          class="primary"
+          style="margin-left:auto;">
+    Fermer
+  </button>
+
+</div>
+      </div>
+
+      <div id="sceneEditorModalContent" class="sceneEditorModalContent"></div>
+    </div>
   </div>
 
   <input id="hiddenJsonImport" type="file" accept=".json,application/json" style="display:none;" />
@@ -1548,6 +1723,11 @@ function emptyProject() {
       sceneEditor: document.getElementById("sceneEditor"),
       sceneEditorEmpty: document.getElementById("sceneEditorEmpty"),
       selectedScenePill: document.getElementById("selectedScenePill"),
+      sceneEditorModal: document.getElementById("sceneEditorModal"),
+      sceneEditorModalContent: document.getElementById("sceneEditorModalContent"),
+      closeSceneEditorModalBtn: document.getElementById("closeSceneEditorModalBtn"),
+      duplicateSceneBtnMobile: document.getElementById("duplicateSceneBtnMobile"),
+      deleteSceneBtnMobile: document.getElementById("deleteSceneBtnMobile"),
 
       sceneId: document.getElementById("sceneId"),
       sceneChapter: document.getElementById("sceneChapter"),
@@ -1642,6 +1822,40 @@ function emptyProject() {
 
     function joinParagraphs(arr) {
       return (arr || []).join("\n\n");
+    }
+    
+    function isMobileSceneEditorMode() {
+      return window.innerWidth < 1100;
+    }
+
+    function openSceneEditorModal() {
+      if (!els.sceneEditorModal) return;
+      els.sceneEditorModal.classList.add("open");
+      els.sceneEditorModal.setAttribute("aria-hidden", "false");
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeSceneEditorModal() {
+      if (!els.sceneEditorModal) return;
+      els.sceneEditorModal.classList.remove("open");
+      els.sceneEditorModal.setAttribute("aria-hidden", "true");
+      document.body.style.overflow = "";
+    }
+
+    function syncSceneEditorPlacement() {
+      if (!els.sceneEditor || !els.sceneEditorModalContent) return;
+
+      if (isMobileSceneEditorMode()) {
+        if (els.sceneEditor.parentElement !== els.sceneEditorModalContent) {
+          els.sceneEditorModalContent.appendChild(els.sceneEditor);
+        }
+      } else {
+        const desktopHost = document.getElementById("sceneEditorEmpty")?.parentElement;
+        if (desktopHost && els.sceneEditor.parentElement !== desktopHost) {
+          desktopHost.appendChild(els.sceneEditor);
+        }
+        closeSceneEditorModal();
+      }
     }
 
     function validateProject(proj) {
@@ -2199,6 +2413,7 @@ function emptyProject() {
 
     function renderSceneEditor() {
       const scene = project.scenes[selectedSceneId];
+      syncSceneEditorPlacement();
       if (!scene) {
         els.sceneEditor.style.display = "none";
         els.sceneEditorEmpty.style.display = "block";
@@ -2234,10 +2449,22 @@ function emptyProject() {
         <details open class="choiceBlock">
           <summary>Choix ${idx + 1} — ${escapeHtml(choice.title || "Sans titre")}</summary>
           <div class="detailsBody stack">
-            <div class="itemActions">
-              <button data-action="duplicateChoice" data-index="${idx}">Dupliquer</button>
-              <button data-action="deleteChoice" data-index="${idx}" class="bad">Supprimer</button>
-            </div>
+            <div class="itemActions sceneEditorMobileActions">
+  <button id="duplicateSceneBtnMobile" type="button" class="secondary">Dupliquer</button>
+
+  <button id="deleteSceneBtnMobile" type="button" class="bad">
+    Supprimer
+  </button>
+
+  <button
+    id="closeSceneEditorModalBtn"
+    type="button"
+    class="primary"
+    style="margin-left:auto;"
+  >
+    Fermer
+  </button>
+</div>
 
             <div class="fieldGrid">
 <div>
@@ -2487,6 +2714,114 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
       const html = buildPlayableHtml(project);
       els.previewFrame.srcdoc = html;
     }
+    
+    function setupCustomTextareaResize(root = document) {
+  const RESIZE_HOLD_DELAY = 300;
+  const MIN_HEIGHT = 90;
+
+  const textareas = root.querySelectorAll("#helpContent, #sceneText, textarea[data-long-text='true']");
+
+  textareas.forEach((textarea) => {
+    if (textarea.dataset.resizeReady === "true") return;
+
+    textarea.dataset.resizeReady = "true";
+    textarea.classList.add("resizableTextarea");
+
+    const wrapper = document.createElement("div");
+    wrapper.className = "resizableTextareaWrap";
+
+    textarea.parentNode.insertBefore(wrapper, textarea);
+    wrapper.appendChild(textarea);
+
+    const handle = document.createElement("div");
+    handle.className = "textareaResizeHandle";
+    handle.setAttribute("role", "button");
+    handle.setAttribute("aria-label", "Redimensionner verticalement");
+    wrapper.appendChild(handle);
+
+    let pressTimer = null;
+    let armed = false;
+    let resizing = false;
+    let startY = 0;
+    let startHeight = 0;
+    let activePointerId = null;
+
+    function clearPressTimer() {
+      if (pressTimer) {
+        clearTimeout(pressTimer);
+        pressTimer = null;
+      }
+    }
+
+    function stopResize() {
+      clearPressTimer();
+      armed = false;
+      resizing = false;
+      activePointerId = null;
+      handle.classList.remove("armed", "resizing");
+      document.body.style.userSelect = "";
+      document.body.style.cursor = "";
+    }
+
+    function beginPress(event) {
+      event.preventDefault();
+
+      activePointerId = event.pointerId ?? null;
+      startY = event.clientY;
+      startHeight = textarea.offsetHeight;
+
+      clearPressTimer();
+
+      pressTimer = setTimeout(() => {
+        armed = true;
+        handle.classList.add("armed");
+      }, RESIZE_HOLD_DELAY);
+    }
+
+    function movePress(event) {
+      if (activePointerId !== null && event.pointerId !== activePointerId) return;
+
+      if (!armed && !resizing) {
+        const deltaBeforeArm = Math.abs(event.clientY - startY);
+        if (deltaBeforeArm > 10) {
+          clearPressTimer();
+        }
+        return;
+      }
+
+      if (armed && !resizing) {
+        resizing = true;
+        handle.classList.remove("armed");
+        handle.classList.add("resizing");
+        document.body.style.userSelect = "none";
+        document.body.style.cursor = "ns-resize";
+      }
+
+      if (!resizing) return;
+
+      event.preventDefault();
+
+      const deltaY = event.clientY - startY;
+      const nextHeight = Math.max(MIN_HEIGHT, startHeight + deltaY);
+      textarea.style.height = `${nextHeight}px`;
+    }
+
+    handle.addEventListener("pointerdown", (event) => {
+      if (handle.setPointerCapture && event.pointerId != null) {
+        handle.setPointerCapture(event.pointerId);
+      }
+      beginPress(event);
+    });
+
+    handle.addEventListener("pointermove", movePress);
+    handle.addEventListener("pointerup", stopResize);
+    handle.addEventListener("pointercancel", stopResize);
+    handle.addEventListener("lostpointercapture", stopResize);
+
+    document.addEventListener("pointerup", stopResize);
+    document.addEventListener("pointercancel", stopResize);
+  });
+}
 
     function renderAll() {
       normalizeProject(project);
@@ -2507,7 +2842,7 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
       renderSceneEditor();
       renderJsonPreview();
       renderValidation();
-
+setupCustomTextareaResize();
       if (currentTab === "preview") {
         renderPreview();
       }
@@ -2838,6 +3173,11 @@ function interpolateText(text, state) {
     .scene{padding:16px;min-height:460px}
     .chapter{display:inline-flex;align-items:center;padding:6px 10px;border-radius:999px;border:1px solid rgba(124,200,255,.28);background:rgba(124,200,255,.08);color:#d8efff;font-size:.8rem;margin-bottom:12px}
     .scene h2{font-size:1.3rem;line-height:1.18;margin-bottom:10px}
+    .scene h2:focus{
+  outline:2px solid rgba(124,200,255,.65);
+  outline-offset:6px;
+  border-radius:8px;
+}
     .scene p{margin-bottom:12px;font-size:1rem}
     .muted{color:var(--muted)}
     .small{font-size:.84rem;color:var(--muted)}
@@ -2909,6 +3249,82 @@ function interpolateText(text, state) {
       .modal-dialog{width:min(760px, 100%);max-height:88vh;border-radius:20px}
       .modal-content{padding:22px 22px 28px;max-height:88vh}
     }
+    .newMark{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:18px;
+  height:18px;
+  margin-left:8px;
+  border-radius:999px;
+  background:rgba(255, 128, 128, 0.16);
+  border:1px solid rgba(255, 128, 128, 0.45);
+  color:#ffd6d6;
+  font-size:.78rem;
+  font-weight:800;
+  line-height:1;
+  vertical-align:middle;
+}
+
+.logItemHead{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:10px;
+}
+.mobileJournalHint{
+  position:fixed;
+  left:14px;
+  right:14px;
+  bottom:calc(14px + env(safe-area-inset-bottom, 0px));
+  z-index:2000;
+  width:auto;
+  max-width:520px;
+  margin:0 auto;
+  border:none;
+  border-radius:999px;
+  padding:11px 14px;
+  background:rgba(98, 79, 0, 0.9);
+  color:#eef2ff;
+  border:1px solid rgba(124,200,255,.28);
+  box-shadow:0 10px 28px rgba(0,0,0,.28);
+  font-size:.86rem;
+  line-height:1.3;
+  text-align:center;
+  cursor:pointer;
+}
+
+.mobileJournalHint::before{
+  content:"↓ ";
+  color:#d8efff;
+  font-weight:700;
+}
+
+.mobileJournalHint[hidden]{
+  display:none !important;
+}
+
+@media (min-width: 841px){
+  .mobileJournalHint{
+    display:none !important;
+  }
+}
+
+.mobileJournalHint::before{
+  content:"⭐";
+  color:#d8efff;
+  font-weight:700;
+}
+
+.mobileJournalHint[hidden]{
+  display:none !important;
+}
+
+@media (min-width: 841px){
+  .mobileJournalHint{
+    display:none !important;
+  }
+}
   </style>
 </head>
 <body>
@@ -2943,7 +3359,7 @@ function interpolateText(text, state) {
         </div>
       </section>
       
-        <aside class="card">
+        <aside class="card" id="journalArea">
         <div class="panel">
           <details open>
             <summary>Inventaire des éléments recueillis</summary>
@@ -2983,6 +3399,15 @@ function interpolateText(text, state) {
         </div>
       </div>
     </div>
+    <button
+  id="mobileJournalHint"
+  class="mobileJournalHint"
+  type="button"
+  aria-label="Consulter les nouveautés dans les journaux"
+  hidden
+>
+  Il y a du nouveau dans les journaux, pensez à y jeter un œil.
+</button>
   </main>
 
   <script>
@@ -3108,49 +3533,181 @@ function interpolateText(text, state) {
         if (state.history.length > 50) state.history.shift();
       }
 
-      function restore() {
-        if (state.history.length === 0) return;
-        const prev = JSON.parse(state.history.pop());
-        state.current = prev.current;
-        state.step = prev.step;
-        state.score = prev.score;
-        state.risk = prev.risk;
-        state.fatal = prev.fatal;
-        state.log = prev.log;
-        state.decisions = prev.decisions;
-        state.inventory = prev.inventory;
-        state.flags = prev.flags;
-        render();
-      }
+      function scrollGameToTop() {
+  requestAnimationFrame(() => {
+    const sceneBox = document.getElementById("scene");
+    const sceneTitle = sceneBox?.querySelector("h2");
 
-      function restart() {
-        state.current = project.meta?.startScene;
-        state.step = 0;
-        state.score = 0;
-        state.risk = 0;
-        state.fatal = false;
-        state.history = [];
-        state.log = [];
-        state.decisions = [];
-        state.inventory = [];
-        state.flags = createInitialFlags();
-        render();
-      }
+    if (sceneBox) {
+      sceneBox.scrollTop = 0;
+    }
 
-      function addLog(text) {
-        state.log.unshift(text);
-        if (state.log.length > 24) state.log.pop();
-      }
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "smooth"
+    });
 
-      function addDecision(text) {
-        state.decisions.unshift(text);
-        if (state.decisions.length > 30) state.decisions.pop();
+    if (document.documentElement.scrollTo) {
+      document.documentElement.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: "smooth"
+      });
+    }
+
+    if (document.body.scrollTo) {
+      document.body.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: "smooth"
+      });
+    }
+
+    setTimeout(() => {
+      if (sceneTitle) {
+        sceneTitle.setAttribute("tabindex", "-1");
+        sceneTitle.focus({ preventScroll: true });
       }
+    }, 220);
+  });
+}
+
+function restore() {
+  if (state.history.length === 0) return;
+  const prev = JSON.parse(state.history.pop());
+  state.current = prev.current;
+  state.step = prev.step;
+  state.score = prev.score;
+  state.risk = prev.risk;
+  state.fatal = prev.fatal;
+  state.log = prev.log;
+  state.decisions = prev.decisions;
+  state.inventory = prev.inventory;
+  state.flags = prev.flags;
+  clearNewMarkers();
+  render();
+  scrollGameToTop();
+}
+
+function restart() {
+  state.current = project.meta?.startScene;
+  state.step = 0;
+  state.score = 0;
+  state.risk = 0;
+  state.fatal = false;
+  state.history = [];
+  state.log = [];
+  state.decisions = [];
+  state.inventory = [];
+  state.flags = createInitialFlags();
+  clearNewMarkers();
+  render();
+  scrollGameToTop();
+}
+
+    function addLog(text) {
+  state.log.unshift({
+    text,
+    isNew: true
+  });
+  if (state.log.length > 24) state.log.pop();
+}
+
+function addDecision(text) {
+  state.decisions.unshift({
+    text,
+    isNew: true
+  });
+  if (state.decisions.length > 30) state.decisions.pop();
+}
 
       function addInfo(key, label, relevant = true) {
-        if (state.inventory.find(i => i.key === key)) return;
-        state.inventory.push({ key, label, relevant });
+  if (state.inventory.find(i => i.key === key)) return;
+  state.inventory.push({
+    key,
+    label,
+    relevant,
+    isNew: true
+  });
+}
+      
+      function clearNewMarkers() {
+        state.log = state.log.map(item => ({
+          ...item,
+          isNew: false
+        }));
+
+        state.decisions = state.decisions.map(item => ({
+          ...item,
+          isNew: false
+        }));
+
+        state.inventory = state.inventory.map(item => ({
+          ...item,
+          isNew: false
+        }));
       }
+
+      function hasNewJournalItems() {
+        return (
+          state.log.some(item => item.isNew) ||
+          state.decisions.some(item => item.isNew) ||
+          state.inventory.some(item => item.isNew)
+        );
+      }
+
+      function isMobileViewport() {
+        return window.matchMedia("(max-width: 840px)").matches;
+      }
+      
+      function isJournalAreaVisible() {
+  const journalArea = document.getElementById("journalArea");
+  if (!journalArea) return false;
+
+  const rect = journalArea.getBoundingClientRect();
+  const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+
+  return rect.top < viewportHeight - 80;
+}
+
+      function updateMobileJournalHint() {
+  const hint = document.getElementById("mobileJournalHint");
+  if (!hint) return;
+
+  const shouldShow =
+    isMobileViewport() &&
+    hasNewJournalItems() &&
+    !isJournalAreaVisible();
+
+  hint.hidden = !shouldShow;
+}
+
+      function scrollToJournalArea() {
+  const journalArea = document.getElementById("journalArea");
+  const inventorySection = document.getElementById("inventory");
+
+  if (!journalArea && !inventorySection) return;
+
+  const detailsList = document.querySelectorAll("#journalArea details");
+  detailsList.forEach(details => {
+    details.open = true;
+  });
+
+  requestAnimationFrame(() => {
+    const target = journalArea || inventorySection;
+    target.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
+
+    setTimeout(() => {
+      updateMobileJournalHint();
+    }, 500);
+  });
+}
+
+  
 
       function visible(choice) {
         return true;
@@ -3188,18 +3745,20 @@ function interpolateText(text, state) {
       }
 
       function choose(choice) {
-        snapshot();
-        applyEffects(choice.effects, choice);
+  snapshot();
+  clearNewMarkers();
+  applyEffects(choice.effects, choice);
 
-        if (shouldCollapse(state) && !state.fatal) {
-          state.current = resolveCollapseScene(state);
-          state.fatal = true;
-        } else if (choice.goto) {
-          state.current = choice.goto;
-        }
+  if (shouldCollapse(state) && !state.fatal) {
+    state.current = resolveCollapseScene(state);
+    state.fatal = true;
+  } else if (choice.goto) {
+    state.current = choice.goto;
+  }
 
-        render();
-      }
+  render();
+  scrollGameToTop();
+}
 
       function renderStats() {
         document.getElementById("stepLabel").textContent = \`\${Math.min(state.step, TOTAL_STEPS)} / \${TOTAL_STEPS}\`;
@@ -3209,33 +3768,52 @@ function interpolateText(text, state) {
         document.getElementById("progress").style.width = \`\${Math.min((state.step / TOTAL_STEPS) * 100, 100)}%\`;
       }
 
-      function renderInventory() {
+function renderInventory() {
         const box = document.getElementById("inventory");
         if (state.inventory.length === 0) {
           box.innerHTML = \`<span class="chip">\${project.ui?.labels?.inventoryEmpty || "Aucune information retenue"}</span>\`;
           return;
         }
         box.innerHTML = state.inventory
-          .map(item => \`<span class="chip" title="\${item.relevant ? "Information pertinente" : "Information discutable"}">\${escapeHtml(item.label)}</span>\`)
+          .map(item => \`
+            <span class="chip" title="\${item.relevant ? "Information pertinente" : "Information discutable"}">
+              \${escapeHtml(item.label)}
+              \${item.isNew ? '<span class="newMark">⭐</span>' : ""}
+            </span>
+          \`)
           .join("");
       }
 
-      function renderLog() {
+function renderLog() {
         const box = document.getElementById("log");
         if (state.log.length === 0) {
           box.innerHTML = \`<div class="log-item">\${project.ui?.labels?.logEmpty || "Aucun événement notable pour le moment."}</div>\`;
           return;
         }
-        box.innerHTML = state.log.map(item => \`<div class="log-item">\${escapeHtml(resolveTemplateText(item, state))}</div>\`).join("");
+        box.innerHTML = state.log.map(item => \`
+          <div class="log-item">
+            <div class="logItemHead">
+              <span>\${escapeHtml(item.text)}</span>
+              \${item.isNew ? '<span class="newMark">⭐</span>' : ""}
+            </div>
+          </div>
+        \`).join("");
       }
-
-      function renderDecisionLog() {
+      
+function renderDecisionLog() {
         const box = document.getElementById("decisionLog");
         if (state.decisions.length === 0) {
           box.innerHTML = \`<div class="decision-item">\${project.ui?.labels?.decisionEmpty || "Aucune décision enregistrée pour le moment."}</div>\`;
           return;
         }
-        box.innerHTML = state.decisions.map(item => \`<div class="decision-item">\${escapeHtml(resolveTemplateText(item, state))}</div>\`).join("");
+        box.innerHTML = state.decisions.map(item => \`
+          <div class="decision-item">
+            <div class="logItemHead">
+              <span>\${escapeHtml(item.text)}</span>
+              \${item.isNew ? '<span class="newMark">⭐</span>' : ""}
+            </div>
+          </div>
+        \`).join("");
       }
 
       function renderStatePanel() {
@@ -3446,6 +4024,7 @@ function resolveTemplateText(text, state) {
           renderDecisionLog();
           renderStatePanel();
           renderScene();
+          updateMobileJournalHint();
 
           const undoBtn = document.getElementById("undoBtn");
           if (undoBtn) undoBtn.disabled = state.history.length === 0;
@@ -3485,6 +4064,15 @@ function resolveTemplateText(text, state) {
       document.getElementById("helpBtn")?.addEventListener("click", openHelpModal);
       document.getElementById("closeHelpBtn")?.addEventListener("click", closeHelpModal);
 
+      document.getElementById("mobileJournalHint")?.addEventListener("click", () => {
+        scrollToJournalArea();
+      });
+
+      window.addEventListener("resize", updateMobileJournalHint);
+      window.addEventListener("scroll", updateMobileJournalHint, { passive: true });
+
+window.addEventListener("resize", updateMobileJournalHint);
+
       document.getElementById("helpModal")?.addEventListener("click", (event) => {
         if (event.target === document.getElementById("helpModal")) {
           closeHelpModal();
@@ -3520,6 +4108,20 @@ function resolveTemplateText(text, state) {
 </body>
 </html>`;
     }
+
+    function buildProjectFilename(project) {
+  const rawName =
+    project.meta.title ||
+    "projet";
+
+  return rawName
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "_")
+    .replace(/^_+|_+$/g, "")
+    .substring(0, 60) || "projet";
+}
 
     function downloadFile(filename, content, type = "text/plain;charset=utf-8") {
       const blob = new Blob([content], { type });
@@ -3578,13 +4180,38 @@ function resolveTemplateText(text, state) {
     document.getElementById("duplicateSceneBtn").addEventListener("click", duplicateScene);
     document.getElementById("deleteSceneBtn").addEventListener("click", deleteScene);
     document.getElementById("addChoiceBtn").addEventListener("click", addChoice);
+    
+    els.closeSceneEditorModalBtn?.addEventListener("click", closeSceneEditorModal);
+
+    els.duplicateSceneBtnMobile?.addEventListener("click", () => {
+      duplicateScene();
+      if (isMobileSceneEditorMode()) {
+        openSceneEditorModal();
+      }
+    });
+
+    els.deleteSceneBtnMobile?.addEventListener("click", () => {
+      deleteScene();
+      if (isMobileSceneEditorMode() && project.scenes[selectedSceneId]) {
+        openSceneEditorModal();
+      }
+    });
+
+    window.addEventListener("resize", syncSceneEditorPlacement);
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && els.sceneEditorModal?.classList.contains("open")) {
+        closeSceneEditorModal();
+      }
+    });
 
     document.getElementById("refreshPreviewBtn").addEventListener("click", renderPreview);
     document.getElementById("openPreviewNewTabBtn").addEventListener("click", openPreviewInNewTab);
 
-    document.getElementById("exportJsonBtn").addEventListener("click", () => {
-      downloadFile("project.json", JSON.stringify(project, null, 2), "application/json;charset=utf-8");
-    });
+document.getElementById("exportJsonBtn").addEventListener("click", () => {
+  const filename = buildProjectFilename(project) + ".json";
+  downloadFile(filename, JSON.stringify(project, null, 2), "application/json;charset=utf-8");
+});
     
     document.getElementById("exportHtmlBtn").addEventListener("click", () => {
       const result = validateProject(project);
@@ -3762,6 +4389,14 @@ function resolveTemplateText(text, state) {
       if (action === "selectScene") {
         selectedSceneId = btn.dataset.scene;
         renderAll();
+
+        if (isMobileSceneEditorMode()) {
+          openSceneEditorModal();
+        }
+      }
+
+      if (action === "closeSceneModal") {
+        closeSceneEditorModal();
       }
 
       if (action === "duplicateChoice") {
@@ -3937,8 +4572,9 @@ function setupContextHelp() {
   });
 }
 
-    setupContextHelp();
-renderAll();
+  setupContextHelp();
+    syncSceneEditorPlacement();
+    renderAll();
   </script>
 </body>
 </html>
