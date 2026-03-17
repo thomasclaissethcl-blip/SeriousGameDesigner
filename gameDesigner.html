@@ -961,6 +961,23 @@ Ne créez que les variables nécessaires pour représenter les éléments import
   <div class="helpBubble" id="help-sceneText" role="note">
     <strong>Texte de la scène</strong>
     Rédigez ici le récit affiché au joueur. Utilisez une ligne vide entre deux paragraphes pour structurer la narration et améliorer la lisibilité.
+    <br><br><strong>Texte dynamique</strong>
+  Vous pouvez afficher automatiquement la valeur actuelle d’une variable avec la syntaxe <code>{{nomVariable}}</code>.
+  <br><br>
+  <strong>Exemples</strong>
+  <code>{{score}}</code>,
+  <code>{{risk}}</code>,
+  <code>{{step}}</code>,
+  <code>{{goalClarified}}</code>
+  <br><br>
+  <strong>Condition simple</strong>
+  <code>{{if goalClarified}}L’objectif est clarifié.{{endif}}</code>
+  <br><br>
+  <strong>Condition avec comparaison</strong>
+  <code>{{if risk >= 3}}Le dispositif commence à accumuler des fragilités.{{endif}}</code>
+  <br><br>
+  <strong>Bon usage</strong>
+  Utilisez cette syntaxe pour adapter le récit à l’état réel du jeu et rendre les conséquences plus visibles pour le joueur.
   </div>
   <textarea id="sceneText"></textarea>
   <div class="help">Un paragraphe par ligne vide.</div>
@@ -2552,6 +2569,59 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
         .replaceAll(">", "&gt;");
     }
 
+function getStateValue(name, state) {
+  if (name === "score") return state.score;
+  if (name === "risk") return state.risk;
+  if (name === "step") return state.step;
+  if (state.flags && Object.prototype.hasOwnProperty.call(state.flags, name)) {
+    return state.flags[name];
+  }
+  return undefined;
+}
+
+function parseLiteralValue(raw) {
+  const value = String(raw).trim();
+
+  if (value === "true") return true;
+  if (value === "false") return false;
+  if (value !== "" && !Number.isNaN(Number(value))) return Number(value);
+
+  return value;
+}
+
+function evaluateInlineCondition(variableName, operator, rawValue, state) {
+  const left = getStateValue(variableName, state);
+  const right = parseLiteralValue(rawValue);
+
+  switch (operator) {
+    case "==": return left == right;
+    case "!=": return left != right;
+    case ">": return left > right;
+    case "<": return left < right;
+    case ">=": return left >= right;
+    case "<=": return left <= right;
+    default: return false;
+  }
+}
+
+function interpolateText(text, state) {
+  return String(text ?? "").replace(/\{\{(.*?)\}\}/g, (_, expr) => {
+    const content = String(expr).trim();
+
+    const conditionalMatch = content.match(/^([a-zA-Z_][\w]*)\s*(==|!=|>=|<=|>|<)\s*(.+?)\s*:(.*)$/);
+
+    if (conditionalMatch) {
+      const [, variableName, operator, rawValue, conditionalText] = conditionalMatch;
+      return evaluateInlineCondition(variableName, operator, rawValue, state)
+        ? conditionalText
+        : "";
+    }
+
+    const value = getStateValue(content, state);
+    return value === undefined ? "" : String(value);
+  });
+}
+
     function escapeAttr(str) {
       return escapeHtml(str).replaceAll('"', "&quot;");
     }
@@ -3156,7 +3226,7 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
           box.innerHTML = \`<div class="log-item">\${project.ui?.labels?.logEmpty || "Aucun événement notable pour le moment."}</div>\`;
           return;
         }
-        box.innerHTML = state.log.map(item => \`<div class="log-item">\${escapeHtml(item)}</div>\`).join("");
+        box.innerHTML = state.log.map(item => \`<div class="log-item">\${escapeHtml(resolveTemplateText(item, state))}</div>\`).join("");
       }
 
       function renderDecisionLog() {
@@ -3165,7 +3235,7 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
           box.innerHTML = \`<div class="decision-item">\${project.ui?.labels?.decisionEmpty || "Aucune décision enregistrée pour le moment."}</div>\`;
           return;
         }
-        box.innerHTML = state.decisions.map(item => \`<div class="decision-item">\${escapeHtml(item)}</div>\`).join("");
+        box.innerHTML = state.decisions.map(item => \`<div class="decision-item">\${escapeHtml(resolveTemplateText(item, state))}</div>\`).join("");
       }
 
       function renderStatePanel() {
@@ -3196,8 +3266,89 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
             }
           </div>\`;
       }
+      
+function getStateValue(key, state) {
+        if (key === "score") return state.score;
+        if (key === "risk") return state.risk;
+        if (key === "step") return state.step;
+        if (key in state.flags) return state.flags[key];
+        return undefined;
+      }
 
-      function renderScene() {
+      function formatStateValue(key, value) {
+        const variable = findVariable(key);
+
+        if (variable && variable.type === "boolean") {
+          return value ? "oui" : "non";
+        }
+
+        if (typeof value === "boolean") {
+          return value ? "oui" : "non";
+        }
+
+        if (value === null || value === undefined) {
+          return "";
+        }
+
+        return String(value);
+      }
+
+      function evaluateInlineCondition(key, operator, rawValue, state) {
+        const left = getStateValue(key, state);
+        const right = parseConditionValue(key, rawValue);
+
+        switch (operator) {
+          case "==": return left == right;
+          case "!=": return left != right;
+          case ">": return left > right;
+          case "<": return left < right;
+          case ">=": return left >= right;
+          case "<=": return left <= right;
+          default: return false;
+        }
+      }
+
+function resolveTemplateText(text, state) {
+        let output = String(text);
+
+        output = output.replace(
+          /\\{\\{if\\s+([a-zA-Z0-9_]+)\\s*(==|!=|>=|<=|>|<)\\s*(.*?)\\}\\}([\\s\\S]*?)\\{\\{endif\\}\\}/g,
+          function(match, key, operator, rawValue, content) {
+            return evaluateInlineCondition(
+              key.trim(),
+              operator,
+              rawValue.trim(),
+              state
+            ) ? content : "";
+          }
+        );
+
+        output = output.replace(
+          /\\{\\{if\\s+([a-zA-Z0-9_]+)\\}\\}([\\s\\S]*?)\\{\\{endif\\}\\}/g,
+          function(match, key, content) {
+            const value = getStateValue(key.trim(), state);
+            return value ? content : "";
+          }
+        );
+
+        output = output.replace(
+          /\\{\\{\\s*([a-zA-Z0-9_]+)\\s*\\}\\}/g,
+          function(match, key) {
+            const cleanKey = key.trim();
+            const value = getStateValue(cleanKey, state);
+
+            if (value === undefined) {
+              return "{{" + cleanKey + "}}";
+            }
+
+            return formatStateValue(cleanKey, value);
+          }
+        );
+
+        return output;
+      }
+
+     function renderScene() {
         const scene = project.scenes?.[state.current];
         const el = document.getElementById("scene");
         
@@ -3209,7 +3360,7 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
         let html = \`
           <div class="chapter">\${escapeHtml(scene.chapter || "")}</div>
           <h2>\${escapeHtml(scene.title || "")}</h2>
-          \${(scene.text || []).map(p => \`<p>\${escapeHtml(p)}</p>\`).join("")}
+          \${(scene.text || []).map(p => \`<p>\${escapeHtml(resolveTemplateText(p, state))}</p>\`).join("")}
         \`;
 
         if (scene.diagnosis) {
@@ -3223,7 +3374,7 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
               \${items.map(item => \`
                 <div class="diag">
                   <strong>\${escapeHtml(item.title)}</strong>
-                  <p style="margin-top:8px;">\${escapeHtml(item.text)}</p>
+<p style="margin-top:8px;">\${escapeHtml(resolveTemplateText(item.text, state))}</p>
                 </div>
               \`).join("")}
             </div>
@@ -3274,6 +3425,8 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
           });
         }
       }
+     
+             const scene = project.scenes?.[state.current];
 
       function renderHelp() {
         document.getElementById("gameTitle").textContent = project.meta?.title || "Jeu narratif";
