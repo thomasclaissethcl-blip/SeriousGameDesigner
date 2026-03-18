@@ -2784,10 +2784,12 @@ Comprendre les effets cumulés de décisions prises dans un contexte imparfaitem
       els.generateBtn.addEventListener("click", renderAll);
       els.resetBtn.addEventListener("click", resetForm);
 
-      els.copyJsonBtn.addEventListener("click", () => {
-        if (!currentProject) return;
-        copyToClipboard(JSON.stringify(currentProject, null, 2));
-      });
+            if (els.copyJsonBtn) {
+        els.copyJsonBtn.addEventListener("click", () => {
+          if (!currentProject) return;
+          copyToClipboard(JSON.stringify(currentProject, null, 2));
+        });
+      }
 
       els.downloadJsonBtn.addEventListener("click", () => {
         if (!currentProject) return;
