@@ -1211,6 +1211,26 @@
       rx: 16;
     }
 
+        .graphNode.type-normal rect {
+      fill: rgba(26, 35, 67, 0.94);
+      stroke: rgba(124, 200, 255, 0.25);
+    }
+
+    .graphNode.type-ending rect {
+      fill: rgba(30, 74, 59, 0.94);
+      stroke: rgba(116, 213, 163, 0.45);
+    }
+
+    .graphNode.type-diagnosis rect {
+      fill: rgba(90, 71, 32, 0.94);
+      stroke: rgba(243, 202, 112, 0.5);
+    }
+
+    .graphNode.type-remediation rect {
+      fill: rgba(49, 64, 113, 0.94);
+      stroke: rgba(160, 190, 255, 0.45);
+    }
+
     .graphNode.active rect {
       stroke: rgba(124, 200, 255, 0.9);
       stroke-width: 2;
@@ -5011,7 +5031,7 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
       return truncateGraphText(text, 9) || "Choix";
     }
 
-    function getConnectedSceneGraphData() {
+        function getConnectedSceneGraphData() {
       const nodesById = new Map();
       const edges = [];
 
@@ -5025,6 +5045,7 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
               id: sourceId,
               title: project.scenes[sourceId]?.title || sourceId,
               chapter: project.scenes[sourceId]?.chapter || "",
+              type: project.scenes[sourceId]?.type || "normal",
               incoming: 0,
               outgoing: 0,
             });
@@ -5035,6 +5056,7 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
               id: targetId,
               title: project.scenes[targetId]?.title || targetId,
               chapter: project.scenes[targetId]?.chapter || "",
+              type: project.scenes[targetId]?.type || "normal",
               incoming: 0,
               outgoing: 0,
             });
@@ -5204,14 +5226,15 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
         })
         .join("");
 
-      const nodesMarkup = layout.nodes
+            const nodesMarkup = layout.nodes
         .map((node) => {
           const title = escapeHtml(getGraphSceneTitle(node.title || node.id));
           const sub = escapeHtml(node.id);
           const fullTitle = escapeAttr(node.title || node.id);
           const activeClass = node.id === selectedSceneId ? "active" : "";
+          const typeClass = `type-${escapeAttr(node.type || "normal")}`;
           return `
-              <g class="graphNode ${activeClass}" data-scene="${escapeAttr(node.id)}" transform="translate(${node.x} ${node.y})">
+              <g class="graphNode ${typeClass} ${activeClass}" data-scene="${escapeAttr(node.id)}" transform="translate(${node.x} ${node.y})">
                 <title>${fullTitle}</title>
                 <rect width="${node.width}" height="${node.height}"></rect>
                 <text x="16" y="28">${title}</text>
@@ -5861,7 +5884,7 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
   --game-font:${fontPreset.family};
   --shadow:0 12px 30px rgba(0,0,0,.35);
   --radius:18px;
-  --max:980px;
+  --max:1500px;
 }
     *{box-sizing:border-box}
     html,body{margin:0;padding:0}
