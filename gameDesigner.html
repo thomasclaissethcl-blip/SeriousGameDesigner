@@ -1211,7 +1211,7 @@
       rx: 16;
     }
 
-        .graphNode.type-normal rect {
+    .graphNode.type-normal rect {
       fill: rgba(26, 35, 67, 0.94);
       stroke: rgba(124, 200, 255, 0.25);
     }
@@ -5031,7 +5031,7 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
       return truncateGraphText(text, 9) || "Choix";
     }
 
-        function getConnectedSceneGraphData() {
+    function getConnectedSceneGraphData() {
       const nodesById = new Map();
       const edges = [];
 
@@ -5226,7 +5226,7 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
         })
         .join("");
 
-            const nodesMarkup = layout.nodes
+      const nodesMarkup = layout.nodes
         .map((node) => {
           const title = escapeHtml(getGraphSceneTitle(node.title || node.id));
           const sub = escapeHtml(node.id);
@@ -6044,8 +6044,34 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
     }
     .modal-close:hover,.modal-close:focus{outline:none;background:#2f3b6c}
     body.modal-open{overflow:hidden}
-    @media (min-width: 840px){
-      .layout{grid-template-columns:1.35fr .95fr;align-items:start}
+        @media (min-width: 840px){
+      html,body{
+        height:100%;
+      }
+
+      body{
+        height:100vh;
+        overflow:hidden;
+      }
+
+      .app{
+        height:calc(100vh - 28px);
+        grid-template-rows:auto minmax(0, 1fr);
+      }
+
+      .layout{
+        grid-template-columns:1.35fr .95fr;
+        align-items:stretch;
+        min-height:0;
+      }
+
+      .layout > .card,
+      #journalArea{
+        min-height:0;
+        height:100%;
+        overflow:auto;
+      }
+
       .scene h2{font-size:1.42rem}
       .modal-overlay{align-items:center;padding:24px}
       .modal-dialog{width:min(760px, 100%);max-height:88vh;border-radius:20px}
