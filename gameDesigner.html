@@ -1176,7 +1176,7 @@
           <button class="tabBtn active" data-tab="editor">Éditeur</button>
           <button class="tabBtn" data-tab="preview">Prévisualisation</button>
           <button class="tabBtn" data-tab="json" data-simple-hide="advanced">Analyse structure</button>
-          <button class="tabBtn" data-tab="graph" data-simple-hide="advanced">Graphe des scènes</button>
+          <button class="tabBtn" data-tab="graph">Graphe des scènes</button>
         </div>
         <div class="panel">
           <div id="editorTab" class="tabPanel">
@@ -2184,7 +2184,7 @@
             </div>
           </div>
 
-          <div id="graphTab" class="tabPanel" style="display: none" data-simple-hide="advanced">
+          <div id="graphTab" class="tabPanel" style="display: none">
             <div class="stack">
               <div class="itemHead">
                 <div>
@@ -4199,7 +4199,7 @@
                   ${sceneIds.map((id) => `<option value="${escapeAttr(id)}" ${choice.goto === id ? "selected" : ""}>${escapeHtml(id)}</option>`).join("")}
                 </select>
               </div>
-<div>
+<div data-simple-hide="advanced">
   <div class="fieldLabel">
     <label>Condition d’affichage</label>
     <button type="button" class="helpIcon" data-help-toggle="help-choiceShowIf-${idx}" aria-label="Aide sur la condition d’affichage" aria-expanded="false">?</button>
