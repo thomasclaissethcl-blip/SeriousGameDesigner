@@ -4450,8 +4450,8 @@ Comprendre les effets cumulés de décisions prises dans un contexte imparfaitem
               },
             );
 
-          const from = ports.source;
-          const to = ports.target;
+          let from = ports.source;
+          let to = ports.target;
 
           if (isPrimary) {
             const path = buildBestPath(from, to, sceneId, targetId, {
@@ -4484,6 +4484,42 @@ Comprendre les effets cumulés de décisions prises dans un contexte imparfaitem
                 <path class="graphEdge cross from-${escapeAttr(sourceFamily)}" d="${path.d}" marker-end="${sourceMarker}"></path>
                 ${edgeLabelSvg(choice.title, path.points, sourceFamily)}
               `);
+            return;
+          }
+
+                    const sourceCenterY = source.y + sourceSize.height / 2;
+          const targetCenterY = target.y + targetSize.height / 2;
+
+          const sourceClearlyBelowTarget =
+            !goesBackward &&
+            sourceCenterY > targetCenterY + 20;
+
+          if (sourceClearlyBelowTarget) {
+            const specialFrom = {
+              x: source.x + sourceSize.width / 2,
+              y: source.y,
+              side: "top",
+            };
+
+            const specialTo = {
+              x: target.x + targetSize.width / 2,
+              y: target.y + targetSize.height,
+              side: "bottom",
+            };
+
+            const specialMidY = Math.round((specialFrom.y + specialTo.y) / 2);
+
+            const specialPoints = simplifyPathPoints([
+              { x: specialFrom.x, y: specialFrom.y },
+              { x: specialFrom.x, y: specialMidY },
+              { x: specialTo.x, y: specialMidY },
+              { x: specialTo.x, y: specialTo.y },
+            ]);
+
+            nonPrimaryForwardEdges.push(`
+              <path class="graphEdge cross from-${escapeAttr(sourceFamily)}" d="${pointsToPath(specialPoints)}" marker-end="${sourceMarker}"></path>
+              ${edgeLabelSvg(choice.title, specialPoints, sourceFamily)}
+            `);
             return;
           }
 
