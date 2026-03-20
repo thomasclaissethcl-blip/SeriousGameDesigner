@@ -81,6 +81,36 @@
       gap: 12px;
     }
 
+    .toolbarCard {
+      padding: 12px 16px;
+    }
+
+    @media (min-width: 1170px) {
+      .toolbarCard {
+        padding: 0;
+        background: transparent;
+        border: none;
+        box-shadow: none;
+        overflow: visible;
+      }
+
+      .toolbarCard .toolbar {
+        width: auto;
+        justify-content: flex-end;
+        overflow: visible;
+      }
+
+      .toolbarCard .toolbarActionGroup {
+        flex: 0 0 auto;
+        width: auto;
+        justify-content: flex-end;
+      }
+
+      .toolbarCard .toolbarIconBtn {
+        flex: 0 0 auto;
+      }
+    }
+
     .topbar h1 {
       margin: 0;
       font-size: 1.25rem;
@@ -96,9 +126,79 @@
     .toolbar {
       display: flex;
       gap: 8px;
-      flex-wrap: wrap;
+      flex-wrap: nowrap;
       align-items: center;
       justify-content: flex-end;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    .toolbarActionGroup {
+      display: flex;
+      align-items: stretch;
+      justify-content: flex-end;
+      gap: 8px;
+      flex: 1 1 auto;
+      min-width: 0;
+      flex-wrap: nowrap;
+    }
+
+    .toolbarIconBtn {
+      position: relative;
+      flex: 1 1 0;
+      min-width: 56px;
+      max-width: 92px;
+      height: 56px;
+      padding: 0;
+      display: inline-flex;
+      align-items: stretch;
+      justify-content: stretch;
+      overflow: hidden;
+      white-space: nowrap;
+      touch-action: manipulation;
+      -webkit-touch-callout: none;
+      user-select: none;
+    }
+
+    .toolbarIconFace {
+      width: 100%;
+      height: 100%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: currentColor;
+    }
+
+    .toolbarIconFace svg {
+      width: clamp(22px, 2vw, 28px);
+      height: clamp(22px, 2vw, 28px);
+      display: block;
+      stroke: currentColor;
+    }
+
+    .toolbarIconLabel {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6px;
+      background: rgba(5, 10, 20, 0.6);
+      color: #fff;
+      font-size: 0.7rem;
+      font-weight: 700;
+      line-height: 1.2;
+      text-align: center;
+      opacity: 0;
+      transition: opacity 0.18s ease;
+      pointer-events: none;
+      text-wrap: balance;
+    }
+
+    .toolbarIconBtn:hover .toolbarIconLabel,
+    .toolbarIconBtn:focus-visible .toolbarIconLabel,
+    .toolbarIconBtn.show-touch-label .toolbarIconLabel {
+      opacity: 1;
     }
 
     button,
@@ -548,7 +648,7 @@
       display: none;
     }
 
-    @media (min-width: 1100px) {
+    @media (min-width: 1170px) {
       body {
         height: 100vh;
         overflow: hidden;
@@ -580,8 +680,8 @@
         --editor-left-pane-width: 460px;
         height: 100%;
         min-height: 0;
-        grid-template-columns: minmax(320px,
-            var(--editor-left-pane-width)) 10px minmax(520px, 1fr);
+        grid-template-columns:
+          minmax(320px, var(--editor-left-pane-width)) 10px minmax(520px, 1fr);
         grid-template-rows: auto minmax(0, 1fr);
         align-items: stretch;
       }
@@ -596,6 +696,68 @@
 
       .desktopEditorSidebar .tabs {
         padding: 14px;
+        display: flex;
+        gap: 8px;
+        flex-wrap: nowrap;
+        align-items: stretch;
+        width: 100%;
+      }
+
+      .desktopSidebarIconBtn {
+        position: relative;
+        flex: 1 1 0;
+        min-width: 0;
+        height: 56px;
+        padding: 0;
+        display: inline-flex;
+        align-items: stretch;
+        justify-content: stretch;
+        overflow: hidden;
+        white-space: nowrap;
+        touch-action: manipulation;
+        -webkit-touch-callout: none;
+        user-select: none;
+      }
+
+      .desktopSidebarIconFace {
+        width: 100%;
+        height: 100%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        color: currentColor;
+      }
+
+      .desktopSidebarIconFace svg {
+        width: clamp(18px, 1.8vw, 26px);
+        height: clamp(18px, 1.8vw, 26px);
+        display: block;
+        stroke: currentColor;
+      }
+
+      .desktopSidebarIconLabel {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 6px;
+        background: rgba(5, 10, 20, 0.62);
+        color: #fff;
+        font-size: 0.68rem;
+        font-weight: 700;
+        line-height: 1.2;
+        text-align: center;
+        opacity: 0;
+        transition: opacity 0.18s ease;
+        pointer-events: none;
+        text-wrap: balance;
+      }
+
+      .desktopSidebarIconBtn:hover .desktopSidebarIconLabel,
+      .desktopSidebarIconBtn:focus-visible .desktopSidebarIconLabel,
+      .desktopSidebarIconBtn.show-touch-label .desktopSidebarIconLabel {
+        opacity: 1;
       }
 
       .desktopEditorDivider {
@@ -682,7 +844,25 @@
       }
     }
 
-    @media (max-width: 720px) {
+    .desktopSidebarIconBtn {
+      height: 52px;
+    }
+
+    .desktopSidebarIconFace svg {
+      width: clamp(16px, 1.5vw, 24px);
+      height: clamp(16px, 1.5vw, 24px);
+    }
+
+    .desktopSidebarIconLabel {
+      font-size: 0.64rem;
+      padding: 5px;
+    }
+
+    @media (max-width: 1170px) {
+
+            .tabBtn[data-tab="graph"] {
+        display: none;
+      }
 
       .fieldGrid.two,
       .fieldGrid.three {
@@ -693,9 +873,44 @@
         flex-direction: column;
       }
 
+      .toolbarCard {
+        position: sticky;
+        top: 8px;
+        z-index: 80;
+        background: rgba(11, 16, 32, 0.92);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.28);
+      }
+
       .toolbar {
         width: 100%;
         justify-content: flex-start;
+        overflow: visible;
+      }
+
+      .toolbarActionGroup {
+        width: 100%;
+        gap: 6px;
+        justify-content: flex-start;
+      }
+
+      .toolbarIconBtn {
+        min-width: 0;
+        flex: 1 1 0;
+        height: 44px;
+        border-radius: 10px;
+        max-width: none;
+      }
+
+      .toolbarIconFace svg {
+        width: 22px;
+        height: 22px;
+      }
+
+      .toolbarIconLabel {
+        font-size: 0.62rem;
+        padding: 4px;
       }
     }
 
@@ -849,7 +1064,7 @@
       display: none;
     }
 
-    @media (max-width: 1099px) {
+    @media (max-width: 1170px) {
       .rightCol {
         display: none;
       }
@@ -923,7 +1138,7 @@
       color: var(--text);
     }
 
-    @media (min-width: 1100px) {
+    @media (min-width: 1170px) {
       .sceneEditorModal {
         display: none !important;
       }
@@ -949,9 +1164,25 @@
 
     @media (max-width: 720px) {
       .modeIndicator {
-        width: 32px;
-        height: 32px;
-        font-size: 16px;
+        display: none;
+      }
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+
+      .toolbarIconBtn,
+      .desktopSidebarIconBtn {
+        cursor: pointer;
+      }
+    }
+
+    @media (hover: none) {
+      .toolbarIconBtn:hover .toolbarIconLabel {
+        opacity: 0;
+      }
+
+      .desktopSidebarIconBtn:hover .desktopSidebarIconLabel {
+        opacity: 0;
       }
     }
 
@@ -1266,12 +1497,179 @@
       stroke: rgba(255, 255, 255, 0.06);
       rx: 8;
     }
+
+    .journalComposer {
+      display: grid;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .journalActions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .journalActionBtn {
+      min-width: 160px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .journalActionBtn svg {
+      width: 18px;
+      height: 18px;
+      display: block;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .journalActionBtn.remBtn {
+      background: rgba(124, 200, 255, 0.16);
+      border-color: rgba(124, 200, 255, 0.4);
+      color: #d9efff;
+    }
+
+    .journalActionBtn.remBtn:hover,
+    .journalActionBtn.remBtn:focus {
+      background: rgba(124, 200, 255, 0.24);
+    }
+
+    .journalActionBtn.taskBtn {
+      background: rgba(243, 202, 112, 0.16);
+      border-color: rgba(243, 202, 112, 0.4);
+      color: #ffe7a8;
+    }
+
+    .journalActionBtn.taskBtn:hover,
+    .journalActionBtn.taskBtn:focus {
+      background: rgba(243, 202, 112, 0.24);
+    }
+
+    .journalList {
+      display: grid;
+      gap: 10px;
+      max-height: 560px;
+      overflow: auto;
+      padding-right: 4px;
+    }
+
+    .journalNoteCard {
+      background: #1a2343;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .journalNoteCard.type-rem {
+      background: rgba(40, 74, 116, 0.28);
+      border-color: rgba(124, 200, 255, 0.42);
+    }
+
+    .journalNoteCard.type-task {
+      background: rgba(96, 74, 24, 0.28);
+      border-color: rgba(243, 202, 112, 0.42);
+    }
+
+    .journalNoteCard.done {
+      opacity: 0.82;
+      background: rgba(30, 74, 59, 0.22);
+      border-color: rgba(116, 213, 163, 0.35);
+    }
+
+    .journalNoteHead {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .journalNoteMeta {
+      display: grid;
+      gap: 6px;
+    }
+
+    .journalNoteTopline {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .journalTypeBadge {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 8px;
+      border-radius: 999px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      border: 1px solid transparent;
+    }
+
+    .journalTypeBadge.type-rem {
+      background: rgba(124, 200, 255, 0.16);
+      border-color: rgba(124, 200, 255, 0.35);
+      color: #d9efff;
+    }
+
+    .journalTypeBadge.type-task {
+      background: rgba(243, 202, 112, 0.16);
+      border-color: rgba(243, 202, 112, 0.35);
+      color: #ffe7a8;
+    }
+
+    .journalNoteCard.done .journalTypeBadge {
+      background: rgba(116, 213, 163, 0.14);
+      border-color: rgba(116, 213, 163, 0.28);
+      color: #c8f3df;
+    }
+
+    .journalNoteDate {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .journalNoteStatus {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.88rem;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    .journalNoteStatus input {
+      width: auto;
+      margin: 0;
+    }
+
+    .journalNoteText {
+      white-space: pre-wrap;
+      line-height: 1.5;
+    }
+
+    .journalEmpty {
+      padding: 14px;
+      border: 1px dashed var(--border);
+      border-radius: 12px;
+      color: var(--muted);
+      background: rgba(255, 255, 255, 0.02);
+    }
   </style>
 </head>
 
 <body>
   <div class="app">
-    <section class="card topbar">
+    <section id="topbarCard" class="card topbar">
       <div class="titleBlock">
         <div class="logo">
           <svg viewBox="0 0 64 64" fill="none">
@@ -1292,16 +1690,98 @@
           <p>L'outil dont VOUS êtes le héros</p>
         </div>
       </div>
+    </section>
+
+    <section id="toolbarCard" class="card toolbarCard">
       <div class="toolbar">
         <span id="modeIndicator" class="modeIndicator" aria-hidden="true">🐣</span>
-        <button id="undoEditorBtn" class="secondary" title="Annuler la dernière modification de l’éditeur">↶
-          Annuler</button>
-        <button id="simpleModeToggleBtn" class="secondary">Passer en mode simple</button>
-        <button id="emptyProjectBtn" class="secondary">Nouveau projet vide</button>
-        <button id="newProjectBtn" class="secondary">Charger un exemple</button>
-        <button id="importJsonBtn" class="secondary">Importer projet</button>
-        <button id="exportJsonBtn" class="secondary">Sauvegarder projet</button>
-        <button id="exportHtmlBtn" class="good">Exporter en HTML</button>
+        <div class="toolbarActionGroup" aria-label="Actions principales du projet">
+          <button id="undoEditorBtn" class="secondary toolbarIconBtn" type="button" aria-label="Annuler"
+            data-toolbar-label="Annuler" title="Annuler la dernière modification de l’éditeur">
+            <span class="toolbarIconFace" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 7l-5 5 5 5" />
+                <path d="M20 12H5" />
+              </svg>
+            </span>
+            <span class="toolbarIconLabel">Annuler</span>
+          </button>
+          <button id="simpleModeToggleBtn" class="secondary toolbarIconBtn" type="button"
+            aria-label="Passer en mode simple" data-toolbar-label="Passer en mode simple">
+            <span class="toolbarIconFace" aria-hidden="true">
+              <svg class="modeIcon" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round"
+                stroke-linejoin="round">
+                <path d="M3 10l9-4 9 4-9 4-9-4z" />
+                <path d="M7 12v4c2 1.5 8 1.5 10 0v-4" />
+                <path d="M21 10v4" />
+                <circle cx="21" cy="15.5" r="1" />
+              </svg>
+            </span>
+            <span class="toolbarIconLabel">Passer en mode simple</span>
+          </button>
+
+          <button id="emptyProjectBtn" class="secondary toolbarIconBtn" type="button" aria-label="Nouveau projet vide"
+            data-toolbar-label="Nouveau projet vide">
+            <span class="toolbarIconFace" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z" />
+                <path d="M14 3v5h5" />
+                <path d="M12 10v6" />
+                <path d="M9 13h6" />
+              </svg>
+            </span>
+            <span class="toolbarIconLabel">Nouveau projet vide</span>
+          </button>
+
+          <button id="newProjectBtn" class="secondary toolbarIconBtn" type="button" aria-label="Charger un exemple"
+            data-toolbar-label="Charger un exemple">
+            <span class="toolbarIconFace" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 3h6" />
+                <path d="M10 3v5l-4 7a4 4 0 0 0 3.5 6h5a4 4 0 0 0 3.5-6l-4-7V3" />
+                <path d="M8.5 14h7" />
+                <path d="M10 10h4" />
+              </svg>
+            </span>
+            <span class="toolbarIconLabel">Charger un exemple</span>
+          </button>
+
+          <button id="importJsonBtn" class="secondary toolbarIconBtn" type="button" aria-label="Importer projet"
+            data-toolbar-label="Importer projet">
+            <span class="toolbarIconFace" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 14v3a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-3" />
+                <path d="M12 3v10" />
+                <path d="M8 9l4 4 4-4" />
+              </svg>
+            </span>
+            <span class="toolbarIconLabel">Importer projet</span>
+          </button>
+
+          <button id="exportJsonBtn" class="secondary toolbarIconBtn" type="button" aria-label="Sauvegarder projet"
+            data-toolbar-label="Sauvegarder projet">
+            <span class="toolbarIconFace" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 4h11l3 3v13H5z" />
+                <path d="M9 4v5h6V4" />
+                <path d="M9 16h6" />
+              </svg>
+            </span>
+            <span class="toolbarIconLabel">Sauvegarder projet</span>
+          </button>
+
+          <button id="exportHtmlBtn" class="good toolbarIconBtn" type="button" aria-label="Exporter en HTML"
+            data-toolbar-label="Exporter en HTML">
+            <span class="toolbarIconFace" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M8 8l-4 4 4 4" />
+                <path d="M16 8l4 4-4 4" />
+                <path d="M13 5l-2 14" />
+              </svg>
+            </span>
+            <span class="toolbarIconLabel">Exporter en HTML</span>
+          </button>
+        </div>
       </div>
     </section>
 
@@ -1312,30 +1792,92 @@
         <button class="tabBtn" data-tab="json" data-simple-hide="advanced">
           Analyse structure
         </button>
-        <button class="tabBtn" data-tab="graph">Graphe des scènes</button>
+        <button class="tabBtn" data-simple-hide="advanced" data-tab="graph">
+          Graphe des scènes
+        </button>
+        <button class="tabBtn" data-tab="journal">
+          Journal
+        </button>
       </div>
       <div class="panel">
         <div id="editorTab" class="tabPanel">
           <div class="mainGrid">
             <section class="card desktopEditorSidebar">
-              <div class="tabs">
-                <button class="tabBtn desktopEditorTabBtn active" type="button" data-desktop-tab="project">
-                  Projet
+              <div class="tabs" aria-label="Navigation des panneaux de l’éditeur">
+                <button class="tabBtn desktopEditorTabBtn desktopSidebarIconBtn active" type="button"
+                  data-desktop-tab="project" aria-label="Projet" data-sidebar-label="Projet">
+                  <span class="desktopSidebarIconFace" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round"
+                      stroke-linejoin="round">
+                      <path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z" />
+                      <path d="M14 3v5h5" />
+                      <path d="M8 13h8" />
+                      <path d="M8 17h5" />
+                    </svg>
+                  </span>
+                  <span class="desktopSidebarIconLabel">Projet</span>
                 </button>
-                <button class="tabBtn desktopEditorTabBtn" type="button" data-desktop-tab="scenes">
-                  Sélecteur de scènes
+
+                <button class="tabBtn desktopEditorTabBtn desktopSidebarIconBtn" type="button" data-desktop-tab="scenes"
+                  aria-label="Sélecteur de scènes" data-sidebar-label="Sélecteur de scènes">
+                  <span class="desktopSidebarIconFace" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round"
+                      stroke-linejoin="round">
+                      <rect x="4" y="5" width="6" height="6" rx="1.5" />
+                      <rect x="14" y="5" width="6" height="6" rx="1.5" />
+                      <rect x="9" y="13" width="6" height="6" rx="1.5" />
+                    </svg>
+                  </span>
+                  <span class="desktopSidebarIconLabel">Sélecteur de scènes</span>
                 </button>
-                <button class="tabBtn desktopEditorTabBtn" type="button" data-desktop-tab="variables"
-                  data-simple-hide="advanced">
-                  Variables
+
+                <button class="tabBtn desktopEditorTabBtn desktopSidebarIconBtn" type="button"
+                  data-desktop-tab="variables" data-simple-hide="advanced" aria-label="Variables"
+                  data-sidebar-label="Variables">
+                  <span class="desktopSidebarIconFace" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round"
+                      stroke-linejoin="round">
+                      <path d="M5 7h14" />
+                      <path d="M5 12h14" />
+                      <path d="M5 17h14" />
+                      <circle cx="9" cy="7" r="2" fill="currentColor" stroke="none" />
+                      <circle cx="15" cy="12" r="2" fill="currentColor" stroke="none" />
+                      <circle cx="11" cy="17" r="2" fill="currentColor" stroke="none" />
+                    </svg>
+                  </span>
+                  <span class="desktopSidebarIconLabel">Variables</span>
                 </button>
-                <button class="tabBtn desktopEditorTabBtn" type="button" data-desktop-tab="rules"
-                  data-simple-hide="advanced">
-                  Règles d’effondrement
+
+                <button class="tabBtn desktopEditorTabBtn desktopSidebarIconBtn" type="button" data-desktop-tab="rules"
+                  data-simple-hide="advanced" aria-label="Règles d’effondrement"
+                  data-sidebar-label="Règles d’effondrement">
+                  <span class="desktopSidebarIconFace" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round"
+                      stroke-linejoin="round">
+                      <circle cx="8" cy="7" r="2" />
+                      <circle cx="16" cy="7" r="2" />
+                      <circle cx="12" cy="13" r="2" />
+                      <path d="M8 9v1.5c0 .8.4 1.5 1 1.9l2 1.2" />
+                      <path d="M16 9v1.5c0 .8-.4 1.5-1 1.9l-2 1.2" />
+                      <path d="M12 15v3" />
+                      <path d="M10.5 20h3" />
+                    </svg>
+                  </span>
+                  <span class="desktopSidebarIconLabel">Règles d’effondrement</span>
                 </button>
-                <button class="tabBtn desktopEditorTabBtn" type="button" data-desktop-tab="diagnostics"
-                  data-simple-hide="advanced">
-                  Diagnostics
+
+                <button class="tabBtn desktopEditorTabBtn desktopSidebarIconBtn" type="button"
+                  data-desktop-tab="diagnostics" data-simple-hide="advanced" aria-label="Diagnostics"
+                  data-sidebar-label="Diagnostics">
+                  <span class="desktopSidebarIconFace" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round"
+                      stroke-linejoin="round">
+                      <path d="M12 3l8 4v5c0 5-3.4 7.9-8 9-4.6-1.1-8-4-8-9V7l8-4z" />
+                      <path d="M12 8v5" />
+                      <circle cx="12" cy="16.5" r="1" fill="currentColor" stroke="none" />
+                    </svg>
+                  </span>
+                  <span class="desktopSidebarIconLabel">Diagnostics</span>
                 </button>
               </div>
             </section>
@@ -2487,6 +3029,65 @@
             </div>
           </div>
         </div>
+
+        <div id="journalTab" class="tabPanel" style="display: none">
+          <div class="stack">
+            <div class="itemHead">
+              <div>
+                <div class="fieldLabel">
+                  <h2 style="margin: 0">Journal d’avancement</h2>
+                  <button type="button" class="helpIcon" data-help-toggle="help-journal-section"
+                    aria-label="Aide sur le journal" aria-expanded="false">
+                    ?
+                  </button>
+                </div>
+                <div class="helpBubble" id="help-journal-section" role="note">
+                  <strong>À quoi sert cet espace</strong>
+                  Ce journal permet de conserver deux types d’entrées sur l’avancement du projet : des notes (REM) et
+                  des tâches (TASK).
+                  <br /><br />
+                  <strong>Comment l’utiliser</strong>
+                  Saisissez votre texte, puis choisissez si vous ajoutez une note ou une tâche. Cochez ensuite l’entrée
+                  lorsqu’elle a été lue ou traitée.
+                  <br /><br />
+                  <strong>Bon usage</strong>
+                  Utilisez les notes pour les points à ne pas oublier, et les tâches pour les actions concrètes à
+                  réaliser.
+                </div>
+                <p class="muted small">
+                  Les notes et tâches les plus récentes apparaissent en haut de la liste.
+                </p>
+              </div>
+            </div>
+
+            <div class="journalComposer">
+              <label for="journalNoteInput">Nouvelle entrée</label>
+              <textarea id="journalNoteInput"
+                placeholder="Saisissez ici une note ou une tâche liée à l’avancement du travail"></textarea>
+              <div class="journalActions">
+                <button id="addJournalRemBtn" type="button" class="journalActionBtn remBtn">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M6 3h9l3 3v15H6z" />
+                    <path d="M15 3v4h4" />
+                    <path d="M8 13l6-6" />
+                    <path d="M14 7l2 2" />
+                    <path d="M7.5 15.5l3-.8-2.2-2.2-.8 3z" />
+                  </svg>
+                  Ajouter la note
+                </button>
+                <button id="addJournalTaskBtn" type="button" class="journalActionBtn taskBtn">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M9 11l3 3L20 6" />
+                    <path d="M20 12v7a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h11" />
+                  </svg>
+                  Ajouter la tâche
+                </button>
+              </div>
+            </div>
+
+            <div id="journalList" class="journalList"></div>
+          </div>
+        </div>
       </div>
     </section>
   </div>
@@ -2649,1145 +3250,1146 @@
 
     function defaultProject() {
       return {
-  "meta": {
-    "id": "master_template",
-    "title": "Exemple",
-    "subtitle": "Exemple de structure narrative à embranchements",
-    "version": "3.0",
-    "author": "",
-    "description": "",
-    "startScene": "intro",
-    "totalSteps": 15
-  },
-  "ui": {
-    "openHelpOnStart": true,
-    "labels": {
-      "restart": "Rejouer",
-      "undo": "Retour",
-      "progressLabel": "Progression",
-      "scoreLabel": "Score",
-      "riskLabel": "Risque",
-      "inventoryLabel": "Inventaire",
-      "inventoryEmpty": "Vide",
-      "logEmpty": "Vide",
-      "decisionEmpty": "Vide",
-      "noWarning": "RAS"
-    },
-    "theme": {
-      "colors": {
-        "bg": "#0b1020",
-        "bg2": "#151c35",
-        "panel": "#171d36",
-        "panel2": "#202847",
-        "text": "#eef2ff",
-        "muted": "#b8c2df",
-        "accent": "#7cc8ff",
-        "good": "#74d5a3",
-        "warn": "#f3ca70",
-        "bad": "#ff8080",
-        "border": "#3a4466"
-      },
-      "preset": "default"
-    },
-    "typography": {
-      "preset": "inter"
-    },
-    "transitions": {
-      "preset": "fade"
-    },
-    "mode": "advanced"
-  },
-  "help": {
-    "title": "Guide",
-    "content": [
-      "Ce projet est un template complet destiné à vous montrer comment structurer un récit à embranchements avec SCENE. Il ne s’agit pas d’une histoire à utiliser telle quelle, mais d’un exemple technique et narratif que vous pouvez transformer pour créer votre propre expérience.",
-      "Vous pouvez commencer par parcourir les scènes existantes pour comprendre leur rôle. Chaque scène illustre une fonction classique dans un récit interactif : introduction, exploration, montée de tension, erreur, remédiation, consolidation et fins possibles. L’objectif est de vous montrer une architecture réutilisable plutôt qu’un contenu définitif.",
-      "Vous pouvez ensuite modifier progressivement le projet. Commencez par adapter le contexte narratif dans les textes des scènes sans changer immédiatement la structure. Une fois que vous avez compris les liens entre les scènes, vous pouvez modifier les choix, ajouter des variables ou ajuster les effets pour adapter le système à votre propre histoire.",
-      "Avec ce template, vous êtes en mesure d’observer comment les variables influencent la progression. Certaines variables représentent la qualité du parcours, d’autres les risques ou les erreurs. Elles permettent de déclencher des diagnostics, d’ouvrir des voies spécifiques ou d’orienter les fins. Vous pouvez vous en inspirer pour modéliser vos propres logiques narratives.",
-      "Pensez à utiliser la prévisualisation pour tester régulièrement votre scénario. Cela permet de vérifier que les choix conduisent bien aux bonnes scènes et que les effets produisent les résultats attendus. Le graphe des scènes peut également vous aider à visualiser la structure globale et à repérer les scènes isolées ou les branches déséquilibrées.",
-      "Pensez aussi à utiliser l'onglet l'analyse de la structure : un outil de diagnostic vous avertit si des choses ne vont pas dans la structure de votre récit.",
-      "Pour personnaliser ce template, vous pouvez procéder par étapes. Remplacez d’abord les titres et les textes des scènes. Adaptez ensuite les variables pour qu’elles correspondent à ce que vous voulez suivre dans votre récit. Ajustez enfin les règles d’effondrement et les diagnostics pour refléter la logique de votre univers narratif.",
-      "Vous pouvez aussi dupliquer des scènes existantes pour créer rapidement de nouvelles branches. Cette méthode permet de conserver une structure cohérente tout en enrichissant progressivement votre histoire.",
-      "Cet exemple est conçu comme une base de travail. Vous pouvez le simplifier si votre récit est court, ou au contraire l’enrichir avec de nouvelles variables, de nouvelles conditions, de nouvelles scènes, et de nouvelles fins si votre projet devient plus complexe.",
-      "Conseil de pro : modifiez progressivement, testez souvent, et conservez une structure claire. Chaque scène doit avoir un rôle identifiable dans la progression du récit.",
-      "Et surtout, sauvegardez souvent !!!"
-    ]
-  },
-  "variables": [
-    {
-      "name": "etat_clarte",
-      "label": "Clarté",
-      "type": "number",
-      "initial": 0,
-      "category": "cognitive",
-      "description": "Mesure le niveau de compréhension de la situation par le personnage. Cette variable influence les décisions accessibles et reflète la qualité d’analyse dans le récit."
-    },
-    {
-      "name": "etat_stabilite",
-      "label": "Stabilité",
-      "type": "number",
-      "initial": 0,
-      "category": "system",
-      "description": "Représente la solidité de la progression globale. Cette variable indique la capacité du personnage à maintenir un équilibre face aux événements."
-    },
-    {
-      "name": "etat_pression",
-      "label": "Pression",
-      "type": "number",
-      "initial": 0,
-      "category": "system",
-      "description": "Indique le niveau de tension accumulée. Cette variable sert à déclencher des situations critiques et traduit la montée dramatique du récit."
-    },
-    {
-      "name": "compteur_erreurs",
-      "label": "Erreurs",
-      "type": "number",
-      "initial": 0,
-      "category": "risk",
-      "description": "Compte les erreurs importantes commises pendant le parcours. Cette variable permet d’évaluer la fragilité de la trajectoire narrative."
-    },
-    {
-      "name": "acquis_intuition",
-      "label": "Insight",
-      "type": "boolean",
-      "initial": false,
-      "category": "learning",
-      "description": "Indique si une compréhension implicite a été acquise. Cette variable sert à débloquer certaines options liées à l’anticipation ou à la perception fine."
-    },
-    {
-      "name": "acquis_decouverte_cle",
-      "label": "Découverte",
-      "type": "boolean",
-      "initial": false,
-      "category": "progress",
-      "description": "Indique l’acquisition d’un élément déterminant du récit. Cette variable permet d’ouvrir des voies narratives avancées ou cachées."
-    },
-    {
-      "name": "qualite_progression",
-      "label": "Qualité",
-      "type": "number",
-      "initial": 0,
-      "category": "progress",
-      "description": "Évalue la qualité globale des décisions prises. Cette variable sert à différencier les parcours maîtrisés des progressions plus fragiles."
-    }
-  ],
-  "rules": {
-    "collapse": [
-      {
-        "id": "c1",
-        "name": "Risque critique",
-        "operator": "AND",
-        "goto": "diagnostic_effondrement",
-        "conditions": [
+        meta: {
+          id: "master_template",
+          title: "Exemple",
+          subtitle: "Exemple de structure narrative à embranchements",
+          version: "3.0",
+          author: "",
+          description: "",
+          startScene: "intro",
+          totalSteps: 15,
+        },
+        ui: {
+          openHelpOnStart: true,
+          labels: {
+            restart: "Rejouer",
+            undo: "Retour",
+            progressLabel: "Progression",
+            scoreLabel: "Score",
+            riskLabel: "Risque",
+            inventoryLabel: "Inventaire",
+            inventoryEmpty: "Vide",
+            logEmpty: "Vide",
+            decisionEmpty: "Vide",
+            noWarning: "RAS",
+          },
+          theme: {
+            colors: {
+              bg: "#0b1020",
+              bg2: "#151c35",
+              panel: "#171d36",
+              panel2: "#202847",
+              text: "#eef2ff",
+              muted: "#b8c2df",
+              accent: "#7cc8ff",
+              good: "#74d5a3",
+              warn: "#f3ca70",
+              bad: "#ff8080",
+              border: "#3a4466",
+            },
+            preset: "default",
+          },
+          typography: {
+            preset: "inter",
+          },
+          transitions: {
+            preset: "fade",
+          },
+          mode: "advanced",
+        },
+        help: {
+          title: "Guide",
+          content: [
+            "Ce projet est un template complet destiné à vous montrer comment structurer un récit à embranchements avec SCENE. Il ne s’agit pas d’une histoire à utiliser telle quelle, mais d’un exemple technique et narratif que vous pouvez transformer pour créer votre propre expérience.",
+            "Vous pouvez commencer par parcourir les scènes existantes pour comprendre leur rôle. Chaque scène illustre une fonction classique dans un récit interactif : introduction, exploration, montée de tension, erreur, remédiation, consolidation et fins possibles. L’objectif est de vous montrer une architecture réutilisable plutôt qu’un contenu définitif.",
+            "Vous pouvez ensuite modifier progressivement le projet. Commencez par adapter le contexte narratif dans les textes des scènes sans changer immédiatement la structure. Une fois que vous avez compris les liens entre les scènes, vous pouvez modifier les choix, ajouter des variables ou ajuster les effets pour adapter le système à votre propre histoire.",
+            "Avec ce template, vous êtes en mesure d’observer comment les variables influencent la progression. Certaines variables représentent la qualité du parcours, d’autres les risques ou les erreurs. Elles permettent de déclencher des diagnostics, d’ouvrir des voies spécifiques ou d’orienter les fins. Vous pouvez vous en inspirer pour modéliser vos propres logiques narratives.",
+            "Pensez à utiliser la prévisualisation pour tester régulièrement votre scénario. Cela permet de vérifier que les choix conduisent bien aux bonnes scènes et que les effets produisent les résultats attendus. Le graphe des scènes peut également vous aider à visualiser la structure globale et à repérer les scènes isolées ou les branches déséquilibrées.",
+            "Pensez aussi à utiliser l'onglet l'analyse de la structure : un outil de diagnostic vous avertit si des choses ne vont pas dans la structure de votre récit.",
+            "Pour personnaliser ce template, vous pouvez procéder par étapes. Remplacez d’abord les titres et les textes des scènes. Adaptez ensuite les variables pour qu’elles correspondent à ce que vous voulez suivre dans votre récit. Ajustez enfin les règles d’effondrement et les diagnostics pour refléter la logique de votre univers narratif.",
+            "Vous pouvez aussi dupliquer des scènes existantes pour créer rapidement de nouvelles branches. Cette méthode permet de conserver une structure cohérente tout en enrichissant progressivement votre histoire.",
+            "Cet exemple est conçu comme une base de travail. Vous pouvez le simplifier si votre récit est court, ou au contraire l’enrichir avec de nouvelles variables, de nouvelles conditions, de nouvelles scènes, et de nouvelles fins si votre projet devient plus complexe.",
+            "Conseil de pro : modifiez progressivement, testez souvent, et conservez une structure claire. Chaque scène doit avoir un rôle identifiable dans la progression du récit.",
+            "Et surtout, sauvegardez souvent !!!",
+          ],
+        },
+        variables: [
           {
-            "variable": "risk",
-            "operator": ">=",
-            "value": 8
-          }
-        ]
-      },
-      {
-        "id": "c2",
-        "name": "Erreurs critiques",
-        "operator": "AND",
-        "goto": "diagnostic_effondrement",
-        "conditions": [
+            name: "etat_clarte",
+            label: "Clarté",
+            type: "number",
+            initial: 0,
+            category: "cognitive",
+            description:
+              "Mesure le niveau de compréhension de la situation par le personnage. Cette variable influence les décisions accessibles et reflète la qualité d’analyse dans le récit.",
+          },
           {
-            "variable": "compteur_erreurs",
-            "operator": ">=",
-            "value": 5
-          }
-        ]
-      }
-    ]
-  },
-  "diagnostics": [
-    {
-      "id": "d1",
-      "title": "Manque de clarté",
-      "text": "Progression confuse : le système a calculé que la variable etat_clarte est inférieure au nombre requis. (Changez ce texte pour donner une explication liée à votre récit)",
-      "operator": "AND",
-      "conditions": [
-        {
-          "variable": "etat_clarte",
-          "operator": "<",
-          "value": 2
-        }
-      ]
-    },
-    {
-      "id": "d2",
-      "title": "Accumulation de risques",
-      "text": "Trop de décisions risquées : le système a calculé que la variable risk est trop élevée. (Changez ce texte pour donner une explication liée à votre récit)",
-      "operator": "AND",
-      "conditions": [
-        {
-          "variable": "risk",
-          "operator": ">",
-          "value": 0
-        }
-      ]
-    },
-    {
-      "id": "d3",
-      "title": "Erreurs répétées",
-      "text": "Plusieurs erreurs ont été ignorées : le système a calculé que la variable compteur_erreurs était trop élevée. (Changez ce texte pour donner une explication liée à votre récit)",
-      "operator": "AND",
-      "conditions": [
-        {
-          "variable": "compteur_erreurs",
-          "operator": ">=",
-          "value": 2
-        }
-      ]
-    }
-  ],
-  "scenes": {
-    "intro": {
-      "chapter": "00_intro",
-      "title": "[INTRO] Porte initiale",
-      "text": [
-        "STRUCTURE : Introduction avec 3 choix",
-        "Avec cette scène, vous pouvez installer immédiatement la logique générale de votre récit. Vous posez une situation initiale simple, lisible, puis vous ouvrez plusieurs directions dès les premiers instants. Cela permet au lecteur ou au joueur de comprendre que l’histoire ne sera pas linéaire et que chaque posture de départ a des conséquences.",
-        "Vous pouvez vous en servir pour présenter trois manières d’entrer dans l’action. L’une peut privilégier l’observation, l’autre la précipitation, la troisième la préparation. Ce contraste est utile, car il donne tout de suite une identité aux parcours possibles et prépare des trajectoires différentes sans complexifier excessivement l’ouverture.",
-        "Avec cette scène, vous êtes en mesure de donner le ton de votre univers tout en installant la mécanique du choix. Elle conduit naturellement vers des scènes d’exploration distinctes et constitue une base très solide pour n’importe quel récit à embranchements, qu’il soit réaliste, symbolique, dramatique, aventureux ou introspectif."
-      ],
-      "type": "normal",
-      "ending": false,
-      "diagnosis": false,
-      "choices": [
-        {
-          "title": "Observer avant agir",
-          "desc": "",
-          "decisionLog": "Observer avant agir",
-          "goto": "exploration_observer",
-          "showIf": "",
-          "effects": {
-            "score": 1,
-            "risk": 0,
-            "stepDelta": 1,
-            "setFlags": {},
-            "bumpFlags": {
-              "etat_clarte": 1
+            name: "etat_stabilite",
+            label: "Stabilité",
+            type: "number",
+            initial: 0,
+            category: "system",
+            description:
+              "Représente la solidité de la progression globale. Cette variable indique la capacité du personnage à maintenir un équilibre face aux événements.",
+          },
+          {
+            name: "etat_pression",
+            label: "Pression",
+            type: "number",
+            initial: 0,
+            category: "system",
+            description:
+              "Indique le niveau de tension accumulée. Cette variable sert à déclencher des situations critiques et traduit la montée dramatique du récit.",
+          },
+          {
+            name: "compteur_erreurs",
+            label: "Erreurs",
+            type: "number",
+            initial: 0,
+            category: "risk",
+            description:
+              "Compte les erreurs importantes commises pendant le parcours. Cette variable permet d’évaluer la fragilité de la trajectoire narrative.",
+          },
+          {
+            name: "acquis_intuition",
+            label: "Insight",
+            type: "boolean",
+            initial: false,
+            category: "learning",
+            description:
+              "Indique si une compréhension implicite a été acquise. Cette variable sert à débloquer certaines options liées à l’anticipation ou à la perception fine.",
+          },
+          {
+            name: "acquis_decouverte_cle",
+            label: "Découverte",
+            type: "boolean",
+            initial: false,
+            category: "progress",
+            description:
+              "Indique l’acquisition d’un élément déterminant du récit. Cette variable permet d’ouvrir des voies narratives avancées ou cachées.",
+          },
+          {
+            name: "qualite_progression",
+            label: "Qualité",
+            type: "number",
+            initial: 0,
+            category: "progress",
+            description:
+              "Évalue la qualité globale des décisions prises. Cette variable sert à différencier les parcours maîtrisés des progressions plus fragiles.",
+          },
+        ],
+        rules: {
+          collapse: [
+            {
+              id: "c1",
+              name: "Risque critique",
+              operator: "AND",
+              goto: "diagnostic_effondrement",
+              conditions: [
+                {
+                  variable: "risk",
+                  operator: ">=",
+                  value: 8,
+                },
+              ],
             },
-            "logs": [
-              "Observation initiale"
-            ],
-            "inventory": [],
-            "salvage": false,
-            "fatal": false
-          }
+            {
+              id: "c2",
+              name: "Erreurs critiques",
+              operator: "AND",
+              goto: "diagnostic_effondrement",
+              conditions: [
+                {
+                  variable: "compteur_erreurs",
+                  operator: ">=",
+                  value: 5,
+                },
+              ],
+            },
+          ],
         },
-        {
-          "title": "Avancer sous pression",
-          "desc": "",
-          "decisionLog": "Avancer sous pression",
-          "goto": "exploration_pression",
-          "showIf": "",
-          "effects": {
-            "score": 0,
-            "risk": 2,
-            "stepDelta": 1,
-            "setFlags": {},
-            "bumpFlags": {
-              "etat_pression": 1,
-              "compteur_erreurs": 1
-            },
-            "logs": [
-              "Décision rapide"
-            ],
-            "inventory": [],
-            "salvage": false,
-            "fatal": false
-          }
-        },
-        {
-          "title": "Se préparer",
-          "desc": "",
-          "decisionLog": "Se préparer",
-          "goto": "exploration_preparation",
-          "showIf": "",
-          "effects": {
-            "score": 2,
-            "risk": 0,
-            "stepDelta": 1,
-            "setFlags": {
-              "acquis_intuition": true
-            },
-            "bumpFlags": {},
-            "logs": [],
-            "inventory": [
+        diagnostics: [
+          {
+            id: "d1",
+            title: "Manque de clarté",
+            text: "Progression confuse : le système a calculé que la variable etat_clarte est inférieure au nombre requis. (Changez ce texte pour donner une explication liée à votre récit)",
+            operator: "AND",
+            conditions: [
               {
-                "key": "guide",
-                "label": "Repère",
-                "relevant": true
-              }
+                variable: "etat_clarte",
+                operator: "<",
+                value: 2,
+              },
             ],
-            "salvage": false,
-            "fatal": false
-          }
-        }
-      ],
-      "image": {
-        "src": "",
-        "alt": ""
-      }
-    },
-    "exploration_observer": {
-      "chapter": "01_explore",
-      "title": "[EXPLORATION] Comprendre",
-      "text": [
-        "STRUCTURE : Exploration calme",
-        "Avec cette scène, vous pouvez ralentir légèrement le rythme pour laisser place à la compréhension. Vous invitez ici le lecteur à entrer dans une logique d’observation, d’interprétation ou de collecte d’indices. Cette étape est utile lorsque vous voulez montrer qu’une progression mesurée peut produire des bénéfices durables.",
-        "Vous pouvez transformer cette scène en enquête, en repérage, en échange avec un personnage, en lecture d’un environnement ou en phase d’attention à des détails qui auraient pu passer inaperçus. Elle fonctionne particulièrement bien lorsque vous voulez donner de l’épaisseur au monde narratif sans provoquer immédiatement une crise.",
-        "Cette scène conduit soit vers une décision plus construite, soit vers un déséquilibre futur si l’on choisit d’écarter ce qui méritait d’être compris. Avec elle, vous pouvez faire sentir que le récit récompense parfois la lucidité plus que la vitesse."
-      ],
-      "type": "normal",
-      "ending": false,
-      "diagnosis": false,
-      "choices": [
-        {
-          "title": "Analyser situation",
-          "desc": "",
-          "decisionLog": "Analyser situation",
-          "goto": "decision_centrale",
-          "showIf": "",
-          "effects": {
-            "score": 2,
-            "risk": 0,
-            "stepDelta": 1,
-            "setFlags": {},
-            "bumpFlags": {
-              "etat_clarte": 1,
-              "qualite_progression": 1
-            },
-            "logs": [
-              "Analyse"
-            ],
-            "inventory": [],
-            "salvage": false,
-            "fatal": false
-          }
-        },
-        {
-          "title": "Ignorer détails",
-          "desc": "",
-          "decisionLog": "Ignorer détails",
-          "goto": "montee_tension",
-          "showIf": "",
-          "effects": {
-            "score": 0,
-            "risk": 1,
-            "stepDelta": 1,
-            "setFlags": {},
-            "bumpFlags": {
-              "etat_pression": 1
-            },
-            "logs": [],
-            "inventory": [],
-            "salvage": false,
-            "fatal": false
-          }
-        }
-      ],
-      "image": {
-        "src": "",
-        "alt": ""
-      }
-    },
-    "exploration_pression": {
-      "chapter": "01_explore",
-      "title": "[TENSION] Accélération",
-      "text": [
-        "STRUCTURE : Montée tension",
-        "Avec cette scène, vous pouvez représenter un moment d’accélération. Le lecteur entre dans une dynamique plus tendue, où l’action prime sur la compréhension et où la pression commence à produire des effets visibles. C’est une bonne manière de rendre sensible le coût d’une progression trop rapide.",
-        "Vous pouvez y mettre une urgence, une contrainte extérieure, une montée d’angoisse, une injonction de résultat ou simplement l’impression qu’il faut agir avant d’avoir toutes les informations. Cette scène n’a pas seulement pour fonction de précipiter l’histoire. Elle sert aussi à rendre visibles les fragilités qui naissent quand on avance trop vite.",
-        "Avec cette scène, vous êtes en mesure de faire bifurquer le récit vers une erreur plus lourde ou vers une tentative de récupération. Elle est très utile pour créer une tension crédible et pour montrer qu’un récit à embranchements peut faire émerger des conséquences progressives plutôt que des sanctions immédiates."
-      ],
-      "type": "normal",
-      "ending": false,
-      "diagnosis": false,
-      "choices": [
-        {
-          "title": "Continuer",
-          "desc": "",
-          "decisionLog": "Continuer",
-          "goto": "erreur_majeure",
-          "showIf": "",
-          "effects": {
-            "score": 0,
-            "risk": 3,
-            "stepDelta": 1,
-            "setFlags": {},
-            "bumpFlags": {
-              "compteur_erreurs": 1,
-              "etat_pression": 1
-            },
-            "logs": [],
-            "inventory": [],
-            "salvage": false,
-            "fatal": false
-          }
-        },
-        {
-          "title": "Faire pause",
-          "desc": "",
-          "decisionLog": "Faire pause",
-          "goto": "correction_rapide",
-          "showIf": "",
-          "effects": {
-            "score": 1,
-            "risk": -1,
-            "stepDelta": 1,
-            "setFlags": {},
-            "bumpFlags": {
-              "etat_clarte": 1
-            },
-            "logs": [],
-            "inventory": [],
-            "salvage": true,
-            "fatal": false
-          }
-        }
-      ],
-      "image": {
-        "src": "",
-        "alt": ""
-      }
-    },
-    "exploration_preparation": {
-      "chapter": "01_explore",
-      "title": "[PREPARATION] Structuration",
-      "text": [
-        "STRUCTURE : Préparation",
-        "Avec cette scène, vous pouvez valoriser la préparation comme véritable geste narratif. Vous ne retardez pas l’histoire, vous construisez au contraire les conditions de sa solidité. Cette scène permet de montrer qu’anticiper, organiser ou se doter de ressources modifie en profondeur la suite du parcours.",
-        "Vous pouvez l’utiliser pour une phase d’installation, de planification, de collecte d’outils, de recentrage ou de mise en ordre intérieure selon la nature de votre récit. Elle fonctionne bien lorsque vous voulez que certaines trajectoires donnent accès à des options plus robustes ou à des chemins mieux maîtrisés.",
-        "Cette scène conduit soit vers une décision plus stable, soit vers une scène centrée sur les ressources. Avec elle, vous pouvez faire sentir que le récit ne repose pas seulement sur des événements, mais aussi sur la manière dont le personnage se rend prêt à les traverser."
-      ],
-      "type": "normal",
-      "ending": false,
-      "diagnosis": false,
-      "choices": [
-        {
-          "title": "Structurer",
-          "desc": "",
-          "decisionLog": "Structurer",
-          "goto": "decision_centrale",
-          "showIf": "",
-          "effects": {
-            "score": 2,
-            "risk": 0,
-            "stepDelta": 1,
-            "setFlags": {},
-            "bumpFlags": {
-              "etat_stabilite": 1
-            },
-            "logs": [],
-            "inventory": [],
-            "salvage": false,
-            "fatal": false
-          }
-        },
-        {
-          "title": "Collecter ressources",
-          "desc": "",
-          "decisionLog": "Collecter ressources",
-          "goto": "ressources",
-          "showIf": "",
-          "effects": {
-            "score": 1,
-            "risk": 0,
-            "stepDelta": 1,
-            "setFlags": {},
-            "bumpFlags": {},
-            "logs": [],
-            "inventory": [
+          },
+          {
+            id: "d2",
+            title: "Accumulation de risques",
+            text: "Trop de décisions risquées : le système a calculé que la variable risk est trop élevée. (Changez ce texte pour donner une explication liée à votre récit)",
+            operator: "AND",
+            conditions: [
               {
-                "key": "tool",
-                "label": "Outil",
-                "relevant": true
-              }
+                variable: "risk",
+                operator: ">",
+                value: 0,
+              },
             ],
-            "salvage": false,
-            "fatal": false
-          }
-        }
-      ],
-      "image": {
-        "src": "",
-        "alt": ""
-      }
-    },
-    "ressources": {
-      "chapter": "02_resource",
-      "title": "[RESSOURCE] Inventaire",
-      "text": [
-        "STRUCTURE : démontrer usage inventaire.",
-        "Avec cette scène, vous pouvez donner une fonction concrète à l’inventaire ou, plus largement, à l’idée de ressource acquise. Vous montrez que ce qui a été obtenu auparavant n’est pas décoratif, mais qu’il peut servir, être mobilisé ou au contraire rester inutilisé.",
-        "Vous pouvez penser cette scène comme un moment de gestion, de réserve, de consolidation ou de mise en mémoire. L’élément stocké peut être un objet, une information, un contact, une preuve, un repère, une capacité, une permission, ou tout autre élément que votre univers considère comme utile.",
-        "Vous pouvez, avec cette scène, matérialiser la différence entre posséder quelque chose et savoir quand l’utiliser. Elle conduit soit vers une décision enrichie par la ressource, soit vers une tension ultérieure si cette ressource est conservée sans être activée."
-      ],
-      "type": "normal",
-      "ending": false,
-      "diagnosis": false,
-      "choices": [
-        {
-          "title": "Utiliser outil",
-          "desc": "",
-          "decisionLog": "Utiliser outil",
-          "goto": "decision_centrale",
-          "showIf": "",
-          "effects": {
-            "score": 1,
-            "risk": 0,
-            "stepDelta": 1,
-            "setFlags": {},
-            "bumpFlags": {
-              "qualite_progression": 1
+          },
+          {
+            id: "d3",
+            title: "Erreurs répétées",
+            text: "Plusieurs erreurs ont été ignorées : le système a calculé que la variable compteur_erreurs était trop élevée. (Changez ce texte pour donner une explication liée à votre récit)",
+            operator: "AND",
+            conditions: [
+              {
+                variable: "compteur_erreurs",
+                operator: ">=",
+                value: 2,
+              },
+            ],
+          },
+        ],
+        scenes: {
+          intro: {
+            chapter: "00_intro",
+            title: "[INTRO] Porte initiale",
+            text: [
+              "STRUCTURE : Introduction avec 3 choix",
+              "Avec cette scène, vous pouvez installer immédiatement la logique générale de votre récit. Vous posez une situation initiale simple, lisible, puis vous ouvrez plusieurs directions dès les premiers instants. Cela permet au lecteur ou au joueur de comprendre que l’histoire ne sera pas linéaire et que chaque posture de départ a des conséquences.",
+              "Vous pouvez vous en servir pour présenter trois manières d’entrer dans l’action. L’une peut privilégier l’observation, l’autre la précipitation, la troisième la préparation. Ce contraste est utile, car il donne tout de suite une identité aux parcours possibles et prépare des trajectoires différentes sans complexifier excessivement l’ouverture.",
+              "Avec cette scène, vous êtes en mesure de donner le ton de votre univers tout en installant la mécanique du choix. Elle conduit naturellement vers des scènes d’exploration distinctes et constitue une base très solide pour n’importe quel récit à embranchements, qu’il soit réaliste, symbolique, dramatique, aventureux ou introspectif.",
+            ],
+            type: "normal",
+            ending: false,
+            diagnosis: false,
+            choices: [
+              {
+                title: "Observer avant agir",
+                desc: "",
+                decisionLog: "Observer avant agir",
+                goto: "exploration_observer",
+                showIf: "",
+                effects: {
+                  score: 1,
+                  risk: 0,
+                  stepDelta: 1,
+                  setFlags: {},
+                  bumpFlags: {
+                    etat_clarte: 1,
+                  },
+                  logs: ["Observation initiale"],
+                  inventory: [],
+                  salvage: false,
+                  fatal: false,
+                },
+              },
+              {
+                title: "Avancer sous pression",
+                desc: "",
+                decisionLog: "Avancer sous pression",
+                goto: "exploration_pression",
+                showIf: "",
+                effects: {
+                  score: 0,
+                  risk: 2,
+                  stepDelta: 1,
+                  setFlags: {},
+                  bumpFlags: {
+                    etat_pression: 1,
+                    compteur_erreurs: 1,
+                  },
+                  logs: ["Décision rapide"],
+                  inventory: [],
+                  salvage: false,
+                  fatal: false,
+                },
+              },
+              {
+                title: "Se préparer",
+                desc: "",
+                decisionLog: "Se préparer",
+                goto: "exploration_preparation",
+                showIf: "",
+                effects: {
+                  score: 2,
+                  risk: 0,
+                  stepDelta: 1,
+                  setFlags: {
+                    acquis_intuition: true,
+                  },
+                  bumpFlags: {},
+                  logs: [],
+                  inventory: [
+                    {
+                      key: "guide",
+                      label: "Repère",
+                      relevant: true,
+                    },
+                  ],
+                  salvage: false,
+                  fatal: false,
+                },
+              },
+            ],
+            image: {
+              src: "",
+              alt: "",
             },
-            "logs": [],
-            "inventory": [],
-            "salvage": false,
-            "fatal": false
-          }
-        },
-        {
-          "title": "Garder",
-          "desc": "",
-          "decisionLog": "Garder",
-          "goto": "montee_tension",
-          "showIf": "",
-          "effects": {
-            "score": 0,
-            "risk": 0,
-            "stepDelta": 1,
-            "setFlags": {},
-            "bumpFlags": {},
-            "logs": [],
-            "inventory": [],
-            "salvage": false,
-            "fatal": false
-          }
-        }
-      ],
-      "image": {
-        "src": "",
-        "alt": ""
-      }
-    },
-    "decision_centrale": {
-      "chapter": "02_decision",
-      "title": "[DECISION] Nœud principal",
-      "text": [
-        "STRUCTURE : scène à 4 choix.",
-        "Avec cette scène, vous pouvez installer le véritable centre de gravité de votre récit. C’est ici que les lignes de force se croisent et que plusieurs logiques deviennent visibles en même temps. Vous proposez des choix de nature différente, et non de simples variantes superficielles d’une même action.",
-        "Vous pouvez vous appuyer sur cette scène pour opposer stabilité et rapidité, méthode et improvisation, prudence et audace, ou encore vision d’ensemble et réaction immédiate. L’intérêt de ce nœud principal est de rendre les arbitrages lisibles pour le lecteur tout en préparant des conséquences différentes.",
-        "Avec cette scène, vous êtes en mesure de structurer toute la suite du récit. Elle peut faire basculer vers une consolidation, une erreur, une voie d’exception ou une tension croissante. C’est souvent dans ce type de scène que le scénario affirme le mieux sa personnalité."
-      ],
-      "type": "normal",
-      "ending": false,
-      "diagnosis": false,
-      "choices": [
-        {
-          "title": "Approche stable",
-          "desc": "",
-          "decisionLog": "Approche stable",
-          "goto": "consolidation",
-          "showIf": "",
-          "effects": {
-            "score": 3,
-            "risk": 0,
-            "stepDelta": 1,
-            "setFlags": {},
-            "bumpFlags": {
-              "etat_stabilite": 2
+          },
+          exploration_observer: {
+            chapter: "01_explore",
+            title: "[EXPLORATION] Comprendre",
+            text: [
+              "STRUCTURE : Exploration calme",
+              "Avec cette scène, vous pouvez ralentir légèrement le rythme pour laisser place à la compréhension. Vous invitez ici le lecteur à entrer dans une logique d’observation, d’interprétation ou de collecte d’indices. Cette étape est utile lorsque vous voulez montrer qu’une progression mesurée peut produire des bénéfices durables.",
+              "Vous pouvez transformer cette scène en enquête, en repérage, en échange avec un personnage, en lecture d’un environnement ou en phase d’attention à des détails qui auraient pu passer inaperçus. Elle fonctionne particulièrement bien lorsque vous voulez donner de l’épaisseur au monde narratif sans provoquer immédiatement une crise.",
+              "Cette scène conduit soit vers une décision plus construite, soit vers un déséquilibre futur si l’on choisit d’écarter ce qui méritait d’être compris. Avec elle, vous pouvez faire sentir que le récit récompense parfois la lucidité plus que la vitesse.",
+            ],
+            type: "normal",
+            ending: false,
+            diagnosis: false,
+            choices: [
+              {
+                title: "Analyser situation",
+                desc: "",
+                decisionLog: "Analyser situation",
+                goto: "decision_centrale",
+                showIf: "",
+                effects: {
+                  score: 2,
+                  risk: 0,
+                  stepDelta: 1,
+                  setFlags: {},
+                  bumpFlags: {
+                    etat_clarte: 1,
+                    qualite_progression: 1,
+                  },
+                  logs: ["Analyse"],
+                  inventory: [],
+                  salvage: false,
+                  fatal: false,
+                },
+              },
+              {
+                title: "Ignorer détails",
+                desc: "",
+                decisionLog: "Ignorer détails",
+                goto: "montee_tension",
+                showIf: "",
+                effects: {
+                  score: 0,
+                  risk: 1,
+                  stepDelta: 1,
+                  setFlags: {},
+                  bumpFlags: {
+                    etat_pression: 1,
+                  },
+                  logs: [],
+                  inventory: [],
+                  salvage: false,
+                  fatal: false,
+                },
+              },
+            ],
+            image: {
+              src: "",
+              alt: "",
             },
-            "logs": [],
-            "inventory": [],
-            "salvage": false,
-            "fatal": false
-          }
-        },
-        {
-          "title": "Approche rapide",
-          "desc": "",
-          "decisionLog": "Approche rapide",
-          "goto": "erreur_majeure",
-          "showIf": "",
-          "effects": {
-            "score": 0,
-            "risk": 3,
-            "stepDelta": 1,
-            "setFlags": {},
-            "bumpFlags": {
-              "compteur_erreurs": 1,
-              "etat_pression": 2
+          },
+          exploration_pression: {
+            chapter: "01_explore",
+            title: "[TENSION] Accélération",
+            text: [
+              "STRUCTURE : Montée tension",
+              "Avec cette scène, vous pouvez représenter un moment d’accélération. Le lecteur entre dans une dynamique plus tendue, où l’action prime sur la compréhension et où la pression commence à produire des effets visibles. C’est une bonne manière de rendre sensible le coût d’une progression trop rapide.",
+              "Vous pouvez y mettre une urgence, une contrainte extérieure, une montée d’angoisse, une injonction de résultat ou simplement l’impression qu’il faut agir avant d’avoir toutes les informations. Cette scène n’a pas seulement pour fonction de précipiter l’histoire. Elle sert aussi à rendre visibles les fragilités qui naissent quand on avance trop vite.",
+              "Avec cette scène, vous êtes en mesure de faire bifurquer le récit vers une erreur plus lourde ou vers une tentative de récupération. Elle est très utile pour créer une tension crédible et pour montrer qu’un récit à embranchements peut faire émerger des conséquences progressives plutôt que des sanctions immédiates.",
+            ],
+            type: "normal",
+            ending: false,
+            diagnosis: false,
+            choices: [
+              {
+                title: "Continuer",
+                desc: "",
+                decisionLog: "Continuer",
+                goto: "erreur_majeure",
+                showIf: "",
+                effects: {
+                  score: 0,
+                  risk: 3,
+                  stepDelta: 1,
+                  setFlags: {},
+                  bumpFlags: {
+                    compteur_erreurs: 1,
+                    etat_pression: 1,
+                  },
+                  logs: [],
+                  inventory: [],
+                  salvage: false,
+                  fatal: false,
+                },
+              },
+              {
+                title: "Faire pause",
+                desc: "",
+                decisionLog: "Faire pause",
+                goto: "correction_rapide",
+                showIf: "",
+                effects: {
+                  score: 1,
+                  risk: -1,
+                  stepDelta: 1,
+                  setFlags: {},
+                  bumpFlags: {
+                    etat_clarte: 1,
+                  },
+                  logs: [],
+                  inventory: [],
+                  salvage: true,
+                  fatal: false,
+                },
+              },
+            ],
+            image: {
+              src: "",
+              alt: "",
             },
-            "logs": [],
-            "inventory": [],
-            "salvage": false,
-            "fatal": false
-          }
-        },
-        {
-          "title": "Approche analytique",
-          "desc": "",
-          "decisionLog": "Approche analytique",
-          "goto": "voie_experte",
-          "showIf": "",
-          "effects": {
-            "score": 2,
-            "risk": 0,
-            "stepDelta": 1,
-            "setFlags": {
-              "acquis_decouverte_cle": true
+          },
+          exploration_preparation: {
+            chapter: "01_explore",
+            title: "[PREPARATION] Structuration",
+            text: [
+              "STRUCTURE : Préparation",
+              "Avec cette scène, vous pouvez valoriser la préparation comme véritable geste narratif. Vous ne retardez pas l’histoire, vous construisez au contraire les conditions de sa solidité. Cette scène permet de montrer qu’anticiper, organiser ou se doter de ressources modifie en profondeur la suite du parcours.",
+              "Vous pouvez l’utiliser pour une phase d’installation, de planification, de collecte d’outils, de recentrage ou de mise en ordre intérieure selon la nature de votre récit. Elle fonctionne bien lorsque vous voulez que certaines trajectoires donnent accès à des options plus robustes ou à des chemins mieux maîtrisés.",
+              "Cette scène conduit soit vers une décision plus stable, soit vers une scène centrée sur les ressources. Avec elle, vous pouvez faire sentir que le récit ne repose pas seulement sur des événements, mais aussi sur la manière dont le personnage se rend prêt à les traverser.",
+            ],
+            type: "normal",
+            ending: false,
+            diagnosis: false,
+            choices: [
+              {
+                title: "Structurer",
+                desc: "",
+                decisionLog: "Structurer",
+                goto: "decision_centrale",
+                showIf: "",
+                effects: {
+                  score: 2,
+                  risk: 0,
+                  stepDelta: 1,
+                  setFlags: {},
+                  bumpFlags: {
+                    etat_stabilite: 1,
+                  },
+                  logs: [],
+                  inventory: [],
+                  salvage: false,
+                  fatal: false,
+                },
+              },
+              {
+                title: "Collecter ressources",
+                desc: "",
+                decisionLog: "Collecter ressources",
+                goto: "ressources",
+                showIf: "",
+                effects: {
+                  score: 1,
+                  risk: 0,
+                  stepDelta: 1,
+                  setFlags: {},
+                  bumpFlags: {},
+                  logs: [],
+                  inventory: [
+                    {
+                      key: "tool",
+                      label: "Outil",
+                      relevant: true,
+                    },
+                  ],
+                  salvage: false,
+                  fatal: false,
+                },
+              },
+            ],
+            image: {
+              src: "",
+              alt: "",
             },
-            "bumpFlags": {},
-            "logs": [],
-            "inventory": [],
-            "salvage": false,
-            "fatal": false
-          }
-        },
-        {
-          "title": "Improviser",
-          "desc": "",
-          "decisionLog": "Improviser",
-          "goto": "montee_tension",
-          "showIf": "",
-          "effects": {
-            "score": 0,
-            "risk": 2,
-            "stepDelta": 1,
-            "setFlags": {},
-            "bumpFlags": {
-              "etat_pression": 1
+          },
+          ressources: {
+            chapter: "02_resource",
+            title: "[RESSOURCE] Inventaire",
+            text: [
+              "STRUCTURE : démontrer usage inventaire.",
+              "Avec cette scène, vous pouvez donner une fonction concrète à l’inventaire ou, plus largement, à l’idée de ressource acquise. Vous montrez que ce qui a été obtenu auparavant n’est pas décoratif, mais qu’il peut servir, être mobilisé ou au contraire rester inutilisé.",
+              "Vous pouvez penser cette scène comme un moment de gestion, de réserve, de consolidation ou de mise en mémoire. L’élément stocké peut être un objet, une information, un contact, une preuve, un repère, une capacité, une permission, ou tout autre élément que votre univers considère comme utile.",
+              "Vous pouvez, avec cette scène, matérialiser la différence entre posséder quelque chose et savoir quand l’utiliser. Elle conduit soit vers une décision enrichie par la ressource, soit vers une tension ultérieure si cette ressource est conservée sans être activée.",
+            ],
+            type: "normal",
+            ending: false,
+            diagnosis: false,
+            choices: [
+              {
+                title: "Utiliser outil",
+                desc: "",
+                decisionLog: "Utiliser outil",
+                goto: "decision_centrale",
+                showIf: "",
+                effects: {
+                  score: 1,
+                  risk: 0,
+                  stepDelta: 1,
+                  setFlags: {},
+                  bumpFlags: {
+                    qualite_progression: 1,
+                  },
+                  logs: [],
+                  inventory: [],
+                  salvage: false,
+                  fatal: false,
+                },
+              },
+              {
+                title: "Garder",
+                desc: "",
+                decisionLog: "Garder",
+                goto: "montee_tension",
+                showIf: "",
+                effects: {
+                  score: 0,
+                  risk: 0,
+                  stepDelta: 1,
+                  setFlags: {},
+                  bumpFlags: {},
+                  logs: [],
+                  inventory: [],
+                  salvage: false,
+                  fatal: false,
+                },
+              },
+            ],
+            image: {
+              src: "",
+              alt: "",
             },
-            "logs": [],
-            "inventory": [],
-            "salvage": false,
-            "fatal": false
-          }
-        }
-      ],
-      "image": {
-        "src": "",
-        "alt": ""
-      }
-    },
-    "montee_tension": {
-      "chapter": "03_tension",
-      "title": "[TENSION] Déséquilibre",
-      "text": [
-        "STRUCTURE : montée dramatique.",
-        "Avec cette scène, vous pouvez faire monter la pression sans encore provoquer la rupture. Elle sert à montrer que quelque chose se dérègle, que l’équilibre devient instable, ou que les choix précédents commencent à produire leurs effets latents.",
-        "Vous pouvez l’utiliser pour un conflit qui s’installe, un malaise qui grandit, une situation qui échappe peu à peu au contrôle, ou un contexte extérieur qui devient plus hostile. Cette scène est particulièrement utile si vous voulez donner au récit un sentiment de glissement plutôt qu’un basculement brutal.",
-        "Vous pouvez, avec cette scène, préparer soit un effort de stabilisation, soit une aggravation menant à une erreur plus lourde. Elle donne de la respiration dramatique au récit, car elle permet de sentir la menace avant qu’elle ne se réalise pleinement."
-      ],
-      "type": "normal",
-      "ending": false,
-      "diagnosis": false,
-      "choices": [
-        {
-          "title": "Stabiliser",
-          "desc": "",
-          "decisionLog": "Stabiliser",
-          "goto": "correction_rapide",
-          "showIf": "",
-          "effects": {
-            "score": 1,
-            "risk": -1,
-            "stepDelta": 1,
-            "setFlags": {},
-            "bumpFlags": {
-              "etat_stabilite": 1
+          },
+          decision_centrale: {
+            chapter: "02_decision",
+            title: "[DECISION] Nœud principal",
+            text: [
+              "STRUCTURE : scène à 4 choix.",
+              "Avec cette scène, vous pouvez installer le véritable centre de gravité de votre récit. C’est ici que les lignes de force se croisent et que plusieurs logiques deviennent visibles en même temps. Vous proposez des choix de nature différente, et non de simples variantes superficielles d’une même action.",
+              "Vous pouvez vous appuyer sur cette scène pour opposer stabilité et rapidité, méthode et improvisation, prudence et audace, ou encore vision d’ensemble et réaction immédiate. L’intérêt de ce nœud principal est de rendre les arbitrages lisibles pour le lecteur tout en préparant des conséquences différentes.",
+              "Avec cette scène, vous êtes en mesure de structurer toute la suite du récit. Elle peut faire basculer vers une consolidation, une erreur, une voie d’exception ou une tension croissante. C’est souvent dans ce type de scène que le scénario affirme le mieux sa personnalité.",
+            ],
+            type: "normal",
+            ending: false,
+            diagnosis: false,
+            choices: [
+              {
+                title: "Approche stable",
+                desc: "",
+                decisionLog: "Approche stable",
+                goto: "consolidation",
+                showIf: "",
+                effects: {
+                  score: 3,
+                  risk: 0,
+                  stepDelta: 1,
+                  setFlags: {},
+                  bumpFlags: {
+                    etat_stabilite: 2,
+                  },
+                  logs: [],
+                  inventory: [],
+                  salvage: false,
+                  fatal: false,
+                },
+              },
+              {
+                title: "Approche rapide",
+                desc: "",
+                decisionLog: "Approche rapide",
+                goto: "erreur_majeure",
+                showIf: "",
+                effects: {
+                  score: 0,
+                  risk: 3,
+                  stepDelta: 1,
+                  setFlags: {},
+                  bumpFlags: {
+                    compteur_erreurs: 1,
+                    etat_pression: 2,
+                  },
+                  logs: [],
+                  inventory: [],
+                  salvage: false,
+                  fatal: false,
+                },
+              },
+              {
+                title: "Approche analytique",
+                desc: "",
+                decisionLog: "Approche analytique",
+                goto: "voie_experte",
+                showIf: "",
+                effects: {
+                  score: 2,
+                  risk: 0,
+                  stepDelta: 1,
+                  setFlags: {
+                    acquis_decouverte_cle: true,
+                  },
+                  bumpFlags: {},
+                  logs: [],
+                  inventory: [],
+                  salvage: false,
+                  fatal: false,
+                },
+              },
+              {
+                title: "Improviser",
+                desc: "",
+                decisionLog: "Improviser",
+                goto: "montee_tension",
+                showIf: "",
+                effects: {
+                  score: 0,
+                  risk: 2,
+                  stepDelta: 1,
+                  setFlags: {},
+                  bumpFlags: {
+                    etat_pression: 1,
+                  },
+                  logs: [],
+                  inventory: [],
+                  salvage: false,
+                  fatal: false,
+                },
+              },
+            ],
+            image: {
+              src: "",
+              alt: "",
             },
-            "logs": [],
-            "inventory": [],
-            "salvage": true,
-            "fatal": false
-          }
-        },
-        {
-          "title": "Forcer",
-          "desc": "",
-          "decisionLog": "Forcer",
-          "goto": "erreur_majeure",
-          "showIf": "",
-          "effects": {
-            "score": 0,
-            "risk": 2,
-            "stepDelta": 1,
-            "setFlags": {},
-            "bumpFlags": {
-              "compteur_erreurs": 1
+          },
+          montee_tension: {
+            chapter: "03_tension",
+            title: "[TENSION] Déséquilibre",
+            text: [
+              "STRUCTURE : montée dramatique.",
+              "Avec cette scène, vous pouvez faire monter la pression sans encore provoquer la rupture. Elle sert à montrer que quelque chose se dérègle, que l’équilibre devient instable, ou que les choix précédents commencent à produire leurs effets latents.",
+              "Vous pouvez l’utiliser pour un conflit qui s’installe, un malaise qui grandit, une situation qui échappe peu à peu au contrôle, ou un contexte extérieur qui devient plus hostile. Cette scène est particulièrement utile si vous voulez donner au récit un sentiment de glissement plutôt qu’un basculement brutal.",
+              "Vous pouvez, avec cette scène, préparer soit un effort de stabilisation, soit une aggravation menant à une erreur plus lourde. Elle donne de la respiration dramatique au récit, car elle permet de sentir la menace avant qu’elle ne se réalise pleinement.",
+            ],
+            type: "normal",
+            ending: false,
+            diagnosis: false,
+            choices: [
+              {
+                title: "Stabiliser",
+                desc: "",
+                decisionLog: "Stabiliser",
+                goto: "correction_rapide",
+                showIf: "",
+                effects: {
+                  score: 1,
+                  risk: -1,
+                  stepDelta: 1,
+                  setFlags: {},
+                  bumpFlags: {
+                    etat_stabilite: 1,
+                  },
+                  logs: [],
+                  inventory: [],
+                  salvage: true,
+                  fatal: false,
+                },
+              },
+              {
+                title: "Forcer",
+                desc: "",
+                decisionLog: "Forcer",
+                goto: "erreur_majeure",
+                showIf: "",
+                effects: {
+                  score: 0,
+                  risk: 2,
+                  stepDelta: 1,
+                  setFlags: {},
+                  bumpFlags: {
+                    compteur_erreurs: 1,
+                  },
+                  logs: [],
+                  inventory: [],
+                  salvage: false,
+                  fatal: false,
+                },
+              },
+            ],
+            image: {
+              src: "",
+              alt: "",
             },
-            "logs": [],
-            "inventory": [],
-            "salvage": false,
-            "fatal": false
-          }
-        }
-      ],
-      "image": {
-        "src": "",
-        "alt": ""
-      }
-    },
-    "erreur_majeure": {
-      "chapter": "03_error",
-      "title": "[ERROR] Rupture",
-      "text": [
-        "STRUCTURE : erreur lourde.",
-        "Avec cette scène, vous pouvez faire exister une véritable rupture. Il ne s’agit plus seulement d’un déséquilibre, mais d’une erreur qui marque le parcours et qui oblige à reconsidérer ce qui a été fait. Le récit gagne alors en densité, car une faute ou un mauvais choix commence à peser durablement.",
-        "Vous pouvez y placer une décision irréfléchie, un geste irréparable, une interprétation fausse, une confiance mal accordée, une précipitation dommageable ou un refus de voir ce qui était évident. Cette scène fonctionne bien lorsque vous voulez que les conséquences aient une portée réelle.",
-        "Avec cette scène, vous êtes en mesure d’ouvrir deux logiques. La première consiste à comprendre et réparer. La seconde consiste à ignorer le problème, ce qui expose le récit à une dégradation plus grave. Vous donnez ainsi au lecteur un moment fort, où la suite dépend moins de l’erreur elle-même que de la manière de lui répondre."
-      ],
-      "type": "normal",
-      "ending": false,
-      "diagnosis": false,
-      "choices": [
-        {
-          "title": "Comprendre",
-          "desc": "",
-          "decisionLog": "Comprendre",
-          "goto": "correction_profonde",
-          "showIf": "",
-          "effects": {
-            "score": 0,
-            "risk": 0,
-            "stepDelta": 1,
-            "setFlags": {},
-            "bumpFlags": {
-              "etat_clarte": 1
+          },
+          erreur_majeure: {
+            chapter: "03_error",
+            title: "[ERROR] Rupture",
+            text: [
+              "STRUCTURE : erreur lourde.",
+              "Avec cette scène, vous pouvez faire exister une véritable rupture. Il ne s’agit plus seulement d’un déséquilibre, mais d’une erreur qui marque le parcours et qui oblige à reconsidérer ce qui a été fait. Le récit gagne alors en densité, car une faute ou un mauvais choix commence à peser durablement.",
+              "Vous pouvez y placer une décision irréfléchie, un geste irréparable, une interprétation fausse, une confiance mal accordée, une précipitation dommageable ou un refus de voir ce qui était évident. Cette scène fonctionne bien lorsque vous voulez que les conséquences aient une portée réelle.",
+              "Avec cette scène, vous êtes en mesure d’ouvrir deux logiques. La première consiste à comprendre et réparer. La seconde consiste à ignorer le problème, ce qui expose le récit à une dégradation plus grave. Vous donnez ainsi au lecteur un moment fort, où la suite dépend moins de l’erreur elle-même que de la manière de lui répondre.",
+            ],
+            type: "normal",
+            ending: false,
+            diagnosis: false,
+            choices: [
+              {
+                title: "Comprendre",
+                desc: "",
+                decisionLog: "Comprendre",
+                goto: "correction_profonde",
+                showIf: "",
+                effects: {
+                  score: 0,
+                  risk: 0,
+                  stepDelta: 1,
+                  setFlags: {},
+                  bumpFlags: {
+                    etat_clarte: 1,
+                  },
+                  logs: [],
+                  inventory: [],
+                  salvage: true,
+                  fatal: false,
+                },
+              },
+              {
+                title: "Ignorer",
+                desc: "",
+                decisionLog: "Ignorer",
+                goto: "alerte_effondrement",
+                showIf: "",
+                effects: {
+                  score: 0,
+                  risk: 3,
+                  stepDelta: 1,
+                  setFlags: {},
+                  bumpFlags: {
+                    compteur_erreurs: 1,
+                  },
+                  logs: [],
+                  inventory: [],
+                  salvage: false,
+                  fatal: false,
+                },
+              },
+            ],
+            image: {
+              src: "",
+              alt: "",
             },
-            "logs": [],
-            "inventory": [],
-            "salvage": true,
-            "fatal": false
-          }
-        },
-        {
-          "title": "Ignorer",
-          "desc": "",
-          "decisionLog": "Ignorer",
-          "goto": "alerte_effondrement",
-          "showIf": "",
-          "effects": {
-            "score": 0,
-            "risk": 3,
-            "stepDelta": 1,
-            "setFlags": {},
-            "bumpFlags": {
-              "compteur_erreurs": 1
+          },
+          correction_rapide: {
+            chapter: "04_remediation",
+            title: "[REMEDIATION] Correction rapide",
+            text: [
+              "STRUCTURE : remédiation légère.",
+              "Avec cette scène, vous pouvez proposer une correction rapide. Le récit ne revient pas en arrière, mais il se rééquilibre partiellement. Cette forme de remédiation est utile lorsque vous voulez permettre une reprise sans effacer la mémoire des tensions précédentes.",
+              "Vous pouvez la concevoir comme un ajustement ponctuel, une reprise de contrôle, une respiration, un geste réparateur minimal ou une décision destinée à limiter les dégâts. Elle donne au lecteur l’impression qu’il est encore possible d’agir, tout en rappelant que tout ne peut pas être résolu instantanément.",
+              "Cette scène reconduit vers une nouvelle prise de décision. Avec elle, vous pouvez montrer qu’un récit à embranchements ne se réduit pas à l’opposition entre réussite et échec, mais qu’il laisse aussi de la place à la correction imparfaite.",
+            ],
+            type: "remediation",
+            ending: false,
+            diagnosis: false,
+            choices: [
+              {
+                title: "Reprendre",
+                desc: "",
+                decisionLog: "Reprendre",
+                goto: "decision_centrale",
+                showIf: "",
+                effects: {
+                  score: 1,
+                  risk: -1,
+                  stepDelta: 1,
+                  setFlags: {},
+                  bumpFlags: {},
+                  logs: [],
+                  inventory: [],
+                  salvage: false,
+                  fatal: false,
+                },
+              },
+            ],
+            image: {
+              src: "",
+              alt: "",
             },
-            "logs": [],
-            "inventory": [],
-            "salvage": false,
-            "fatal": false
-          }
-        }
-      ],
-      "image": {
-        "src": "",
-        "alt": ""
-      }
-    },
-    "correction_rapide": {
-      "chapter": "04_remediation",
-      "title": "[REMEDIATION] Correction rapide",
-      "text": [
-        "STRUCTURE : remédiation légère.",
-        "Avec cette scène, vous pouvez proposer une correction rapide. Le récit ne revient pas en arrière, mais il se rééquilibre partiellement. Cette forme de remédiation est utile lorsque vous voulez permettre une reprise sans effacer la mémoire des tensions précédentes.",
-        "Vous pouvez la concevoir comme un ajustement ponctuel, une reprise de contrôle, une respiration, un geste réparateur minimal ou une décision destinée à limiter les dégâts. Elle donne au lecteur l’impression qu’il est encore possible d’agir, tout en rappelant que tout ne peut pas être résolu instantanément.",
-        "Cette scène reconduit vers une nouvelle prise de décision. Avec elle, vous pouvez montrer qu’un récit à embranchements ne se réduit pas à l’opposition entre réussite et échec, mais qu’il laisse aussi de la place à la correction imparfaite."
-      ],
-      "type": "remediation",
-      "ending": false,
-      "diagnosis": false,
-      "choices": [
-        {
-          "title": "Reprendre",
-          "desc": "",
-          "decisionLog": "Reprendre",
-          "goto": "decision_centrale",
-          "showIf": "",
-          "effects": {
-            "score": 1,
-            "risk": -1,
-            "stepDelta": 1,
-            "setFlags": {},
-            "bumpFlags": {},
-            "logs": [],
-            "inventory": [],
-            "salvage": false,
-            "fatal": false
-          }
-        }
-      ],
-      "image": {
-        "src": "",
-        "alt": ""
-      }
-    },
-    "correction_profonde": {
-      "chapter": "04_remediation",
-      "title": "[REMEDIATION] Analyse profonde",
-      "text": [
-        "STRUCTURE : remédiation complète.",
-        "Avec cette scène, vous pouvez installer une réparation plus exigeante. Le personnage ou le lecteur ne se contente plus d’amortir les conséquences. Il entre dans une logique de compréhension, de réorganisation ou de reconstruction plus profonde.",
-        "Vous pouvez y mettre un moment de recul, une réévaluation de ce qui s’est produit, une transformation intérieure, une reprise méthodique, ou une réparation lente d’un système fragilisé. Cette scène est adaptée aux récits qui veulent donner du poids à l’apprentissage, au retour sur soi ou à la reconfiguration des équilibres.",
-        "Avec cette scène, vous êtes en mesure de réorienter le récit vers une consolidation plus crédible. Elle montre que la restauration d’une trajectoire demande du temps, de la lucidité et parfois un changement de posture."
-      ],
-      "type": "remediation",
-      "ending": false,
-      "diagnosis": false,
-      "choices": [
-        {
-          "title": "Continuer",
-          "desc": "",
-          "decisionLog": "Continuer",
-          "goto": "consolidation",
-          "showIf": "",
-          "effects": {
-            "score": 2,
-            "risk": -1,
-            "stepDelta": 1,
-            "setFlags": {},
-            "bumpFlags": {
-              "etat_clarte": 1,
-              "etat_stabilite": 1
+          },
+          correction_profonde: {
+            chapter: "04_remediation",
+            title: "[REMEDIATION] Analyse profonde",
+            text: [
+              "STRUCTURE : remédiation complète.",
+              "Avec cette scène, vous pouvez installer une réparation plus exigeante. Le personnage ou le lecteur ne se contente plus d’amortir les conséquences. Il entre dans une logique de compréhension, de réorganisation ou de reconstruction plus profonde.",
+              "Vous pouvez y mettre un moment de recul, une réévaluation de ce qui s’est produit, une transformation intérieure, une reprise méthodique, ou une réparation lente d’un système fragilisé. Cette scène est adaptée aux récits qui veulent donner du poids à l’apprentissage, au retour sur soi ou à la reconfiguration des équilibres.",
+              "Avec cette scène, vous êtes en mesure de réorienter le récit vers une consolidation plus crédible. Elle montre que la restauration d’une trajectoire demande du temps, de la lucidité et parfois un changement de posture.",
+            ],
+            type: "remediation",
+            ending: false,
+            diagnosis: false,
+            choices: [
+              {
+                title: "Continuer",
+                desc: "",
+                decisionLog: "Continuer",
+                goto: "consolidation",
+                showIf: "",
+                effects: {
+                  score: 2,
+                  risk: -1,
+                  stepDelta: 1,
+                  setFlags: {},
+                  bumpFlags: {
+                    etat_clarte: 1,
+                    etat_stabilite: 1,
+                  },
+                  logs: [],
+                  inventory: [],
+                  salvage: true,
+                  fatal: false,
+                },
+              },
+            ],
+            image: {
+              src: "",
+              alt: "",
             },
-            "logs": [],
-            "inventory": [],
-            "salvage": true,
-            "fatal": false
-          }
-        }
-      ],
-      "image": {
-        "src": "",
-        "alt": ""
-      }
-    },
-    "alerte_effondrement": {
-      "chapter": "05_risk",
-      "title": "[RISQUE] Alerte effondrement",
-      "text": [
-        "STRUCTURE : pré‑collapse.",
-        "Avec cette scène, vous pouvez annoncer que le récit approche d’un seuil dangereux. Il ne s’agit plus d’une simple erreur locale. Le risque devient plus global, plus structurel, plus difficile à contenir. Le lecteur comprend alors qu’il entre dans une zone où les choix auront un poids décisif.",
-        "Vous pouvez utiliser cette scène pour faire apparaître des signaux d’alerte clairs. Quelque chose menace de céder, de se dissoudre, de s’effondrer ou de devenir irréversible. Cette montée du risque peut être concrète, symbolique, psychologique, relationnelle ou systémique selon votre univers.",
-        "Vous pouvez, avec cette scène, mettre le lecteur face à une alternative très lisible : réparer maintenant, ou continuer en sachant que la situation peut encore empirer. Cette scène est précieuse si vous voulez rendre perceptible l’approche d’un point de non-retour."
-      ],
-      "type": "normal",
-      "ending": false,
-      "diagnosis": false,
-      "choices": [
-        {
-          "title": "Réparer",
-          "desc": "",
-          "decisionLog": "Réparer",
-          "goto": "correction_profonde",
-          "showIf": "",
-          "effects": {
-            "score": 1,
-            "risk": -1,
-            "stepDelta": 1,
-            "setFlags": {},
-            "bumpFlags": {},
-            "logs": [],
-            "inventory": [],
-            "salvage": false,
-            "fatal": false
-          }
+          },
+          alerte_effondrement: {
+            chapter: "05_risk",
+            title: "[RISQUE] Alerte effondrement",
+            text: [
+              "STRUCTURE : pré‑collapse.",
+              "Avec cette scène, vous pouvez annoncer que le récit approche d’un seuil dangereux. Il ne s’agit plus d’une simple erreur locale. Le risque devient plus global, plus structurel, plus difficile à contenir. Le lecteur comprend alors qu’il entre dans une zone où les choix auront un poids décisif.",
+              "Vous pouvez utiliser cette scène pour faire apparaître des signaux d’alerte clairs. Quelque chose menace de céder, de se dissoudre, de s’effondrer ou de devenir irréversible. Cette montée du risque peut être concrète, symbolique, psychologique, relationnelle ou systémique selon votre univers.",
+              "Vous pouvez, avec cette scène, mettre le lecteur face à une alternative très lisible : réparer maintenant, ou continuer en sachant que la situation peut encore empirer. Cette scène est précieuse si vous voulez rendre perceptible l’approche d’un point de non-retour.",
+            ],
+            type: "normal",
+            ending: false,
+            diagnosis: false,
+            choices: [
+              {
+                title: "Réparer",
+                desc: "",
+                decisionLog: "Réparer",
+                goto: "correction_profonde",
+                showIf: "",
+                effects: {
+                  score: 1,
+                  risk: -1,
+                  stepDelta: 1,
+                  setFlags: {},
+                  bumpFlags: {},
+                  logs: [],
+                  inventory: [],
+                  salvage: false,
+                  fatal: false,
+                },
+              },
+              {
+                title: "Continuer",
+                desc: "",
+                decisionLog: "Continuer",
+                goto: "consolidation",
+                showIf: "",
+                effects: {
+                  score: 0,
+                  risk: 2,
+                  stepDelta: 1,
+                  setFlags: {},
+                  bumpFlags: {},
+                  logs: [],
+                  inventory: [],
+                  salvage: false,
+                  fatal: false,
+                },
+              },
+            ],
+            image: {
+              src: "",
+              alt: "",
+            },
+          },
+          voie_experte: {
+            chapter: "05_condition",
+            title: "[CONDITION] Voie experte",
+            text: [
+              "STRUCTURE : embranchement conditionnel.",
+              "Avec cette scène, vous pouvez ouvrir une bifurcation réservée à certains parcours. Elle permet de récompenser une trajectoire attentive, préparée ou particulièrement cohérente. Le récit gagne alors en profondeur, car il reconnaît que toutes les progressions ne donnent pas accès aux mêmes perspectives.",
+              "Vous pouvez penser cette scène comme un passage vers une lecture plus fine du monde, une solution plus élégante, un accès privilégié, une compréhension supérieure ou un détour réservé à ceux qui ont su voir autrement. Elle fonctionne très bien lorsque vous voulez introduire une sensation de découverte.",
+              "Avec cette scène, vous êtes en mesure d’installer une voie experte sans alourdir le reste du parcours. Elle conduit soit vers un passage caché, soit vers une reprise de la trajectoire commune. Vous créez ainsi de la rejouabilité et un sentiment de récompense narrative.",
+            ],
+            type: "normal",
+            ending: false,
+            diagnosis: false,
+            choices: [
+              {
+                title: "Activer voie",
+                desc: "",
+                decisionLog: "Activer voie",
+                goto: "passage_secret",
+                showIf: "keyInsight == true",
+                effects: {
+                  score: 3,
+                  risk: 0,
+                  stepDelta: 1,
+                  setFlags: {},
+                  bumpFlags: {},
+                  logs: [],
+                  inventory: [],
+                  salvage: false,
+                  fatal: false,
+                },
+              },
+              {
+                title: "Retour",
+                desc: "",
+                decisionLog: "Retour",
+                goto: "consolidation",
+                showIf: "",
+                effects: {
+                  score: 1,
+                  risk: 0,
+                  stepDelta: 1,
+                  setFlags: {},
+                  bumpFlags: {},
+                  logs: [],
+                  inventory: [],
+                  salvage: false,
+                  fatal: false,
+                },
+              },
+            ],
+            image: {
+              src: "",
+              alt: "",
+            },
+          },
+          consolidation: {
+            chapter: "06_consolidation",
+            title: "[CONSOLIDATION] Evaluation",
+            text: [
+              "STRUCTURE : convergence vers fins.",
+              "Avec cette scène, vous pouvez rassembler les effets de tout ce qui précède. C’est un espace de convergence où le récit mesure implicitement ce qui a été accumulé, perdu, appris, négligé ou compromis. Cette scène est très utile pour éviter des fins abruptes.",
+              "Vous pouvez vous en servir comme d’un sas avant dénouement. Le personnage arrive à un moment où les chemins se resserrent et où les options finales deviennent lisibles. Cette scène peut prendre la forme d’un bilan, d’un dernier arbitrage, d’une relecture de la situation, d’un face-à-face ou d’une mise à l’épreuve finale.",
+              "Avec cette scène, vous êtes en mesure de faire dépendre la conclusion des états réellement construits pendant le parcours. Elle conduit vers plusieurs types de fins et donne de la cohérence à l’ensemble de l’architecture narrative.",
+            ],
+            type: "normal",
+            ending: false,
+            diagnosis: false,
+            choices: [
+              {
+                title: "Résolution optimale",
+                desc: "",
+                decisionLog: "Résolution optimale",
+                goto: "fin_reussite_solide",
+                showIf: "score >=7 && risk <=3",
+                effects: {
+                  score: 0,
+                  risk: 0,
+                  stepDelta: 1,
+                  setFlags: {},
+                  bumpFlags: {},
+                  logs: [],
+                  inventory: [],
+                  salvage: false,
+                  fatal: false,
+                },
+              },
+              {
+                title: "Résolution moyenne",
+                desc: "",
+                decisionLog: "Résolution moyenne",
+                goto: "fin_reussite_fragile",
+                showIf: "",
+                effects: {
+                  score: 0,
+                  risk: 0,
+                  stepDelta: 1,
+                  setFlags: {},
+                  bumpFlags: {},
+                  logs: [],
+                  inventory: [],
+                  salvage: false,
+                  fatal: false,
+                },
+              },
+              {
+                title: "Résolution fragile",
+                desc: "",
+                decisionLog: "Résolution fragile",
+                goto: "fin_echec_progressif",
+                showIf: "risk >=4",
+                effects: {
+                  score: 0,
+                  risk: 0,
+                  stepDelta: 1,
+                  setFlags: {},
+                  bumpFlags: {},
+                  logs: [],
+                  inventory: [],
+                  salvage: false,
+                  fatal: false,
+                },
+              },
+            ],
+            image: {
+              src: "",
+              alt: "",
+            },
+          },
+          passage_secret: {
+            chapter: "06_secret",
+            title: "[SECRET] Passage caché",
+            text: [
+              "STRUCTURE : fin secrète.",
+              "Avec cette scène, vous pouvez offrir un passage rare, distinct du parcours principal. Elle a pour fonction de récompenser l’exploration, la cohérence des choix ou l’accès à une compréhension particulière du récit.",
+              "Vous pouvez en faire un espace de révélation, un niveau de maîtrise, une chambre cachée, une vérité enfouie, une sortie inattendue ou une résolution à part. Le plus important est qu’elle soit perçue comme un accomplissement et non comme un simple bonus décoratif.",
+              "Cette scène conduit vers une fin spécifique. Avec elle, vous pouvez enrichir fortement la rejouabilité du scénario et donner au lecteur le sentiment qu’une autre lecture du récit existait en profondeur.",
+            ],
+            type: "normal",
+            ending: false,
+            diagnosis: false,
+            choices: [
+              {
+                title: "Accéder",
+                desc: "",
+                decisionLog: "Accéder",
+                goto: "fin_secrete",
+                showIf: "",
+                effects: {
+                  score: 3,
+                  risk: 0,
+                  stepDelta: 1,
+                  setFlags: {},
+                  bumpFlags: {},
+                  logs: [],
+                  inventory: [],
+                  salvage: false,
+                  fatal: false,
+                },
+              },
+            ],
+            image: {
+              src: "",
+              alt: "",
+            },
+          },
+          fin_reussite_solide: {
+            chapter: "07_end",
+            title: "[ENDING] Réussite solide",
+            text: [
+              "Fin correspondant aux variables accumulées.",
+              "Conseil : multiplier les fins.",
+              "Avec cette scène de fin, vous pouvez montrer ce qu’est une résolution solide dans votre univers. Le parcours aboutit, non parce qu’il a évité toute difficulté, mais parce qu’il a construit suffisamment d’équilibre pour absorber les tensions rencontrées.",
+              "Vous pouvez présenter ici une réussite stable, durable, cohérente avec les choix précédents. Cette fin convient bien lorsque vous voulez donner le sentiment que certaines trajectoires produisent une forme d’accomplissement abouti.",
+              "Avec cette scène, vous êtes en mesure de refermer le récit sur une impression de maîtrise, de continuité ou d’équilibre retrouvé.",
+            ],
+            type: "ending",
+            ending: true,
+            diagnosis: false,
+            choices: [],
+            image: {
+              src: "",
+              alt: "",
+            },
+          },
+          fin_reussite_fragile: {
+            chapter: "07_end",
+            title: "[ENDING] Réussite fragile",
+            text: [
+              "Fin correspondant aux variables accumulées.",
+              "Conseil : multiplier les fins.",
+              "Avec cette scène de fin, vous pouvez proposer une réussite incomplète ou ambivalente. Le parcours aboutit, mais quelque chose reste fragile, partiel ou encore incertain. Cette nuance est souvent très utile dans les récits à embranchements, car elle évite une opposition trop rigide entre victoire et défaite.",
+              "Vous pouvez vous en servir pour montrer qu’un objectif a été atteint sans que toutes les conditions soient réunies pour parler de résolution pleine. Cette fin laisse subsister un coût, une hésitation, une vulnérabilité ou une promesse d’évolution ultérieure.",
+              "Avec cette scène, vous pouvez conclure de manière plus nuancée et donner au lecteur une impression de réalisme ou de complexité morale.",
+            ],
+            type: "ending",
+            ending: true,
+            diagnosis: false,
+            choices: [],
+            image: {
+              src: "",
+              alt: "",
+            },
+          },
+          fin_echec_progressif: {
+            chapter: "07_end",
+            title: "[ENDING] Échec progressif",
+            text: [
+              "Fin correspondant aux variables accumulées.",
+              "Conseil : multiplier les fins.",
+              "Avec cette scène de fin, vous pouvez assumer une trajectoire d’échec ou de dégradation. Cette conclusion ne sert pas seulement à sanctionner. Elle permet aussi de donner une portée aux choix risqués, aux erreurs répétées ou à l’absence de correction.",
+              "Vous pouvez l’écrire comme une chute lente, une désagrégation, une perte de contrôle, un renoncement, une occasion manquée ou un effondrement partiel. L’important est qu’elle apparaisse comme l’aboutissement logique d’un cheminement, et non comme un accident arbitraire.",
+              "Avec cette scène, vous êtes en mesure de donner du relief à l’ensemble du récit, car une fin négative crédible renforce aussi la valeur des autres trajectoires.",
+            ],
+            type: "ending",
+            ending: true,
+            diagnosis: false,
+            choices: [],
+            image: {
+              src: "",
+              alt: "",
+            },
+          },
+          fin_secrete: {
+            chapter: "07_end",
+            title: "[ENDING] Maîtrise cachée",
+            text: [
+              "Fin correspondant aux variables accumulées.",
+              "Conseil : multiplier les fins.",
+              "Avec cette scène de fin, vous pouvez proposer une conclusion à part, réservée aux parcours les plus complets ou les plus précis. Elle doit donner le sentiment d’avoir accédé à quelque chose que le parcours ordinaire ne révélait pas.",
+              "Vous pouvez en faire une fin de maîtrise, de dévoilement, d’accomplissement singulier ou de dépassement du cadre initial. Elle convient particulièrement bien aux récits qui veulent récompenser l’attention, la persévérance ou une forme de finesse dans les choix.",
+              "Avec cette scène, vous pouvez clore le scénario sur une impression d’exception et donner au lecteur une raison forte de rejouer pour découvrir les autres niveaux du récit.",
+            ],
+            type: "ending",
+            ending: true,
+            diagnosis: false,
+            choices: [],
+            image: {
+              src: "",
+              alt: "",
+            },
+          },
+          diagnostic_effondrement: {
+            chapter: "07_end",
+            title: "[DIAGNOSTIC] Effondrement",
+            text: [
+              "STRUCTURE : scène obligatoire pour collapse.\nUne scène de diagnostic n'est pas nécessairement reliée au reste de la narration. Elle s'affiche lorsque les conditions d'effondrement définies dans les règles d'effondrement sont atteintes.",
+              "Rôle : afficher diagnostics.",
+              "Conseil : toujours prévoir analyse des causes.",
+              "Avec cette scène, vous pouvez transformer l’effondrement en moment de lecture du parcours. Au lieu de terminer brutalement, vous prenez le temps de montrer ce qui a conduit à cette issue et de rendre visibles les causes de la rupture.",
+              "Cette scène affichera les informations que vous avez renseignées dans les Diagnostics, en fonction des variables calculées par le système. Vous pouvez l’utiliser comme une scène d’analyse, de révélation, de constat ou de mise en perspective. Elle fonctionne particulièrement bien lorsque votre outil ou votre structure narrative permet d’afficher des diagnostics, des indicateurs ou des motifs d’échec.",
+              "Avec cette scène, vous êtes en mesure de faire de l'effondrement autre chose qu’une simple fin négative. Vous en faites une conclusion explicative, utile, parfois sévère, mais toujours lisible, et adaptée au parcours réalisé. Même l’échec peut être structuré, interprété et intégré à l’expérience narrative.",
+            ],
+            type: "diagnosis",
+            ending: true,
+            diagnosis: true,
+            choices: [],
+            image: {
+              src: "",
+              alt: "",
+            },
+          },
         },
-        {
-          "title": "Continuer",
-          "desc": "",
-          "decisionLog": "Continuer",
-          "goto": "consolidation",
-          "showIf": "",
-          "effects": {
-            "score": 0,
-            "risk": 2,
-            "stepDelta": 1,
-            "setFlags": {},
-            "bumpFlags": {},
-            "logs": [],
-            "inventory": [],
-            "salvage": false,
-            "fatal": false
-          }
-        }
-      ],
-      "image": {
-        "src": "",
-        "alt": ""
-      }
-    },
-    "voie_experte": {
-      "chapter": "05_condition",
-      "title": "[CONDITION] Voie experte",
-      "text": [
-        "STRUCTURE : embranchement conditionnel.",
-        "Avec cette scène, vous pouvez ouvrir une bifurcation réservée à certains parcours. Elle permet de récompenser une trajectoire attentive, préparée ou particulièrement cohérente. Le récit gagne alors en profondeur, car il reconnaît que toutes les progressions ne donnent pas accès aux mêmes perspectives.",
-        "Vous pouvez penser cette scène comme un passage vers une lecture plus fine du monde, une solution plus élégante, un accès privilégié, une compréhension supérieure ou un détour réservé à ceux qui ont su voir autrement. Elle fonctionne très bien lorsque vous voulez introduire une sensation de découverte.",
-        "Avec cette scène, vous êtes en mesure d’installer une voie experte sans alourdir le reste du parcours. Elle conduit soit vers un passage caché, soit vers une reprise de la trajectoire commune. Vous créez ainsi de la rejouabilité et un sentiment de récompense narrative."
-      ],
-      "type": "normal",
-      "ending": false,
-      "diagnosis": false,
-      "choices": [
-        {
-          "title": "Activer voie",
-          "desc": "",
-          "decisionLog": "Activer voie",
-          "goto": "passage_secret",
-          "showIf": "keyInsight == true",
-          "effects": {
-            "score": 3,
-            "risk": 0,
-            "stepDelta": 1,
-            "setFlags": {},
-            "bumpFlags": {},
-            "logs": [],
-            "inventory": [],
-            "salvage": false,
-            "fatal": false
-          }
-        },
-        {
-          "title": "Retour",
-          "desc": "",
-          "decisionLog": "Retour",
-          "goto": "consolidation",
-          "showIf": "",
-          "effects": {
-            "score": 1,
-            "risk": 0,
-            "stepDelta": 1,
-            "setFlags": {},
-            "bumpFlags": {},
-            "logs": [],
-            "inventory": [],
-            "salvage": false,
-            "fatal": false
-          }
-        }
-      ],
-      "image": {
-        "src": "",
-        "alt": ""
-      }
-    },
-    "consolidation": {
-      "chapter": "06_consolidation",
-      "title": "[CONSOLIDATION] Evaluation",
-      "text": [
-        "STRUCTURE : convergence vers fins.",
-        "Avec cette scène, vous pouvez rassembler les effets de tout ce qui précède. C’est un espace de convergence où le récit mesure implicitement ce qui a été accumulé, perdu, appris, négligé ou compromis. Cette scène est très utile pour éviter des fins abruptes.",
-        "Vous pouvez vous en servir comme d’un sas avant dénouement. Le personnage arrive à un moment où les chemins se resserrent et où les options finales deviennent lisibles. Cette scène peut prendre la forme d’un bilan, d’un dernier arbitrage, d’une relecture de la situation, d’un face-à-face ou d’une mise à l’épreuve finale.",
-        "Avec cette scène, vous êtes en mesure de faire dépendre la conclusion des états réellement construits pendant le parcours. Elle conduit vers plusieurs types de fins et donne de la cohérence à l’ensemble de l’architecture narrative."
-      ],
-      "type": "normal",
-      "ending": false,
-      "diagnosis": false,
-      "choices": [
-        {
-          "title": "Résolution optimale",
-          "desc": "",
-          "decisionLog": "Résolution optimale",
-          "goto": "fin_reussite_solide",
-          "showIf": "score >=7 && risk <=3",
-          "effects": {
-            "score": 0,
-            "risk": 0,
-            "stepDelta": 1,
-            "setFlags": {},
-            "bumpFlags": {},
-            "logs": [],
-            "inventory": [],
-            "salvage": false,
-            "fatal": false
-          }
-        },
-        {
-          "title": "Résolution moyenne",
-          "desc": "",
-          "decisionLog": "Résolution moyenne",
-          "goto": "fin_reussite_fragile",
-          "showIf": "",
-          "effects": {
-            "score": 0,
-            "risk": 0,
-            "stepDelta": 1,
-            "setFlags": {},
-            "bumpFlags": {},
-            "logs": [],
-            "inventory": [],
-            "salvage": false,
-            "fatal": false
-          }
-        },
-        {
-          "title": "Résolution fragile",
-          "desc": "",
-          "decisionLog": "Résolution fragile",
-          "goto": "fin_echec_progressif",
-          "showIf": "risk >=4",
-          "effects": {
-            "score": 0,
-            "risk": 0,
-            "stepDelta": 1,
-            "setFlags": {},
-            "bumpFlags": {},
-            "logs": [],
-            "inventory": [],
-            "salvage": false,
-            "fatal": false
-          }
-        }
-      ],
-      "image": {
-        "src": "",
-        "alt": ""
-      }
-    },
-    "passage_secret": {
-      "chapter": "06_secret",
-      "title": "[SECRET] Passage caché",
-      "text": [
-        "STRUCTURE : fin secrète.",
-        "Avec cette scène, vous pouvez offrir un passage rare, distinct du parcours principal. Elle a pour fonction de récompenser l’exploration, la cohérence des choix ou l’accès à une compréhension particulière du récit.",
-        "Vous pouvez en faire un espace de révélation, un niveau de maîtrise, une chambre cachée, une vérité enfouie, une sortie inattendue ou une résolution à part. Le plus important est qu’elle soit perçue comme un accomplissement et non comme un simple bonus décoratif.",
-        "Cette scène conduit vers une fin spécifique. Avec elle, vous pouvez enrichir fortement la rejouabilité du scénario et donner au lecteur le sentiment qu’une autre lecture du récit existait en profondeur."
-      ],
-      "type": "normal",
-      "ending": false,
-      "diagnosis": false,
-      "choices": [
-        {
-          "title": "Accéder",
-          "desc": "",
-          "decisionLog": "Accéder",
-          "goto": "fin_secrete",
-          "showIf": "",
-          "effects": {
-            "score": 3,
-            "risk": 0,
-            "stepDelta": 1,
-            "setFlags": {},
-            "bumpFlags": {},
-            "logs": [],
-            "inventory": [],
-            "salvage": false,
-            "fatal": false
-          }
-        }
-      ],
-      "image": {
-        "src": "",
-        "alt": ""
-      }
-    },
-    "fin_reussite_solide": {
-      "chapter": "07_end",
-      "title": "[ENDING] Réussite solide",
-      "text": [
-        "Fin correspondant aux variables accumulées.",
-        "Conseil : multiplier les fins.",
-        "Avec cette scène de fin, vous pouvez montrer ce qu’est une résolution solide dans votre univers. Le parcours aboutit, non parce qu’il a évité toute difficulté, mais parce qu’il a construit suffisamment d’équilibre pour absorber les tensions rencontrées.",
-        "Vous pouvez présenter ici une réussite stable, durable, cohérente avec les choix précédents. Cette fin convient bien lorsque vous voulez donner le sentiment que certaines trajectoires produisent une forme d’accomplissement abouti.",
-        "Avec cette scène, vous êtes en mesure de refermer le récit sur une impression de maîtrise, de continuité ou d’équilibre retrouvé."
-      ],
-      "type": "ending",
-      "ending": true,
-      "diagnosis": false,
-      "choices": [],
-      "image": {
-        "src": "",
-        "alt": ""
-      }
-    },
-    "fin_reussite_fragile": {
-      "chapter": "07_end",
-      "title": "[ENDING] Réussite fragile",
-      "text": [
-        "Fin correspondant aux variables accumulées.",
-        "Conseil : multiplier les fins.",
-        "Avec cette scène de fin, vous pouvez proposer une réussite incomplète ou ambivalente. Le parcours aboutit, mais quelque chose reste fragile, partiel ou encore incertain. Cette nuance est souvent très utile dans les récits à embranchements, car elle évite une opposition trop rigide entre victoire et défaite.",
-        "Vous pouvez vous en servir pour montrer qu’un objectif a été atteint sans que toutes les conditions soient réunies pour parler de résolution pleine. Cette fin laisse subsister un coût, une hésitation, une vulnérabilité ou une promesse d’évolution ultérieure.",
-        "Avec cette scène, vous pouvez conclure de manière plus nuancée et donner au lecteur une impression de réalisme ou de complexité morale."
-      ],
-      "type": "ending",
-      "ending": true,
-      "diagnosis": false,
-      "choices": [],
-      "image": {
-        "src": "",
-        "alt": ""
-      }
-    },
-    "fin_echec_progressif": {
-      "chapter": "07_end",
-      "title": "[ENDING] Échec progressif",
-      "text": [
-        "Fin correspondant aux variables accumulées.",
-        "Conseil : multiplier les fins.",
-        "Avec cette scène de fin, vous pouvez assumer une trajectoire d’échec ou de dégradation. Cette conclusion ne sert pas seulement à sanctionner. Elle permet aussi de donner une portée aux choix risqués, aux erreurs répétées ou à l’absence de correction.",
-        "Vous pouvez l’écrire comme une chute lente, une désagrégation, une perte de contrôle, un renoncement, une occasion manquée ou un effondrement partiel. L’important est qu’elle apparaisse comme l’aboutissement logique d’un cheminement, et non comme un accident arbitraire.",
-        "Avec cette scène, vous êtes en mesure de donner du relief à l’ensemble du récit, car une fin négative crédible renforce aussi la valeur des autres trajectoires."
-      ],
-      "type": "ending",
-      "ending": true,
-      "diagnosis": false,
-      "choices": [],
-      "image": {
-        "src": "",
-        "alt": ""
-      }
-    },
-    "fin_secrete": {
-      "chapter": "07_end",
-      "title": "[ENDING] Maîtrise cachée",
-      "text": [
-        "Fin correspondant aux variables accumulées.",
-        "Conseil : multiplier les fins.",
-        "Avec cette scène de fin, vous pouvez proposer une conclusion à part, réservée aux parcours les plus complets ou les plus précis. Elle doit donner le sentiment d’avoir accédé à quelque chose que le parcours ordinaire ne révélait pas.",
-        "Vous pouvez en faire une fin de maîtrise, de dévoilement, d’accomplissement singulier ou de dépassement du cadre initial. Elle convient particulièrement bien aux récits qui veulent récompenser l’attention, la persévérance ou une forme de finesse dans les choix.",
-        "Avec cette scène, vous pouvez clore le scénario sur une impression d’exception et donner au lecteur une raison forte de rejouer pour découvrir les autres niveaux du récit."
-      ],
-      "type": "ending",
-      "ending": true,
-      "diagnosis": false,
-      "choices": [],
-      "image": {
-        "src": "",
-        "alt": ""
-      }
-    },
-    "diagnostic_effondrement": {
-      "chapter": "07_end",
-      "title": "[DIAGNOSTIC] Effondrement",
-      "text": [
-        "STRUCTURE : scène obligatoire pour collapse.\nUne scène de diagnostic n'est pas nécessairement reliée au reste de la narration. Elle s'affiche lorsque les conditions d'effondrement définies dans les règles d'effondrement sont atteintes.",
-        "Rôle : afficher diagnostics.",
-        "Conseil : toujours prévoir analyse des causes.",
-        "Avec cette scène, vous pouvez transformer l’effondrement en moment de lecture du parcours. Au lieu de terminer brutalement, vous prenez le temps de montrer ce qui a conduit à cette issue et de rendre visibles les causes de la rupture.",
-        "Cette scène affichera les informations que vous avez renseignées dans les Diagnostics, en fonction des variables calculées par le système. Vous pouvez l’utiliser comme une scène d’analyse, de révélation, de constat ou de mise en perspective. Elle fonctionne particulièrement bien lorsque votre outil ou votre structure narrative permet d’afficher des diagnostics, des indicateurs ou des motifs d’échec.",
-        "Avec cette scène, vous êtes en mesure de faire de l'effondrement autre chose qu’une simple fin négative. Vous en faites une conclusion explicative, utile, parfois sévère, mais toujours lisible, et adaptée au parcours réalisé. Même l’échec peut être structuré, interprété et intégré à l’expérience narrative."
-      ],
-      "type": "diagnosis",
-      "ending": true,
-      "diagnosis": true,
-      "choices": [],
-      "image": {
-        "src": "",
-        "alt": ""
-      }
-    }
-  }
-};
+      };
     }
 
     function emptyProject() {
@@ -3849,6 +4451,7 @@
           collapse: [],
         },
         diagnostics: [],
+        journal: [],
         scenes: {
           intro: {
             chapter: "",
@@ -3960,6 +4563,11 @@
       graphZoomOutBtn: document.getElementById("graphZoomOutBtn"),
       graphResetViewBtn: document.getElementById("graphResetViewBtn"),
 
+      journalNoteInput: document.getElementById("journalNoteInput"),
+      addJournalRemBtn: document.getElementById("addJournalRemBtn"),
+      addJournalTaskBtn: document.getElementById("addJournalTaskBtn"),
+      journalList: document.getElementById("journalList"),
+
       previewFrame: document.getElementById("previewFrame"),
       themePresetSelect: document.getElementById("themePresetSelect"),
       fontPresetSelect: document.getElementById("fontPresetSelect"),
@@ -4000,7 +4608,8 @@
 
       project = normalizeProject(clone(lastEditorSnapshot.project));
       selectedSceneId = lastEditorSnapshot.selectedSceneId;
-      currentDesktopEditorTab = lastEditorSnapshot.currentDesktopEditorTab || currentDesktopEditorTab;
+      currentDesktopEditorTab =
+        lastEditorSnapshot.currentDesktopEditorTab || currentDesktopEditorTab;
       lastEditorSnapshot = null;
       editorUndoFocusTarget = null;
 
@@ -4048,6 +4657,39 @@
       if (!proj.rules) proj.rules = { collapse: [] };
       if (!Array.isArray(proj.rules.collapse)) proj.rules.collapse = [];
       if (!Array.isArray(proj.diagnostics)) proj.diagnostics = [];
+      if (!Array.isArray(proj.journal)) proj.journal = [];
+      proj.journal = proj.journal
+        .filter((note) => note && typeof note === "object")
+        .map((note, index) => ({
+          id:
+            typeof note.id === "string" && note.id.trim()
+              ? note.id
+              : `note_${Date.now()}_${index}`,
+          text: typeof note.text === "string" ? note.text : "",
+          done: Boolean(note.done),
+          type: note.type === "task" ? "task" : "rem",
+          createdAt:
+            typeof note.createdAt === "string" && note.createdAt.trim()
+              ? note.createdAt
+              : new Date().toISOString(),
+        }))
+        .filter((note) => note.text.trim());
+      if (!proj.scenes) proj.scenes = {};
+      proj.journal = proj.journal
+        .filter((note) => note && typeof note === "object")
+        .map((note, index) => ({
+          id:
+            typeof note.id === "string" && note.id.trim()
+              ? note.id
+              : `note_${Date.now()}_${index}`,
+          text: typeof note.text === "string" ? note.text : "",
+          done: Boolean(note.done),
+          createdAt:
+            typeof note.createdAt === "string" && note.createdAt.trim()
+              ? note.createdAt
+              : new Date().toISOString(),
+        }))
+        .filter((note) => note.text.trim());
       if (!proj.scenes) proj.scenes = {};
 
       Object.values(proj.scenes).forEach((scene) => {
@@ -4145,9 +4787,61 @@
       document.body.classList.toggle("simple-mode", simple);
 
       if (els.simpleModeToggleBtn) {
-        els.simpleModeToggleBtn.textContent = simple
+
+        const nextLabel = simple
           ? "Passer en mode expert"
           : "Passer en mode simple";
+
+        els.simpleModeToggleBtn.setAttribute("aria-label", nextLabel);
+        els.simpleModeToggleBtn.dataset.toolbarLabel = nextLabel;
+
+        const overlayLabel =
+          els.simpleModeToggleBtn.querySelector(".toolbarIconLabel");
+
+        if (overlayLabel)
+          overlayLabel.textContent = nextLabel;
+
+        const icon =
+          els.simpleModeToggleBtn.querySelector(".modeIcon");
+
+        if (icon) {
+
+          if (simple) {
+
+            icon.innerHTML = `
+<g transform="translate(12 12) scale(1.25) translate(-12 -12)">
+    <path d="M14.5 4.5
+             C12 5 9.8 7.2 9.3 9.7
+             L8.9 11.4
+             L12.6 15.1
+             L14.3 14.7
+             C16.8 14.2 19 12 19.5 9.5
+             C19.8 7.8 19.3 6.2 18 5
+             C16.8 3.7 15.9 4.2 14.5 4.5Z"/>
+    <path d="M10.1 10.1L6.5 9.5L8.1 13.9"/>
+    <path d="M13.9 13.9L14.5 17.5L10.1 15.9"/>
+    <circle cx="14.2" cy="9.8" r="1.2"/>
+    <path d="M8.3 16.2
+             C7.6 16.6 7 17.2 6.6 17.9
+             C6.3 18.5 6.1 19.1 6 20
+             C6.9 19.9 7.5 19.7 8.1 19.4
+             C8.8 19 9.4 18.4 9.8 17.7"/>
+  </g>
+`;
+
+          } else {
+
+            icon.innerHTML = `
+        <path d="M3 10l9-4 9 4-9 4-9-4z"/>
+        <path d="M7 12v4c2 1.5 8 1.5 10 0v-4"/>
+        <path d="M21 10v4"/>
+        <circle cx="21" cy="15.5" r="1"/>
+      `;
+
+          }
+
+        }
+
       }
 
       if (els.modeIndicator) {
@@ -4156,6 +4850,49 @@
           ? "Mode simple actif"
           : "Mode expert actif";
       }
+    }
+    function hideToolbarTouchLabel(button) {
+      if (!button) return;
+      button.classList.remove("show-touch-label");
+      if (button._toolbarLongPressTimer) {
+        clearTimeout(button._toolbarLongPressTimer);
+        button._toolbarLongPressTimer = null;
+      }
+      button._toolbarLongPressTriggered = false;
+    }
+
+    function initToolbarLongPressHints() {
+      const interactiveIconButtons = Array.from(
+        document.querySelectorAll(".toolbarIconBtn, .desktopSidebarIconBtn"),
+      );
+
+      interactiveIconButtons.forEach((button) => {
+        button.addEventListener("contextmenu", (event) => {
+          event.preventDefault();
+        });
+
+        button.addEventListener("pointerdown", (event) => {
+          if (event.pointerType === "mouse") return;
+          hideToolbarTouchLabel(button);
+          button._toolbarLongPressTriggered = false;
+          button._toolbarLongPressTimer = window.setTimeout(() => {
+            button._toolbarLongPressTriggered = true;
+            button.classList.add("show-touch-label");
+          }, 450);
+        });
+
+        button.addEventListener("pointerup", () => {
+          window.setTimeout(() => hideToolbarTouchLabel(button), 120);
+        });
+
+        button.addEventListener("pointerleave", () => {
+          hideToolbarTouchLabel(button);
+        });
+
+        button.addEventListener("pointercancel", () => {
+          hideToolbarTouchLabel(button);
+        });
+      });
     }
 
     function buildSceneTypeOptionsHtml() {
@@ -4572,7 +5309,7 @@
     }
 
     function isMobileSceneEditorMode() {
-      return window.innerWidth < 1100;
+      return window.innerWidth < 1170;
     }
 
     function syncEditorSectionDefaultOpenState(force = false) {
@@ -6186,6 +6923,7 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
       renderJsonPreview();
       renderValidation();
       renderStructureGraph();
+      renderJournal();
       setupCustomTextareaResize();
       if (!isMobileSceneEditorMode()) {
         applyDesktopPaneWidth(desktopLeftPaneWidth);
@@ -6335,7 +7073,98 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
       return escapeHtml(str).replaceAll('"', "&quot;");
     }
 
-    function switchTab(tab) {
+    function formatJournalDate(value) {
+      try {
+        return new Date(value).toLocaleString("fr-FR", {
+          dateStyle: "short",
+          timeStyle: "short",
+        });
+      } catch {
+        return value || "";
+      }
+    }
+
+    function getJournalTypeLabel(type) {
+      return type === "task" ? "TASK" : "REM";
+    }
+
+    function renderJournal() {
+      if (!els.journalList) return;
+
+      const notes = Array.isArray(project.journal) ? project.journal : [];
+
+      if (!notes.length) {
+        els.journalList.innerHTML = `
+          <div class="journalEmpty">
+            Aucune entrée pour le moment. Ajoutez un rappel ou une tâche.
+          </div>
+        `;
+        return;
+      }
+
+      els.journalList.innerHTML = notes
+        .slice()
+        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+        .map((note) => {
+          const type = note.type === "task" ? "task" : "rem";
+          const typeLabel = getJournalTypeLabel(type);
+
+          return `
+            <div class="journalNoteCard type-${type} ${note.done ? "done" : ""}">
+              <div class="journalNoteHead">
+                <div class="journalNoteMeta">
+                  <div class="journalNoteTopline">
+                    <span class="journalTypeBadge type-${type}">${typeLabel}</span>
+                  </div>
+                  <div class="journalNoteDate">${escapeHtml(formatJournalDate(note.createdAt))}</div>
+                </div>
+                <label class="journalNoteStatus">
+                  <input type="checkbox" data-journal-toggle="${escapeAttr(note.id)}" ${note.done ? "checked" : ""} />
+                  Traitée / lue
+                </label>
+              </div>
+              <div class="journalNoteText">${escapeHtml(note.text)}</div>
+            </div>
+          `;
+        })
+        .join("");
+    }
+
+    function addJournalEntry(type) {
+      const raw = els.journalNoteInput?.value ?? "";
+      const text = raw.trim();
+      if (!text) {
+        alert("Saisissez un rappel ou une tâche avant de l’ajouter.");
+        return;
+      }
+
+      const normalizedType = type === "task" ? "task" : "rem";
+
+      captureEditorSnapshot();
+
+      project.journal.unshift({
+        id: `note_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`,
+        text,
+        done: false,
+        type: normalizedType,
+        createdAt: new Date().toISOString(),
+      });
+
+      els.journalNoteInput.value = "";
+      clearEditorUndoFocusTarget();
+      renderJournal();
+      showActionFeedback(
+        normalizedType === "task"
+          ? "La tâche a bien été ajoutée au journal."
+          : "Le rappel a bien été ajouté au journal.",
+      );
+    }
+
+       function switchTab(tab) {
+      if (tab === "graph" && window.innerWidth < 1170) {
+        tab = "editor";
+      }
+
       currentTab = tab;
       document.querySelectorAll(".tabBtn").forEach((btn) => {
         btn.classList.toggle("active", btn.dataset.tab === tab);
@@ -6348,6 +7177,8 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
         tab === "json" ? "block" : "none";
       document.getElementById("graphTab").style.display =
         tab === "graph" ? "block" : "none";
+      document.getElementById("journalTab").style.display =
+        tab === "journal" ? "block" : "none";
 
       if (tab === "preview") {
         renderPreview();
@@ -6359,6 +7190,9 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
       if (tab === "graph") {
         renderStructureGraph();
         applyGraphTransform();
+      }
+      if (tab === "journal") {
+        renderJournal();
       }
     }
 
@@ -6400,7 +7234,10 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
       delete project.scenes[selectedSceneId];
       const nextId = Object.keys(project.scenes)[0];
       selectedSceneId = nextId;
-      if (project.meta.startScene && !project.scenes[project.meta.startScene]) {
+      if (
+        project.meta.startScene &&
+        !project.scenes[project.meta.startScene]
+      ) {
         project.meta.startScene = nextId;
       }
       Object.values(project.scenes).forEach((scene) => {
@@ -7908,6 +8745,34 @@ if (document.readyState === "loading") {
       }
     });
 
+    els.addJournalRemBtn?.addEventListener("click", () => {
+      addJournalEntry("rem");
+    });
+
+    els.addJournalTaskBtn?.addEventListener("click", () => {
+      addJournalEntry("task");
+    });
+
+    els.journalNoteInput?.addEventListener("keydown", (event) => {
+      if ((event.ctrlKey || event.metaKey) && event.key === "Enter") {
+        addJournalEntry("rem");
+      }
+    });
+
+    els.journalList?.addEventListener("change", (event) => {
+      const toggle = event.target.closest("[data-journal-toggle]");
+      if (!toggle) return;
+
+      const noteId = toggle.dataset.journalToggle;
+      const note = project.journal.find((item) => item.id === noteId);
+      if (!note) return;
+
+      captureEditorSnapshot();
+      note.done = Boolean(toggle.checked);
+      clearEditorUndoFocusTarget();
+      renderJournal();
+    });
+
     document.querySelectorAll(".desktopEditorTabBtn").forEach((btn) => {
       btn.addEventListener("click", () => {
         currentDesktopEditorTab = btn.dataset.desktopTab;
@@ -7916,7 +8781,12 @@ if (document.readyState === "loading") {
     });
 
     document.getElementById("newProjectBtn").addEventListener("click", () => {
-      if (!confirm("Charger l'exemple de projet générique ? Le projet courant sera remplacé, sauvegardez d'abord !")) return;
+      if (
+        !confirm(
+          "Charger l'exemple de projet générique ? Le projet courant sera remplacé, sauvegardez d'abord !",
+        )
+      )
+        return;
       captureEditorSnapshot();
       project = defaultProject();
       selectedSceneId = "intro";
@@ -7925,15 +8795,22 @@ if (document.readyState === "loading") {
       showActionFeedback("L’exemple de projet a bien été chargé.");
     });
 
-    document.getElementById("emptyProjectBtn").addEventListener("click", () => {
-      if (!confirm("Démarrer un projet vide ? Le projet courant sera remplacé, pensez d'abord à sauvegarder !")) return;
-      captureEditorSnapshot();
-      project = emptyProject();
-      selectedSceneId = "intro";
-      clearEditorUndoFocusTarget();
-      renderAll();
-      showActionFeedback("Un nouveau projet vide a bien été chargé.");
-    });
+    document
+      .getElementById("emptyProjectBtn")
+      .addEventListener("click", () => {
+        if (
+          !confirm(
+            "Démarrer un projet vide ? Le projet courant sera remplacé, pensez d'abord à sauvegarder !",
+          )
+        )
+          return;
+        captureEditorSnapshot();
+        project = emptyProject();
+        selectedSceneId = "intro";
+        clearEditorUndoFocusTarget();
+        renderAll();
+        showActionFeedback("Un nouveau projet vide a bien été chargé.");
+      });
 
     document
       .getElementById("addVariableBtn")
@@ -8013,7 +8890,12 @@ if (document.readyState === "loading") {
     });
 
     window.addEventListener("resize", syncSceneEditorPlacement);
-    window.addEventListener("resize", () => {
+       window.addEventListener("resize", () => {
+      if (window.innerWidth < 1170 && currentTab === "graph") {
+        switchTab("editor");
+        return;
+      }
+
       if (currentTab === "graph") {
         renderStructureGraph();
       }
@@ -8200,7 +9082,10 @@ if (document.readyState === "loading") {
 
     els.metaTotalSteps.addEventListener("input", () => {
       captureEditorSnapshotOncePerFocus(els.metaTotalSteps);
-      project.meta.totalSteps = Math.max(1, Number(els.metaTotalSteps.value) || 1);
+      project.meta.totalSteps = Math.max(
+        1,
+        Number(els.metaTotalSteps.value) || 1,
+      );
       renderAll();
     });
 
@@ -8268,7 +9153,8 @@ if (document.readyState === "loading") {
     els.sceneEnding.addEventListener("change", () => {
       if (!project.scenes[selectedSceneId]) return;
       captureEditorSnapshot();
-      project.scenes[selectedSceneId].ending = els.sceneEnding.value === "true";
+      project.scenes[selectedSceneId].ending =
+        els.sceneEnding.value === "true";
       clearEditorUndoFocusTarget();
       renderAll();
     });
@@ -8365,7 +9251,7 @@ if (document.readyState === "loading") {
 
       if (
         el.matches(
-          "#metaTitle, #metaSubtitle, #metaAuthor, #metaTotalSteps, #uiScoreLabel, #uiRiskLabel, #uiInventoryLabel, #helpTitle, #helpContent, #sceneChapter, #sceneTitle, #sceneText, #sceneImageAlt, #themeBg, #themeBg2, #themePanel, #themePanel2, #themeText, #themeMuted, #themeAccent, #themeGood, #themeWarn, #themeBad, #themeBorder"
+          "#metaTitle, #metaSubtitle, #metaAuthor, #metaTotalSteps, #uiScoreLabel, #uiRiskLabel, #uiInventoryLabel, #helpTitle, #helpContent, #sceneChapter, #sceneTitle, #sceneText, #sceneImageAlt, #themeBg, #themeBg2, #themePanel, #themePanel2, #themeText, #themeMuted, #themeAccent, #themeGood, #themeWarn, #themeBad, #themeBorder",
         )
       ) {
         captureEditorSnapshotOncePerFocus(el);
@@ -8378,7 +9264,7 @@ if (document.readyState === "loading") {
 
       if (
         el.matches(
-          "#metaTitle, #metaSubtitle, #metaAuthor, #metaTotalSteps, #uiScoreLabel, #uiRiskLabel, #uiInventoryLabel, #helpTitle, #helpContent, #sceneChapter, #sceneTitle, #sceneText, #sceneImageAlt, #themeBg, #themeBg2, #themePanel, #themePanel2, #themeText, #themeMuted, #themeAccent, #themeGood, #themeWarn, #themeBad, #themeBorder"
+          "#metaTitle, #metaSubtitle, #metaAuthor, #metaTotalSteps, #uiScoreLabel, #uiRiskLabel, #uiInventoryLabel, #helpTitle, #helpContent, #sceneChapter, #sceneTitle, #sceneText, #sceneImageAlt, #themeBg, #themeBg2, #themePanel, #themePanel2, #themeText, #themeMuted, #themeAccent, #themeGood, #themeWarn, #themeBad, #themeBorder",
         )
       ) {
         clearEditorUndoFocusTarget();
@@ -8671,8 +9557,7 @@ if (document.readyState === "loading") {
 
     document.addEventListener("keydown", (event) => {
       const isUndoShortcut =
-        (event.ctrlKey || event.metaKey) &&
-        event.key.toLowerCase() === "z";
+        (event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "z";
 
       if (!isUndoShortcut) return;
       if (currentTab !== "editor") return;
@@ -8789,10 +9674,38 @@ if (document.readyState === "loading") {
       );
     }
 
+    function syncResponsiveToolbarPlacement() {
+      const topbarCard = document.getElementById("topbarCard");
+      const toolbarCard = document.getElementById("toolbarCard");
+      if (!topbarCard || !toolbarCard) return;
+
+      const toolbar =
+        document.querySelector("#topbarCard > .toolbar") ||
+        document.querySelector("#toolbarCard > .toolbar");
+      if (!toolbar) return;
+
+      const isDesktop = window.innerWidth > 1170;
+
+      if (isDesktop) {
+        if (toolbar.parentElement !== topbarCard) {
+          topbarCard.appendChild(toolbar);
+        }
+        toolbarCard.style.display = "none";
+      } else {
+        if (toolbar.parentElement !== toolbarCard) {
+          toolbarCard.appendChild(toolbar);
+        }
+        toolbarCard.style.display = "";
+      }
+    }
+
     setupContextHelp();
     syncSceneEditorPlacement();
     initDesktopDivider();
     syncEditorSectionDefaultOpenState(true);
+    initToolbarLongPressHints();
+    syncResponsiveToolbarPlacement();
+    window.addEventListener("resize", syncResponsiveToolbarPlacement);
     renderAll();
   </script>
   <script>
