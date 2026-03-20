@@ -1432,10 +1432,27 @@
           radial-gradient(circle at top left, rgba(124, 200, 255, 0.08), transparent 32%),
           linear-gradient(180deg, rgba(255, 255, 255, 0.015), rgba(255, 255, 255, 0.03));
         cursor: grab;
+        user-select: none;
+        -webkit-user-select: none;
+        -webkit-touch-callout: none;
       }
 
       .graphViewport.dragging {
         cursor: grabbing;
+      }
+
+      .graphViewport.dragging,
+      .graphViewport.dragging * {
+        user-select: none;
+        -webkit-user-select: none;
+      }
+
+      .graphSvg,
+      .graphNode,
+      .graphNode text,
+      .graphNode rect {
+        user-select: none;
+        -webkit-user-select: none;
       }
 
       .graphSvg {
@@ -1522,6 +1539,56 @@
         stroke: rgba(255, 255, 255, 0.06);
         rx: 8;
       }
+
+      .graphContextMenu {
+        position: absolute;
+        z-index: 20;
+        display: grid;
+        gap: 8px;
+        min-width: 200px;
+        padding: 10px;
+        border-radius: 12px;
+        background: rgba(11, 16, 32, 0.96);
+        border: 1px solid var(--border);
+        box-shadow: var(--shadow);
+      }
+
+      .graphContextMenu button {
+        width: 100%;
+        text-align: left;
+      }
+
+      .graphNode.is-dimmed,
+      .graphEdge.is-dimmed,
+      .graphEdgeLabel.is-dimmed {
+        opacity: 0.18;
+        transition: opacity 0.18s ease;
+      }
+
+      .graphNode.is-highlighted rect {
+        stroke: rgba(124, 200, 255, 0.95);
+        stroke-width: 2.2;
+        filter: drop-shadow(0 10px 18px rgba(124, 200, 255, 0.22));
+      }
+
+      .graphEdge.is-highlighted .graphEdgePath {
+        stroke: rgba(124, 200, 255, 0.92);
+        stroke-width: 2.6;
+      }
+
+      .graphEdgeLabel.is-highlighted rect {
+        stroke: rgba(124, 200, 255, 0.55);
+        fill: rgba(18, 27, 52, 0.96);
+      }
+
+      .graphEdgeLabel.is-highlighted text {
+        fill: #eef2ff;
+      }
+
+      .graphNode.is-highlighted text,
+.graphNode.is-highlighted .graphNodeSub {
+  fill: var(--text);
+}
 
       .journalComposer {
         display: grid;
@@ -3071,6 +3138,12 @@
                     <p class="graphHint">Ajoutez au moins un choix menant vers une autre scène pour voir apparaître le graphe.</p>
                   </div>
                 </div>
+
+                <div id="graphContextMenu" class="graphContextMenu" style="display: none">
+                  <button id="graphContextGotoBtn" type="button" class="secondary">Aller à la scène</button>
+                  <button id="graphContextHighlightBtn" type="button" class="secondary">Afficher le chemin complet</button>
+                </div>
+
                 <svg id="graphSvg" class="graphSvg" viewBox="0 0 1400 900" aria-label="Graphe des scènes" role="img"></svg>
               </div>
             </div>
@@ -4507,6 +4580,8 @@
       let project = emptyProject();
       let selectedSceneId = "intro";
       let currentTab = "editor";
+      let graphContextMenuState = null;
+      let graphHighlightSceneId = null;
       let lastEditorSnapshot = null;
       let editorUndoFocusTarget = null;
       let lastEditorSectionsResponsiveMode = null;
@@ -4582,11 +4657,14 @@
         jsonPreview: document.getElementById("jsonPreview"),
         validationBox: document.getElementById("validationBox"),
         graphViewport: document.getElementById("graphViewport"),
-        graphSvg: document.getElementById("graphSvg"),
-        graphEmptyState: document.getElementById("graphEmptyState"),
-        graphZoomInBtn: document.getElementById("graphZoomInBtn"),
-        graphZoomOutBtn: document.getElementById("graphZoomOutBtn"),
-        graphResetViewBtn: document.getElementById("graphResetViewBtn"),
+graphSvg: document.getElementById("graphSvg"),
+graphEmptyState: document.getElementById("graphEmptyState"),
+graphContextMenu: document.getElementById("graphContextMenu"),
+graphContextGotoBtn: document.getElementById("graphContextGotoBtn"),
+graphContextHighlightBtn: document.getElementById("graphContextHighlightBtn"),
+graphZoomInBtn: document.getElementById("graphZoomInBtn"),
+graphZoomOutBtn: document.getElementById("graphZoomOutBtn"),
+graphResetViewBtn: document.getElementById("graphResetViewBtn"),
 
         journalNoteInput: document.getElementById("journalNoteInput"),
         addJournalRemBtn: document.getElementById("addJournalRemBtn"),
@@ -6668,12 +6746,110 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
         };
       }
 
+      function closeGraphContextMenu() {
+        graphContextMenuState = null;
+        if (els.graphContextMenu) {
+          els.graphContextMenu.style.display = "none";
+        }
+      }
+
+      function openGraphContextMenu(sceneId, clientX, clientY) {
+        if (!els.graphContextMenu || !els.graphViewport || !sceneId) return;
+
+        const rect = els.graphViewport.getBoundingClientRect();
+        const menuWidth = 220;
+        const menuHeight = 98;
+        const left = Math.min(Math.max(8, clientX - rect.left + 8), Math.max(8, rect.width - menuWidth - 8));
+        const top = Math.min(Math.max(8, clientY - rect.top + 8), Math.max(8, rect.height - menuHeight - 8));
+
+        graphContextMenuState = {
+          sceneId,
+          left,
+          top,
+        };
+
+        els.graphContextMenu.style.left = `${left}px`;
+        els.graphContextMenu.style.top = `${top}px`;
+        els.graphContextMenu.style.display = "grid";
+      }
+
+      function openGraphScene(sceneId) {
+        if (!sceneId) return;
+        selectedSceneId = sceneId;
+        closeGraphContextMenu();
+        renderAll();
+        switchTab("editor");
+        if (isMobileSceneEditorMode()) {
+          openSceneEditorModal();
+        }
+      }
+
+      function collectReachableSceneIds(startId, adjacencyMap) {
+        const visited = new Set();
+        const stack = [startId];
+
+        while (stack.length) {
+          const current = stack.pop();
+          if (!current || visited.has(current)) continue;
+          visited.add(current);
+
+          const nextIds = adjacencyMap.get(current) || [];
+          nextIds.forEach((nextId) => {
+            if (!visited.has(nextId)) {
+              stack.push(nextId);
+            }
+          });
+        }
+
+        return visited;
+      }
+
+      function buildGraphHighlightState(data, focusSceneId) {
+        if (!focusSceneId) {
+          return {
+            highlightedNodeIds: null,
+            highlightedEdgeKeys: null,
+          };
+        }
+
+        const forwardMap = new Map();
+        const reverseMap = new Map();
+
+        data.nodes.forEach((node) => {
+          forwardMap.set(node.id, []);
+          reverseMap.set(node.id, []);
+        });
+
+        data.edges.forEach((edge) => {
+          if (!forwardMap.has(edge.source)) forwardMap.set(edge.source, []);
+          if (!reverseMap.has(edge.target)) reverseMap.set(edge.target, []);
+          forwardMap.get(edge.source).push(edge.target);
+          reverseMap.get(edge.target).push(edge.source);
+        });
+
+        const ancestors = collectReachableSceneIds(focusSceneId, reverseMap);
+        const descendants = collectReachableSceneIds(focusSceneId, forwardMap);
+        const highlightedNodeIds = new Set([...ancestors, ...descendants, focusSceneId]);
+
+        const highlightedEdgeKeys = new Set(
+          data.edges
+            .filter((edge) => highlightedNodeIds.has(edge.source) && highlightedNodeIds.has(edge.target))
+            .map((edge) => `${edge.source}=>${edge.target}`),
+        );
+
+        return {
+          highlightedNodeIds,
+          highlightedEdgeKeys,
+        };
+      }
+
       function renderStructureGraph() {
         const data = getConnectedSceneGraphData();
 
         if (!data.nodes.length || !data.edges.length) {
           els.graphSvg.innerHTML = "";
           els.graphEmptyState.style.display = "grid";
+          closeGraphContextMenu();
           return;
         }
 
@@ -6681,6 +6857,7 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
 
         const layout = buildStructureGraphLayout(data);
         const nodeMap = new Map(layout.nodes.map((node) => [node.id, node]));
+        const highlightState = buildGraphHighlightState(data, graphHighlightSceneId);
         const defs = `
           <defs>
             <marker id="graphArrow" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
@@ -6694,6 +6871,18 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
             const source = nodeMap.get(edge.source);
             const target = nodeMap.get(edge.target);
             if (!source || !target) return "";
+
+            const edgeKey = `${edge.source}=>${edge.target}`;
+const hasActiveHighlight = !!highlightState.highlightedEdgeKeys;
+const isHighlighted =
+  hasActiveHighlight && highlightState.highlightedEdgeKeys.has(edgeKey);
+const edgeClass = hasActiveHighlight
+  ? `graphEdge${isHighlighted ? " is-highlighted" : " is-dimmed"}`
+  : "graphEdge";
+const labelClass = hasActiveHighlight
+  ? `graphEdgeLabel${isHighlighted ? " is-highlighted" : " is-dimmed"}`
+  : "graphEdgeLabel";
+
             const startX = source.x + source.width;
             const startY = source.y + source.height / 2;
             const endX = target.x;
@@ -6702,10 +6891,11 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
             const midY = (startY + endY) / 2;
             const curve = Math.max(50, Math.abs(endX - startX) * 0.35);
             const labelWidth = Math.max(56, Math.min(120, edge.label.length * 7.4 + 18));
+
             return `
-              <g class="graphEdge">
-                <path class="graphEdgePath" marker-end="url(#graphArrow)" d="M ${startX} ${startY} C ${startX + curve} ${startY}, ${endX - curve} ${endY}, ${endX} ${endY}"></path>
-                <g class="graphEdgeLabel" transform="translate(${midX - labelWidth / 2} ${midY - 15})">
+      <g class="${edgeClass}" data-source="${escapeAttr(edge.source)}" data-target="${escapeAttr(edge.target)}">
+        <path class="graphEdgePath" marker-end="url(#graphArrow)" d="M ${startX} ${startY} C ${startX + curve} ${startY}, ${endX - curve} ${endY}, ${endX} ${endY}"></path>
+        <g class="${labelClass}" transform="translate(${midX - labelWidth / 2} ${midY - 13})">
                   <rect width="${labelWidth}" height="22"></rect>
                   <text x="${labelWidth / 2}" y="14" text-anchor="middle">${escapeHtml(edge.label)}</text>
                 </g>
@@ -6716,38 +6906,41 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
 
         const nodesMarkup = layout.nodes
           .map((node) => {
+            const scene = project.scenes[node.id];
             const title = escapeHtml(getGraphSceneTitle(node.title || node.id));
             const sub = escapeHtml(node.id);
             const fullTitle = escapeAttr(node.title || node.id);
-            const activeClass = node.id === selectedSceneId ? "active" : "";
-            const typeClass = `type-${escapeAttr(node.type || "normal")}`;
+
+            const typeClass = scene?.ending
+              ? "type-ending"
+              : scene?.diagnosis
+                ? "type-diagnosis"
+                : scene?.type === "remediation"
+                  ? "type-remediation"
+                  : "type-normal";
+
+            const activeClass = selectedSceneId === node.id ? " active" : "";
+const hasActiveHighlight = !!highlightState.highlightedNodeIds;
+const isHighlighted =
+  hasActiveHighlight && highlightState.highlightedNodeIds.has(node.id);
+const visibilityClass = hasActiveHighlight
+  ? (isHighlighted ? " is-highlighted" : " is-dimmed")
+  : "";
+
             return `
-              <g class="graphNode ${typeClass} ${activeClass}" data-scene="${escapeAttr(node.id)}" transform="translate(${node.x} ${node.y})">
-                <title>${fullTitle}</title>
-                <rect width="${node.width}" height="${node.height}"></rect>
-                <text x="16" y="28">${title}</text>
-                <text class="graphNodeSub" x="16" y="46">${sub}</text>
-              </g>
-            `;
+      <g class="graphNode ${typeClass}${activeClass}${visibilityClass}" data-scene="${escapeAttr(node.id)}" transform="translate(${node.x} ${node.y})">
+        <title>${fullTitle}</title>
+        <rect width="${node.width}" height="${node.height}"></rect>
+        <text x="16" y="28">${title}</text>
+        <text class="graphNodeSub" x="16" y="46">${sub}</text>
+      </g>
+    `;
           })
           .join("");
 
         els.graphSvg.setAttribute("viewBox", `0 0 ${layout.width} ${layout.height}`);
         els.graphSvg.innerHTML = `${defs}<g id="graphInner">${edgesMarkup}${nodesMarkup}</g>`;
         applyGraphTransform();
-
-        els.graphSvg.querySelectorAll(".graphNode").forEach((nodeEl) => {
-          nodeEl.addEventListener("click", () => {
-            const sceneId = nodeEl.dataset.scene;
-            if (!sceneId) return;
-            selectedSceneId = sceneId;
-            renderAll();
-            switchTab("editor");
-            if (isMobileSceneEditorMode()) {
-              openSceneEditorModal();
-            }
-          });
-        });
       }
 
       function zoomStructureGraph(factor) {
@@ -8803,6 +8996,17 @@ if (document.readyState === "loading") {
       els.graphZoomInBtn?.addEventListener("click", () => zoomStructureGraph(1.12));
       els.graphZoomOutBtn?.addEventListener("click", () => zoomStructureGraph(1 / 1.12));
       els.graphResetViewBtn?.addEventListener("click", resetStructureGraphView);
+      els.graphContextGotoBtn?.addEventListener("click", () => {
+  if (!graphContextMenuState?.sceneId) return;
+  openGraphScene(graphContextMenuState.sceneId);
+});
+
+els.graphContextHighlightBtn?.addEventListener("click", () => {
+  if (!graphContextMenuState?.sceneId) return;
+  graphHighlightSceneId = graphContextMenuState.sceneId;
+  closeGraphContextMenu();
+  renderStructureGraph();
+});
       document.getElementById("openPreviewNewTabBtn").addEventListener("click", openPreviewInNewTab);
       els.previewFrame?.addEventListener("load", applyThemeToPreviewFrame);
 
@@ -9330,7 +9534,6 @@ if (document.readyState === "loading") {
             needsFullRender = true;
           } else if (action === "choiceShowIf") {
             choice.showIf = el.value;
-            
           } else if (action === "choiceScore") choice.effects.score = Number(el.value) || 0;
           else if (action === "choiceRisk") choice.effects.risk = Number(el.value) || 0;
           else if (action === "choiceStepDelta") choice.effects.stepDelta = Number(el.value) || 0;
@@ -9444,32 +9647,102 @@ if (document.readyState === "loading") {
       }
 
       if (els.graphViewport) {
+        const GRAPH_DRAG_THRESHOLD = 6;
+
         let graphDragActive = false;
+        let graphDragMoved = false;
         let graphDragStartX = 0;
         let graphDragStartY = 0;
         let graphOriginX = 0;
         let graphOriginY = 0;
+        let graphPointerId = null;
+        let graphPointerDownNode = null;
+
+        function openGraphScene(sceneId) {
+          if (!sceneId) return;
+          selectedSceneId = sceneId;
+          renderAll();
+          switchTab("editor");
+          if (isMobileSceneEditorMode()) {
+            openSceneEditorModal();
+          }
+        }
+
+        function stopGraphDrag() {
+          graphDragActive = false;
+          graphDragMoved = false;
+          graphPointerId = null;
+          graphPointerDownNode = null;
+          els.graphViewport.classList.remove("dragging");
+        }
 
         els.graphViewport.addEventListener("pointerdown", (event) => {
-          if (event.target.closest(".graphNode")) return;
+          if (currentTab !== "graph") return;
+          if (event.button !== 0) return;
+
+          const clickedMenu = event.target.closest("#graphContextMenu");
+          if (clickedMenu) return;
+
           graphDragActive = true;
+          graphDragMoved = false;
+          graphPointerId = event.pointerId ?? null;
+          graphPointerDownNode = event.target.closest(".graphNode");
           graphDragStartX = event.clientX;
           graphDragStartY = event.clientY;
           graphOriginX = graphView.x;
           graphOriginY = graphView.y;
-          els.graphViewport.classList.add("dragging");
+
+          els.graphViewport.setPointerCapture?.(event.pointerId);
         });
 
         window.addEventListener("pointermove", (event) => {
           if (!graphDragActive) return;
-          graphView.x = graphOriginX + (event.clientX - graphDragStartX);
-          graphView.y = graphOriginY + (event.clientY - graphDragStartY);
+          if (graphPointerId !== null && event.pointerId !== graphPointerId) return;
+
+          const dx = event.clientX - graphDragStartX;
+          const dy = event.clientY - graphDragStartY;
+
+          if (!graphDragMoved) {
+            const distance = Math.hypot(dx, dy);
+            if (distance < GRAPH_DRAG_THRESHOLD) return;
+            graphDragMoved = true;
+            els.graphViewport.classList.add("dragging");
+          }
+
+          event.preventDefault();
+          graphView.x = graphOriginX + dx;
+          graphView.y = graphOriginY + dy;
           applyGraphTransform();
         });
 
-        window.addEventListener("pointerup", () => {
-          graphDragActive = false;
-          els.graphViewport.classList.remove("dragging");
+        window.addEventListener("pointerup", (event) => {
+          if (!graphDragActive) return;
+          if (graphPointerId !== null && event.pointerId !== graphPointerId) return;
+
+          const releasedOnMenu = event.target.closest("#graphContextMenu");
+const clickedSceneId = graphPointerDownNode?.dataset.scene || null;
+
+const shouldHandleNodeClick = !graphDragMoved && !!clickedSceneId && !releasedOnMenu;
+const shouldResetHighlight = !graphDragMoved && !clickedSceneId && !releasedOnMenu;
+
+          els.graphViewport.releasePointerCapture?.(event.pointerId);
+          stopGraphDrag();
+
+          if (shouldHandleNodeClick) {
+  openGraphContextMenu(clickedSceneId, event.clientX, event.clientY);
+  return;
+}
+
+          if (shouldResetHighlight) {
+            graphHighlightSceneId = null;
+            closeGraphContextMenu();
+            renderStructureGraph();
+          }
+        });
+
+        window.addEventListener("pointercancel", (event) => {
+          if (graphPointerId !== null && event.pointerId !== graphPointerId) return;
+          stopGraphDrag();
         });
 
         els.graphViewport.addEventListener(
