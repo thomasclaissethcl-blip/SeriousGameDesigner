@@ -974,6 +974,17 @@
       color: #eef2ff;
     }
 
+    .helpBubble code {
+  display: inline-block;
+  padding: 2px 6px;
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.22);
+  border: 1px solid rgba(243, 202, 112, 0.35);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.85em;
+  color: #ffe7a8;
+}
+
     .editorSection {
       background: transparent;
       border: none;
@@ -1867,7 +1878,7 @@
                   data-sidebar-label="Diagnostics">
                   <span class="desktopSidebarIconFace" aria-hidden="true">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <path fill="#ffffff" fill-rule="evenodd" d="
+                      <path fill="#ffffff" fill-rule="evenodd" d="
     M27 8
     A19 19 0 1 1 27 46
     A19 19 0 1 1 27 8
@@ -1883,8 +1894,8 @@
     A3 3 0 0 1 51 59
     L36 44
     Z
-  "/>
-</svg>
+  " />
+                    </svg>
                   </span>
                   <span class="desktopSidebarIconLabel">Diagnostics</span>
                 </button>
@@ -6291,10 +6302,27 @@
     <strong>Condition d’affichage</strong>
     Laissez ce champ vide pour afficher le choix par défaut. Sinon, saisissez une ou plusieurs conditions (variables et valeurs) séparées par <code>&amp;&amp;</code>.
     <br /><br />
-    Exemples valides :<br />
-    <code>porteOuverte</code><br />
-    <code>nbCles &gt;= 2</code><br />
-    <code>porteOuverte &amp;&amp; nbCles &gt;= 2</code>
+    <strong>Syntaxes acceptées</strong>
+    Vous pouvez écrire une variable seule, par exemple <code>porteOuverte</code>, ce qui signifie <code>porteOuverte == true</code>. Vous pouvez aussi écrire une comparaison avec <code>==</code>, <code>!=</code>, <code>&gt;</code>, <code>&lt;</code>, <code>&gt;=</code> ou <code>&lt;=</code>.
+    <br /><br />
+    <ul>
+    <li><strong>Exemples valides</strong></li>
+    <li><code>porteOuverte</code></li>
+    <li><code>porteOuverte == false</code></li>
+    <li><code>nbCles &gt;= 2</code></li>
+    <li><code>porteOuverte &amp;&amp; nbCles &gt;= 2</code></li>    
+    </ul>
+    <strong>Opérateurs utilisables :</strong>
+    <ul>
+  <li><code>==</code> : égal à</li>
+  <li><code>!=</code> : différent de</li>
+  <li><code>&gt;</code> : supérieur à</li>
+  <li><code>&lt;</code> : inférieur à</li>
+  <li><code>&gt;=</code> : supérieur ou égal</li>
+  <li><code>&lt;=</code> : inférieur ou égal</li>
+</ul>    
+    <strong>Limites actuelles</strong>
+    Les syntaxes <code>||</code> et <code>!variable</code> ne sont pas prises en charge. Pour tester une valeur fausse, utilisez <code>variable == false</code>.
   </div>
   <input data-action="choiceShowIf" data-index="${idx}" value="${escapeAttr(choice.showIf || "")}" placeholder="Ex. : porteOuverte && nbCles >= 2" />
 </div>
@@ -9016,6 +9044,17 @@ if (document.readyState === "loading") {
       );
       showActionFeedback("Le projet a bien été sauvegardé au format JSON.");
     });
+
+    document.addEventListener("keydown", (event) => {
+  const isSaveShortcut =
+    (event.ctrlKey || event.metaKey) &&
+    event.key.toLowerCase() === "s";
+
+  if (!isSaveShortcut) return;
+
+  event.preventDefault();
+  document.getElementById("exportJsonBtn")?.click();
+});
 
     document.getElementById("exportHtmlBtn").addEventListener("click", () => {
       const result = validateProject(project);
