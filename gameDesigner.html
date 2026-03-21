@@ -646,6 +646,40 @@
       border-color: rgba(255, 128, 128, 0.25);
     }
 
+    .loadingBlock {
+  display: grid;
+  gap: 10px;
+}
+
+.loadingText {
+  display: block;
+}
+
+.loadingBar {
+  position: relative;
+  width: 100%;
+  height: 10px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--border);
+}
+
+.loadingBarFill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0%;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(
+    90deg,
+    rgba(124, 200, 255, 0.75),
+    rgba(124, 200, 255, 1)
+  );
+  transition: width 0.22s ease;
+}
+
     .inlineBtns {
       display: flex;
       flex-wrap: wrap;
@@ -4542,6 +4576,18 @@
     let lastEditorSectionsResponsiveMode = null;
     let currentDesktopEditorTab = "project";
     let desktopLeftPaneWidth = 460;
+    let cachedValidationResult = null;
+    let cachedValidationSignature = "";
+
+    let cachedGraphData = null;
+    let cachedGraphLayout = null;
+    let cachedGraphSignature = "";
+    let validationDirty = true;
+    let graphDirty = true;
+    let tabLoadingState = {
+      json: false,
+      graph: false,
+    };
     const graphView = {
       scale: 1,
       x: 80,
@@ -6623,8 +6669,30 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
       els.jsonPreview.textContent = JSON.stringify(project, null, 2);
     }
 
+    function getProjectValidationSignature(proj) {
+      return JSON.stringify({
+        meta: proj.meta,
+        variables: proj.variables,
+        rules: proj.rules,
+        diagnostics: proj.diagnostics,
+        scenes: proj.scenes,
+      });
+    }
+
+    function getValidationResult(proj, force = false) {
+      const signature = getProjectValidationSignature(proj);
+
+      if (!force && cachedValidationResult && cachedValidationSignature === signature) {
+        return cachedValidationResult;
+      }
+
+      cachedValidationSignature = signature;
+      cachedValidationResult = validateProject(proj);
+      return cachedValidationResult;
+    }
+
     function renderValidation() {
-      const result = validateProject(project);
+      const result = getValidationResult(project);
       validationCycleAlerts = result.cycleWarnings || [];
       const blocks = [];
 
@@ -6664,6 +6732,129 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
       els.validationBox.innerHTML = blocks.join("");
     }
 
+    function renderValidationIfNeeded(force = false) {
+  if (!force && !validationDirty) {
+    return;
+  }
+
+  setTabLoading("json", true, "Analyse de la structure et détection des boucles... (cela peut prendre quelques minutes en fonction de la complexité du scénario, l'affichage peut bloquer, mais ça charge en arrière plan, un peu de patience !')");
+
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      setTimeout(() => {
+        renderValidation();
+        validationDirty = false;
+        stopFakeLoadingProgress("json", true);
+        setTimeout(() => {
+          setTabLoading("json", false);
+        }, 120);
+      }, 180);
+    });
+  });
+}
+
+let loadingProgressTimers = {
+  json: null,
+  graph: null,
+};
+
+function updateTabLoadingProgress(tabName, value) {
+  const root =
+    tabName === "json"
+      ? els.validationBox
+      : tabName === "graph"
+        ? els.graphEmptyState
+        : null;
+
+  if (!root) return;
+
+  const fill = root.querySelector(".loadingBarFill");
+  if (!fill) return;
+
+  const safeValue = Math.max(0, Math.min(100, value));
+  fill.style.width = `${safeValue}%`;
+}
+
+function startFakeLoadingProgress(tabName) {
+  stopFakeLoadingProgress(tabName);
+  updateTabLoadingProgress(tabName, 8);
+
+  let current = 8;
+
+  loadingProgressTimers[tabName] = setInterval(() => {
+    if (current < 55) {
+      current += 8;
+    } else if (current < 75) {
+      current += 4;
+    } else if (current < 88) {
+      current += 1.5;
+    } else {
+      current = 88;
+    }
+
+    updateTabLoadingProgress(tabName, current);
+  }, 120);
+}
+
+function stopFakeLoadingProgress(tabName, complete = true) {
+  if (loadingProgressTimers[tabName]) {
+    clearInterval(loadingProgressTimers[tabName]);
+    loadingProgressTimers[tabName] = null;
+  }
+
+  if (complete) {
+    updateTabLoadingProgress(tabName, 100);
+  }
+}
+
+    function setTabLoading(tabName, isLoading, message = "") {
+  tabLoadingState[tabName] = isLoading;
+
+  if (tabName === "json" && els.validationBox) {
+  if (isLoading) {
+    els.validationBox.innerHTML = `
+      <div class="notice loadingBlock">
+        <div class="loadingText">
+          <strong>Chargement en cours</strong><br>
+          ${escapeHtml(message || "Analyse de la structure du projet...")}
+        </div>
+        <div class="loadingBar" aria-hidden="true">
+          <div class="loadingBarFill"></div>
+        </div>
+      </div>
+    `;
+    startFakeLoadingProgress("json");
+  }
+}
+
+  if (tabName === "graph" && els.graphEmptyState) {
+  if (isLoading) {
+    els.graphSvg.innerHTML = "";
+    els.graphEmptyState.style.display = "grid";
+    els.graphEmptyState.innerHTML = `
+      <div>
+        <div class="notice loadingBlock">
+          <div class="loadingText">
+            <strong>Chargement en cours</strong><br>
+            ${escapeHtml(message || "Construction du graphe des scènes...")}
+          </div>
+          <div class="loadingBar" aria-hidden="true">
+            <div class="loadingBarFill"></div>
+          </div>
+        </div>
+      </div>
+    `;
+    startFakeLoadingProgress("graph");
+  } else {
+    els.graphEmptyState.innerHTML = `
+      <div>
+        <p class="graphHint">Aucune structure exploitable à afficher.</p>
+      </div>
+    `;
+  }
+}
+}
+
     function renderPreview() {
       const html = buildPlayableHtml(project);
       els.previewFrame.srcdoc = html;
@@ -6701,6 +6892,46 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
 
     function getGraphLabelPreview(text) {
       return truncateGraphText(text, 9) || "Choix";
+    }
+
+    function getProjectGraphSignature(proj) {
+      return JSON.stringify({
+        startScene: proj.meta?.startScene || "",
+        scenes: Object.fromEntries(
+          Object.entries(proj.scenes || {}).map(([id, scene]) => [
+            id,
+            {
+              title: scene.title,
+              chapter: scene.chapter,
+              type: scene.type,
+              choices: (scene.choices || []).map((choice, index) => ({
+                goto: choice.goto,
+                label: choice.title || choice.desc || choice.decisionLog || `Choix ${index + 1}`,
+              })),
+            },
+          ]),
+        ),
+      });
+    }
+
+    function getCachedGraphBundle() {
+      const signature = getProjectGraphSignature(project);
+
+      if (cachedGraphData && cachedGraphLayout && cachedGraphSignature === signature) {
+        return {
+          data: cachedGraphData,
+          layout: cachedGraphLayout,
+        };
+      }
+
+      cachedGraphSignature = signature;
+      cachedGraphData = getConnectedSceneGraphData();
+      cachedGraphLayout = buildStructureGraphLayout(cachedGraphData);
+
+      return {
+        data: cachedGraphData,
+        layout: cachedGraphLayout,
+      };
     }
 
     function getConnectedSceneGraphData() {
@@ -6781,19 +7012,27 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
         roots.unshift(project.meta.startScene);
       }
 
-      const queue = [...new Set(roots.length ? roots : data.nodes.map((node) => node.id))];
+      const queue = [];
+      const queuedIds = new Set();
 
-      queue.forEach((id) => levelById.set(id, 0));
+      [...new Set(roots.length ? roots : data.nodes.map((node) => node.id))].forEach((id) => {
+        queue.push(id);
+        queuedIds.add(id);
+        levelById.set(id, 0);
+      });
 
       for (let index = 0; index < queue.length; index += 1) {
         const currentId = queue[index];
         const nextLevel = (levelById.get(currentId) || 0) + 1;
+
         (adjacency.get(currentId) || []).forEach((targetId) => {
           if (!levelById.has(targetId) || nextLevel > levelById.get(targetId)) {
             levelById.set(targetId, nextLevel);
           }
-          if (!queue.includes(targetId)) {
+
+          if (!queuedIds.has(targetId)) {
             queue.push(targetId);
+            queuedIds.add(targetId);
           }
         });
       }
@@ -7019,7 +7258,7 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
     }
 
     function renderStructureGraph() {
-      const data = getConnectedSceneGraphData();
+      const { data, layout } = getCachedGraphBundle();
 
       if (!data.nodes.length || !data.edges.length) {
         els.graphSvg.innerHTML = "";
@@ -7030,7 +7269,6 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
 
       els.graphEmptyState.style.display = "none";
 
-      const layout = buildStructureGraphLayout(data);
       const nodeMap = new Map(layout.nodes.map((node) => [node.id, node]));
       const highlightState = buildGraphHighlightState(data, graphHighlightState);
       const defs = `
@@ -7118,7 +7356,7 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
         <text x="16" y="28">${title}</text>
         <text class="graphNodeSub" x="16" y="46">${sub}</text>
       </g>
-    `;
+       `;
         })
         .join("");
 
@@ -7126,6 +7364,28 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
       els.graphSvg.innerHTML = `${defs}<g id="graphInner">${edgesMarkup}${nodesMarkup}</g>`;
       applyGraphTransform();
     }
+
+    function renderStructureGraphIfNeeded(force = false) {
+  if (!force && !graphDirty) {
+    return;
+  }
+
+  setTabLoading("graph", true, "Construction et mise en page du graphe des scènes...");
+
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      setTimeout(() => {
+        renderStructureGraph();
+        graphDirty = false;
+        stopFakeLoadingProgress("graph", true);
+        setTimeout(() => {
+          setTabLoading("graph", false);
+          applyGraphTransform();
+        }, 120);
+      }, 180);
+    });
+  });
+}
 
     function zoomStructureGraph(factor) {
       const nextScale = clampGraphScale(graphView.scale * factor);
@@ -7242,7 +7502,60 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
       });
     }
 
-    function renderAll() {
+function invalidatePerformanceCaches() {
+  cachedValidationResult = null;
+  cachedValidationSignature = "";
+  cachedGraphData = null;
+  cachedGraphLayout = null;
+  cachedGraphSignature = "";
+
+  validationDirty = true;
+  graphDirty = true;
+}
+
+function markValidationDirty() {
+  cachedValidationResult = null;
+  cachedValidationSignature = "";
+  validationDirty = true;
+
+  renderJsonPreview();
+
+  if (currentTab === "json") {
+    renderValidationIfNeeded(true);
+  }
+}
+
+function markValidationAndGraphDirty() {
+  cachedValidationResult = null;
+  cachedValidationSignature = "";
+  cachedGraphData = null;
+  cachedGraphLayout = null;
+  cachedGraphSignature = "";
+
+  validationDirty = true;
+  graphDirty = true;
+
+  renderJsonPreview();
+
+  if (currentTab === "json") {
+    renderValidationIfNeeded(true);
+  }
+
+  if (currentTab === "graph") {
+    renderStructureGraphIfNeeded(true);
+  }
+}
+
+    function renderAll(options = {}) {
+      const {
+        invalidateCaches = false,
+        skipValidation = false,
+      } = options;
+
+      if (invalidateCaches) {
+        invalidatePerformanceCaches();
+      }
+
       project = normalizeProject(project);
       syncModeUi();
       syncEditorSectionDefaultOpenState();
@@ -7265,13 +7578,24 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
       bindEditorFilters();
       renderSceneEditor();
       renderJsonPreview();
-      renderValidation();
-      renderStructureGraph();
+
+      if (currentTab === "json" && !skipValidation) {
+  renderValidationIfNeeded();
+} else if (els.validationBox) {
+  els.validationBox.innerHTML = `<div class="notice">Analyse recalculée depuis vos derniers changements… Cela peut prendre quelques minutes en fonction de la complexité du scénario, un peu de patience !</div>`;
+}
+
+if (currentTab === "graph") {
+  renderStructureGraphIfNeeded();
+}
+
       renderJournal();
       setupCustomTextareaResize();
+
       if (!isMobileSceneEditorMode()) {
         applyDesktopPaneWidth(desktopLeftPaneWidth);
       }
+
       if (currentTab === "preview") {
         renderPreview();
       }
@@ -7482,35 +7806,37 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
     }
 
     function switchTab(tab) {
-      if (tab === "graph" && window.innerWidth < 1170) {
-        tab = "editor";
-      }
+  if (tab === "graph" && window.innerWidth < 1170) {
+    tab = "editor";
+  }
 
-      currentTab = tab;
-      document.querySelectorAll(".tabBtn").forEach((btn) => {
-        btn.classList.toggle("active", btn.dataset.tab === tab);
-      });
-      document.getElementById("editorTab").style.display = tab === "editor" ? "block" : "none";
-      document.getElementById("previewTab").style.display = tab === "preview" ? "block" : "none";
-      document.getElementById("jsonTab").style.display = tab === "json" ? "block" : "none";
-      document.getElementById("graphTab").style.display = tab === "graph" ? "block" : "none";
-      document.getElementById("journalTab").style.display = tab === "journal" ? "block" : "none";
+  currentTab = tab;
+  document.querySelectorAll(".tabBtn").forEach((btn) => {
+    btn.classList.toggle("active", btn.dataset.tab === tab);
+  });
+  document.getElementById("editorTab").style.display = tab === "editor" ? "block" : "none";
+  document.getElementById("previewTab").style.display = tab === "preview" ? "block" : "none";
+  document.getElementById("jsonTab").style.display = tab === "json" ? "block" : "none";
+  document.getElementById("graphTab").style.display = tab === "graph" ? "block" : "none";
+  document.getElementById("journalTab").style.display = tab === "journal" ? "block" : "none";
 
-      if (tab === "preview") {
-        renderPreview();
-      }
-      if (tab === "json") {
-        renderJsonPreview();
-        renderValidation();
-      }
-      if (tab === "graph") {
-        renderStructureGraph();
-        applyGraphTransform();
-      }
-      if (tab === "journal") {
-        renderJournal();
-      }
-    }
+  if (tab === "preview") {
+    renderPreview();
+  }
+
+  if (tab === "json") {
+    renderJsonPreview();
+    renderValidationIfNeeded();
+  }
+
+  if (tab === "graph") {
+    renderStructureGraphIfNeeded();
+  }
+
+  if (tab === "journal") {
+    renderJournal();
+  }
+}
 
     function addScene() {
       captureEditorSnapshot();
@@ -7519,7 +7845,7 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
       project.scenes[id] = sceneTemplate();
       selectedSceneId = id;
       clearEditorUndoFocusTarget();
-      renderAll();
+      renderAll({ invalidateCaches: true });
     }
 
     function duplicateScene() {
@@ -7533,7 +7859,7 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
       project.scenes[id] = clone(project.scenes[selectedSceneId]);
       selectedSceneId = id;
       clearEditorUndoFocusTarget();
-      renderAll();
+      renderAll({ invalidateCaches: true });
     }
 
     function deleteScene() {
@@ -7561,7 +7887,7 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
         });
       });
       clearEditorUndoFocusTarget();
-      renderAll();
+      renderAll({ invalidateCaches: true });
     }
 
     function renameScene(oldId, newId) {
@@ -7569,7 +7895,7 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
       if (!newId || oldId === newId) return;
       if (project.scenes[newId]) {
         alert("Cet identifiant de scène existe déjà.");
-        renderAll();
+        renderAll({ invalidateCaches: false });
         return;
       }
 
@@ -7601,7 +7927,7 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
 
       selectedSceneId = newId;
       clearEditorUndoFocusTarget();
-      renderAll();
+      renderAll({ invalidateCaches: true });
     }
 
     function addChoice() {
@@ -7610,7 +7936,7 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
       captureEditorSnapshot();
       scene.choices.push(choiceTemplate(Object.keys(project.scenes)));
       clearEditorUndoFocusTarget();
-      renderAll();
+      renderAll({ invalidateCaches: true });
     }
 
     function getIncomingLinks(targetSceneId) {
@@ -9096,22 +9422,22 @@ if (document.readyState === "loading") {
       captureEditorSnapshot();
       project.variables.push(variableTemplate());
       clearEditorUndoFocusTarget();
-      renderAll();
+      renderAll({ invalidateCaches: true });
     });
 
     document.getElementById("addRuleBtn").addEventListener("click", () => {
-      captureEditorSnapshot();
-      project.rules.collapse.push(ruleTemplate(getAllVariableNames()[0] || "risk"));
-      clearEditorUndoFocusTarget();
-      renderAll();
-    });
+  captureEditorSnapshot();
+  project.rules.collapse.push(ruleTemplate(getAllVariableNames()[0] || "risk"));
+  clearEditorUndoFocusTarget();
+  renderAll({ invalidateCaches: true });
+});
 
     document.getElementById("addDiagBtn").addEventListener("click", () => {
-      captureEditorSnapshot();
-      project.diagnostics.push(diagTemplate(getAllVariableNames()[0] || "risk"));
-      clearEditorUndoFocusTarget();
-      renderAll();
-    });
+  captureEditorSnapshot();
+  project.diagnostics.push(diagTemplate(getAllVariableNames()[0] || "risk"));
+  clearEditorUndoFocusTarget();
+  renderAll({ invalidateCaches: true });
+});
 
     document.getElementById("addSceneBtn").addEventListener("click", addScene);
     document.getElementById("duplicateSceneBtn")?.addEventListener("click", duplicateScene);
@@ -9153,8 +9479,8 @@ if (document.readyState === "loading") {
       }
 
       if (currentTab === "graph") {
-        renderStructureGraph();
-      }
+  renderStructureGraphIfNeeded();
+}
     });
 
     document.addEventListener("keydown", (event) => {
@@ -9302,12 +9628,28 @@ if (document.readyState === "loading") {
       try {
         const text = await file.text();
         const parsed = JSON.parse(text);
+
         captureEditorSnapshot();
         project = normalizeProject(parsed);
         selectedSceneId = project.meta.startScene || Object.keys(project.scenes)[0] || null;
         clearEditorUndoFocusTarget();
-        renderAll();
+
+        invalidatePerformanceCaches();
+        currentTab = "editor";
+        renderAll({ skipValidation: true });
+
         showActionFeedback("Le projet a bien été importé.");
+
+        setTimeout(() => {
+          if (currentTab === "json") {
+            renderValidation();
+          }
+          if (currentTab === "graph") {
+            renderStructureGraph();
+            applyGraphTransform();
+          }
+        }, 0);
+
       } catch (error) {
         alert("Import impossible : fichier JSON invalide.");
         console.error(error);
@@ -9318,33 +9660,33 @@ if (document.readyState === "loading") {
 
     els.metaTitle.addEventListener("input", () => {
       project.meta.title = els.metaTitle.value;
-      renderJsonPreview();
-      renderValidation();
+      markValidationDirty()
     });
 
     els.metaSubtitle.addEventListener("input", () => {
-      project.meta.subtitle = els.metaSubtitle.value;
-      renderJsonPreview();
-      renderValidation();
+      project.meta.subtitle = els.metasubTitle.value;
+      markValidationDirty()
     });
 
     els.metaAuthor.addEventListener("input", () => {
       project.meta.author = els.metaAuthor.value;
-      renderJsonPreview();
-      renderValidation();
+      markValidationDirty()
     });
 
-    els.metaStartScene.addEventListener("change", () => {
-      captureEditorSnapshot();
+    els.metaStartScene.addEventListener("input", () => {
       project.meta.startScene = els.metaStartScene.value;
-      clearEditorUndoFocusTarget();
-      renderAll();
+      markValidationAndGraphDirty()
     });
 
     els.metaTotalSteps.addEventListener("input", () => {
       captureEditorSnapshotOncePerFocus(els.metaTotalSteps);
       project.meta.totalSteps = Math.max(1, Number(els.metaTotalSteps.value) || 1);
       renderAll();
+    });
+
+    els.metaTotalSteps.addEventListener("input", () => {
+      project.meta.totalSteps = els.metaTotalSteps.value;
+      markValidationDirty()
     });
 
     els.uiScoreLabel.addEventListener("input", () => {
@@ -9385,15 +9727,13 @@ if (document.readyState === "loading") {
     els.sceneChapter.addEventListener("input", () => {
       if (!project.scenes[selectedSceneId]) return;
       project.scenes[selectedSceneId].chapter = els.sceneChapter.value;
-      renderJsonPreview();
-      renderValidation();
+     markValidationAndGraphDirty()
     });
 
     els.sceneTitle.addEventListener("input", () => {
       if (!project.scenes[selectedSceneId]) return;
       project.scenes[selectedSceneId].title = els.sceneTitle.value;
-      renderJsonPreview();
-      renderValidation();
+      markValidationAndGraphDirty()
     });
 
     els.sceneType.addEventListener("change", () => {
@@ -9561,56 +9901,56 @@ if (document.readyState === "loading") {
       }
 
       if (action === "addRuleCondition") {
-        captureEditorSnapshot();
-        project.rules.collapse[idx].conditions.push(conditionTemplate(getAllVariableNames()[0] || "risk"));
-        clearEditorUndoFocusTarget();
-        renderAll();
-      }
+  captureEditorSnapshot();
+  project.rules.collapse[idx].conditions.push(conditionTemplate(getAllVariableNames()[0] || "risk"));
+  clearEditorUndoFocusTarget();
+  renderAll({ invalidateCaches: true });
+}
 
-      if (action === "deleteRuleCondition") {
-        captureEditorSnapshot();
-        project.rules.collapse[idx].conditions.splice(cIdx, 1);
-        clearEditorUndoFocusTarget();
-        renderAll();
-      }
+if (action === "deleteRuleCondition") {
+  captureEditorSnapshot();
+  project.rules.collapse[idx].conditions.splice(cIdx, 1);
+  clearEditorUndoFocusTarget();
+  renderAll({ invalidateCaches: true });
+}
 
-      if (action === "duplicateDiag") {
-        captureEditorSnapshot();
-        project.diagnostics.splice(idx + 1, 0, clone(project.diagnostics[idx]));
-        project.diagnostics[idx + 1].id = uid("diag");
-        clearEditorUndoFocusTarget();
-        renderAll();
-      }
+if (action === "duplicateDiag") {
+  captureEditorSnapshot();
+  project.diagnostics.splice(idx + 1, 0, clone(project.diagnostics[idx]));
+  project.diagnostics[idx + 1].id = uid("diag");
+  clearEditorUndoFocusTarget();
+  renderAll({ invalidateCaches: true });
+}
 
-      if (action === "deleteDiag") {
-        captureEditorSnapshot();
-        project.diagnostics.splice(idx, 1);
-        clearEditorUndoFocusTarget();
-        renderAll();
-      }
+if (action === "deleteDiag") {
+  captureEditorSnapshot();
+  project.diagnostics.splice(idx, 1);
+  clearEditorUndoFocusTarget();
+  renderAll({ invalidateCaches: true });
+}
 
-      if (action === "addDiagCondition") {
-        captureEditorSnapshot();
-        project.diagnostics[idx].conditions.push(conditionTemplate(getAllVariableNames()[0] || "risk"));
-        clearEditorUndoFocusTarget();
-        renderAll();
-      }
+if (action === "addDiagCondition") {
+  captureEditorSnapshot();
+  project.diagnostics[idx].conditions.push(conditionTemplate(getAllVariableNames()[0] || "risk"));
+  clearEditorUndoFocusTarget();
+  renderAll({ invalidateCaches: true });
+}
 
-      if (action === "deleteDiagCondition") {
-        captureEditorSnapshot();
-        project.diagnostics[idx].conditions.splice(cIdx, 1);
-        clearEditorUndoFocusTarget();
-        renderAll();
-      }
+if (action === "deleteDiagCondition") {
+  captureEditorSnapshot();
+  project.diagnostics[idx].conditions.splice(cIdx, 1);
+  clearEditorUndoFocusTarget();
+  renderAll({ invalidateCaches: true });
+}
 
-      if (action === "selectScene") {
-        selectedSceneId = btn.dataset.scene;
-        renderAll();
+if (action === "selectScene") {
+  selectedSceneId = btn.dataset.scene;
+  renderAll();
 
-        if (isMobileSceneEditorMode()) {
-          openSceneEditorModal();
-        }
-      }
+  if (isMobileSceneEditorMode()) {
+    openSceneEditorModal();
+  }
+}
 
       if (action === "moveSceneUp") {
         captureEditorSnapshot();
