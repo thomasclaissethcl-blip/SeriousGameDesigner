@@ -7135,6 +7135,104 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
       return cachedValidationResult;
     }
 
+    function getValidationIssueKey(kind, text) {
+      return `${kind}::${text}`;
+    }
+
+    function getDismissedValidationIssueKeys() {
+      if (!project.validationTracking || typeof project.validationTracking !== "object") {
+        project.validationTracking = {};
+      }
+
+      if (!Array.isArray(project.validationTracking.dismissedIssueKeys)) {
+        project.validationTracking.dismissedIssueKeys = [];
+      }
+
+      return project.validationTracking.dismissedIssueKeys;
+    }
+
+    function isValidationIssueDismissed(kind, text) {
+      return getDismissedValidationIssueKeys().includes(getValidationIssueKey(kind, text));
+    }
+
+    function dismissValidationIssue(kind, text) {
+      const key = getValidationIssueKey(kind, text);
+      const dismissedKeys = getDismissedValidationIssueKeys();
+
+      if (!dismissedKeys.includes(key)) {
+        dismissedKeys.push(key);
+      }
+    }
+
+    function addValidationIssueToJournal(kind, text, options = {}) {
+      const normalizedKind = kind === "error" ? "error" : "warning";
+      const issueText = String(text || "").trim();
+      const cycleSignature = String(options.cycleSignature || "").trim();
+
+      if (!issueText) return;
+
+      if (isValidationIssueDismissed(normalizedKind, issueText)) {
+        showActionFeedback("Cette alerte a déjà été ajoutée au journal.");
+        return;
+      }
+
+      captureEditorSnapshot();
+
+      if (!Array.isArray(project.journal)) {
+        project.journal = [];
+      }
+
+      dismissValidationIssue(normalizedKind, issueText);
+
+      project.journal.unshift({
+        id: `note_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`,
+        text: issueText,
+        done: false,
+        type: "task",
+        createdAt: new Date().toISOString(),
+        sourceIssueKind: normalizedKind,
+        sourceIssueKey: getValidationIssueKey(normalizedKind, issueText),
+        linkedCycleSignature: cycleSignature,
+      });
+
+      clearEditorUndoFocusTarget();
+      renderValidation(true);
+      renderJournal();
+      showActionFeedback("L’alerte a bien été ajoutée au journal comme tâche.");
+    }
+
+    function findCycleAlertEntryBySignature(signature) {
+      const targetSignature = String(signature || "").trim();
+      if (!targetSignature) return null;
+
+      const currentResult = getValidationResult(project, true);
+      const cycleWarnings = currentResult.cycleWarnings || [];
+      return cycleWarnings.find((entry) => entry?.highlight?.signature === targetSignature) || null;
+    }
+
+    function openJournalCycleTask(signature) {
+      const alertEntry = findCycleAlertEntryBySignature(signature);
+
+      if (!alertEntry?.highlight) {
+        showActionFeedback("La boucle n’existe plus.");
+        return;
+      }
+
+      if (window.innerWidth < 1170) {
+        showActionFeedback("L’affichage de la boucle dans le graphe est disponible sur écran large.");
+        return;
+      }
+
+      graphHighlightState = { ...alertEntry.highlight };
+      closeGraphContextMenu();
+      renderValidation(true);
+      switchTab("graph");
+
+      requestAnimationFrame(() => {
+        renderStructureGraphIfNeeded(true);
+      });
+    }
+
     function renderValidation(force = false) {
       if (!force) {
         validationDirty = true;
@@ -7145,40 +7243,105 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
       const result = getValidationResult(project, true);
       validationCycleAlerts = result.cycleWarnings || [];
       const blocks = [];
-
-      if (result.errors.length === 0 && result.warnings.length === 0) {
-        blocks.push(`<div class="notice">Projet valide. Aucun problème détecté.</div>`);
-      }
+      let visibleIssueCount = 0;
+      const totalIssueCount = result.errors.length + result.warnings.length;
 
       result.errors.forEach((err) => {
-        blocks.push(`<div class="notice warn"><strong>Erreur</strong><br>${escapeHtml(err)}</div>`);
+        if (isValidationIssueDismissed("error", err)) {
+          return;
+        }
+
+        visibleIssueCount += 1;
+
+        blocks.push(`
+          <div class="notice warn">
+            <strong>Erreur</strong><br>${escapeHtml(err)}
+            <div style="margin-top:10px;">
+              <button
+                type="button"
+                class="secondary"
+                data-add-validation-task="true"
+                data-issue-kind="error"
+                data-issue-text="${escapeAttr(err)}"
+              >
+                Ajouter comme tâche
+              </button>
+            </div>
+          </div>
+        `);
       });
 
       result.warnings.forEach((warn) => {
+        if (isValidationIssueDismissed("warning", warn)) {
+          return;
+        }
+
         const cycleIndex = validationCycleAlerts.findIndex((entry) => entry.message === warn);
 
         if (cycleIndex === -1) {
-          blocks.push(`<div class="notice"><strong>Alerte</strong><br>${escapeHtml(warn)}</div>`);
+          visibleIssueCount += 1;
+
+          blocks.push(`
+            <div class="notice">
+              <strong>Alerte</strong><br>${escapeHtml(warn)}
+              <div style="margin-top:10px;">
+                <button
+                  type="button"
+                  class="secondary"
+                  data-add-validation-task="true"
+                  data-issue-kind="warning"
+                  data-issue-text="${escapeAttr(warn)}"
+                >
+                  Ajouter comme tâche
+                </button>
+              </div>
+            </div>
+          `);
           return;
         }
 
         const alertEntry = validationCycleAlerts[cycleIndex];
         const isActive = graphHighlightState?.type === "cycle" && graphHighlightState?.signature === alertEntry.highlight.signature;
 
+        visibleIssueCount += 1;
+
         blocks.push(`
-        <div class="notice ${isActive ? "warn" : ""}">
-          <button
-            type="button"
-            class="validationAlertBtn${isActive ? " is-active" : ""}"
-            data-cycle-alert-index="${cycleIndex}"
-            aria-pressed="${isActive ? "true" : "false"}"
-          >
-            <strong>Alerte</strong><br>${escapeHtml(warn)}
-            <span class="validationAlertHint">Cliquer pour afficher ou masquer cette boucle dans le graphe.</span>
-          </button>
-        </div>
-      `);
+          <div class="notice ${isActive ? "warn" : ""}">
+            <button
+              type="button"
+              class="validationAlertBtn${isActive ? " is-active" : ""}"
+              data-cycle-alert-index="${cycleIndex}"
+              aria-pressed="${isActive ? "true" : "false"}"
+            >
+              <strong>Alerte</strong><br>${escapeHtml(warn)}
+              <span class="validationAlertHint">Cliquer pour afficher ou masquer cette boucle dans le graphe.</span>
+            </button>
+            <div style="margin-top:10px;">
+              <button
+                type="button"
+                class="secondary"
+                data-add-validation-task="true"
+                data-issue-kind="warning"
+                data-issue-text="${escapeAttr(warn)}"
+                data-cycle-signature="${escapeAttr(alertEntry.highlight?.signature || "")}"
+              >
+                Ajouter comme tâche
+              </button>
+            </div>
+          </div>
+        `);
       });
+
+      if (totalIssueCount === 0) {
+        blocks.push(`<div class="notice">Projet valide. Aucun problème détecté.</div>`);
+      } else if (visibleIssueCount === 0) {
+        blocks.push(`
+          <div class="notice">
+            Aucune alerte n’est actuellement affichée ici.
+            Les problèmes déjà ajoutés au journal ont été retirés de cette analyse.
+          </div>
+        `);
+      }
 
       lastValidationHtml = blocks.join("");
       els.validationBox.innerHTML = lastValidationHtml;
@@ -8309,6 +8472,7 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
         .map((note) => {
           const type = note.type === "task" ? "task" : "rem";
           const typeLabel = getJournalTypeLabel(type);
+          const hasCycleLink = type === "task" && note.linkedCycleSignature;
 
           return `
             <div class="journalNoteCard type-${type} ${note.done ? "done" : ""}">
@@ -8324,6 +8488,21 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
                   Traitée / lue
                 </label>
               </div>
+
+              ${hasCycleLink
+              ? `
+                <div>
+                  <button
+                    type="button"
+                    class="secondary"
+                    data-journal-open-cycle="${escapeAttr(note.linkedCycleSignature)}"
+                  >
+                    Afficher la boucle dans le graphe
+                  </button>
+                </div>
+              `
+              : ""}
+
               <div class="journalNoteText">${escapeHtml(note.text)}</div>
             </div>
           `;
@@ -10114,6 +10293,13 @@ if (document.readyState === "loading") {
       }
     });
 
+    els.journalList?.addEventListener("click", (event) => {
+      const cycleBtn = event.target.closest("[data-journal-open-cycle]");
+      if (!cycleBtn) return;
+
+      openJournalCycleTask(cycleBtn.dataset.journalOpenCycle);
+    });
+
     els.journalList?.addEventListener("change", (event) => {
       const toggle = event.target.closest("[data-journal-toggle]");
       if (!toggle) return;
@@ -10252,14 +10438,29 @@ if (document.readyState === "loading") {
     els.graphResetViewBtn?.addEventListener("click", resetStructureGraphView);
 
     els.validationBox?.addEventListener("click", (event) => {
+      const addTaskBtn = event.target.closest("[data-add-validation-task]");
+      if (addTaskBtn) {
+        addValidationIssueToJournal(
+          addTaskBtn.dataset.issueKind,
+          addTaskBtn.dataset.issueText,
+          {
+            cycleSignature: addTaskBtn.dataset.cycleSignature || "",
+          },
+        );
+        return;
+      }
+
       const alertBtn = event.target.closest("[data-cycle-alert-index]");
       if (!alertBtn) return;
+
       // Désactivation en mobile
       if (window.innerWidth < 1170) {
         return;
       }
+
       toggleCycleAlertHighlight(Number(alertBtn.dataset.cycleAlertIndex));
     });
+
     els.graphContextGotoBtn?.addEventListener("click", () => {
       if (!graphContextMenuState?.sceneId) return;
       openGraphScene(graphContextMenuState.sceneId);
