@@ -37,10 +37,7 @@
 
     body {
       min-height: 100vh;
-      background: radial-gradient(circle at top,
-          #243066 0%,
-          #11152a 42%,
-          #090c16 100%);
+      background: radial-gradient(circle at top, #243066 0%, #11152a 42%, #090c16 100%);
       color: var(--text);
       font-family:
         Inter,
@@ -64,9 +61,7 @@
     }
 
     .card {
-      background: linear-gradient(180deg,
-          rgba(255, 255, 255, 0.03),
-          rgba(255, 255, 255, 0.015));
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.015));
       border: 1px solid var(--border);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
@@ -636,8 +631,7 @@
       overflow: auto;
       max-height: 420px;
       white-space: pre-wrap;
-      font-family:
-        ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
       font-size: 0.82rem;
       color: #dce6ff;
     }
@@ -732,9 +726,7 @@
       width: 0%;
       height: 100%;
       border-radius: inherit;
-      background: linear-gradient(90deg,
-          rgba(124, 200, 255, 0.75),
-          rgba(124, 200, 255, 1));
+      background: linear-gradient(90deg, rgba(124, 200, 255, 0.75), rgba(124, 200, 255, 1));
       transition: width 0.22s ease;
     }
 
@@ -803,8 +795,7 @@
         --editor-left-pane-width: 460px;
         height: 100%;
         min-height: 0;
-        grid-template-columns:
-          minmax(320px, var(--editor-left-pane-width)) 10px minmax(520px, 1fr);
+        grid-template-columns: minmax(320px, var(--editor-left-pane-width)) 10px minmax(520px, 1fr);
         grid-template-rows: auto minmax(0, 1fr);
         align-items: stretch;
       }
@@ -1102,8 +1093,7 @@
       border-radius: 6px;
       background: rgba(0, 0, 0, 0.22);
       border: 1px solid rgba(243, 202, 112, 0.35);
-      font-family:
-        ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
       font-size: 0.85em;
       color: #ffe7a8;
     }
@@ -1170,9 +1160,7 @@
       width: min(100vw - 24px, 900px);
       max-height: calc(100vh - 24px);
       margin: 12px auto;
-      background: linear-gradient(180deg,
-          rgba(23, 29, 54, 0.98),
-          rgba(32, 40, 71, 0.98));
+      background: linear-gradient(180deg, rgba(23, 29, 54, 0.98), rgba(32, 40, 71, 0.98));
       border: 1px solid var(--border);
       border-radius: 16px;
       box-shadow: var(--shadow);
@@ -1255,9 +1243,7 @@
       position: relative;
       width: min(100vw - 24px, 460px);
       margin: 20vh auto 0;
-      background: linear-gradient(180deg,
-          rgba(23, 29, 54, 0.98),
-          rgba(32, 40, 71, 0.98));
+      background: linear-gradient(180deg, rgba(23, 29, 54, 0.98), rgba(32, 40, 71, 0.98));
       border: 1px solid var(--border);
       border-radius: 16px;
       box-shadow: var(--shadow);
@@ -1346,10 +1332,7 @@
     }
 
     body.simple-mode {
-      background: radial-gradient(circle at top left,
-          #12343c 0%,
-          #0b2026 32%,
-          #07161a 100%);
+      background: radial-gradient(circle at top left, #12343c 0%, #0b2026 32%, #07161a 100%);
     }
 
     body.simple-mode .appShell,
@@ -1360,9 +1343,7 @@
     }
 
     body.simple-mode .card {
-      background: linear-gradient(180deg,
-          rgba(22, 52, 61, 0.96),
-          rgba(16, 39, 45, 0.98));
+      background: linear-gradient(180deg, rgba(22, 52, 61, 0.96), rgba(16, 39, 45, 0.98));
       border: 1px solid rgba(45, 212, 191, 0.16);
       box-shadow: 0 12px 30px rgba(0, 0, 0, 0.34);
     }
@@ -1538,12 +1519,8 @@
       border: 1px solid var(--border);
       border-radius: 16px;
       background:
-        radial-gradient(circle at top left,
-          rgba(124, 200, 255, 0.08),
-          transparent 32%),
-        linear-gradient(180deg,
-          rgba(255, 255, 255, 0.015),
-          rgba(255, 255, 255, 0.03));
+        radial-gradient(circle at top left, rgba(124, 200, 255, 0.08), transparent 32%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.015), rgba(255, 255, 255, 0.03));
       cursor: grab;
       user-select: none;
       -webkit-user-select: none;
@@ -1962,6 +1939,27 @@
       height: 16px;
       stroke: currentColor;
     }
+
+    .graphPreviewLinkCard {
+      width: 100%;
+      text-align: left;
+      cursor: pointer;
+      transition:
+        background 0.16s ease,
+        border-color 0.16s ease,
+        transform 0.16s ease;
+    }
+
+    .graphPreviewLinkCard:hover,
+    .graphPreviewLinkCard:focus {
+      background: #24305a;
+      border-color: rgba(124, 200, 255, 0.45);
+      outline: none;
+    }
+
+    .graphPreviewLinkCard:active {
+      transform: translateY(1px);
+    }
   </style>
 </head>
 
@@ -1982,9 +1980,7 @@
 
         <div class="titleText">
           <h1>SCENE</h1>
-          <p style="font-size: 0.7em">
-            Système de Création d'Expériences Narratives à Embranchements
-          </p>
+          <p style="font-size: 0.7em">Système de Création d'Expériences Narratives à Embranchements</p>
           <p>L'outil dont VOUS êtes le héros</p>
         </div>
       </div>
@@ -2101,12 +2097,8 @@
       <div class="tabs" style="margin-bottom: 1em">
         <button class="tabBtn active" data-tab="editor">Éditeur</button>
         <button class="tabBtn" data-tab="preview">Prévisualisation</button>
-        <button class="tabBtn" data-tab="json" data-simple-hide="advanced">
-          Analyse structure
-        </button>
-        <button class="tabBtn" data-simple-hide="advanced" data-tab="graph">
-          Graphe des scènes
-        </button>
+        <button class="tabBtn" data-tab="json" data-simple-hide="advanced">Analyse structure</button>
+        <button class="tabBtn" data-simple-hide="advanced" data-tab="graph">Graphe des scènes</button>
         <button class="tabBtn" data-tab="journal">Journal</button>
       </div>
       <div class="panel">
@@ -2178,22 +2170,22 @@
                   <span class="desktopSidebarIconFace" aria-hidden="true">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
                       <path fill="#ffffff" fill-rule="evenodd" d="
-    M27 8
-    A19 19 0 1 1 27 46
-    A19 19 0 1 1 27 8
-    Z
+                        M27 8
+                        A19 19 0 1 1 27 46
+                        A19 19 0 1 1 27 8
+                        Z
 
-    M27 16
-    A11 11 0 1 0 27 38
-    A11 11 0 1 0 27 16
-    Z
+                        M27 16
+                        A11 11 0 1 0 27 38
+                        A11 11 0 1 0 27 16
+                        Z
 
-    M40 40
-    L55 55
-    A3 3 0 0 1 51 59
-    L36 44
-    Z
-  " />
+                        M40 40
+                        L55 55
+                        A3 3 0 0 1 51 59
+                        L36 44
+                        Z
+                      " />
                     </svg>
                   </span>
                   <span class="desktopSidebarIconLabel">Diagnostics</span>
@@ -2217,17 +2209,17 @@
                     </div>
                     <div class="helpBubble" id="help-project-section" role="note">
                       <strong>À quoi sert cette section</strong>
-                      Cette section regroupe les paramètres généraux du jeu :
-                      son titre, son auteur, sa scène de départ, le nombre
-                      d’étapes affichées et le contenu du modal d’aide.
+                      Cette section regroupe les paramètres généraux du jeu : son titre, son auteur, sa scène de départ,
+                      le nombre d’étapes
+                      affichées et le contenu du modal d’aide.
                       <br /><br />
                       <strong>Comment l’utiliser</strong>
-                      Commencez par renseigner ici les informations globales
-                      avant de créer les scènes et la logique du jeu.
+                      Commencez par renseigner ici les informations globales avant de créer les scènes et la logique du
+                      jeu.
                       <br /><br />
                       <strong>Bon usage</strong>
-                      Ces paramètres structurent l’identité du projet et le
-                      comportement général de l’interface exportée.
+                      Ces paramètres structurent l’identité du projet et le comportement général de l’interface
+                      exportée.
                     </div>
                     <div class="fieldGrid">
                       <div>
@@ -2240,9 +2232,9 @@
                         </div>
                         <div class="helpBubble" id="help-metaTitle" role="note">
                           <strong>Titre</strong>
-                          Saisissez le titre principal du jeu. Il sera affiché
-                          en haut de l’interface exportée et permettra
-                          d’identifier clairement le projet.
+                          Saisissez le titre principal du jeu. Il sera affiché en haut de l’interface exportée et
+                          permettra d’identifier clairement
+                          le projet.
                         </div>
                         <input id="metaTitle" type="text" />
                       </div>
@@ -2256,9 +2248,9 @@
                         </div>
                         <div class="helpBubble" id="help-metaSubtitle" role="note">
                           <strong>Sous-titre</strong>
-                          Renseignez une courte formule de présentation. Elle
-                          sert à préciser l’angle, le contexte ou la finalité
-                          pédagogique du jeu.
+                          Renseignez une courte formule de présentation. Elle sert à préciser l’angle, le contexte ou la
+                          finalité pédagogique du
+                          jeu.
                         </div>
                         <input id="metaSubtitle" type="text" />
                       </div>
@@ -2272,9 +2264,9 @@
                         </div>
                         <div class="helpBubble" id="help-metaAuthor" role="note">
                           <strong>Auteur</strong>
-                          Indiquez le nom de la personne ou de l’équipe qui a
-                          conçu le jeu. Cette information facilite
-                          l’identification, l’archivage et la maintenance.
+                          Indiquez le nom de la personne ou de l’équipe qui a conçu le jeu. Cette information facilite
+                          l’identification, l’archivage
+                          et la maintenance.
                         </div>
                         <input id="metaAuthor" type="text" />
                       </div>
@@ -2289,9 +2281,9 @@
                           </div>
                           <div class="helpBubble" id="help-metaStartScene" role="note">
                             <strong>Scène de départ</strong>
-                            Choisissez la première scène du jeu. C’est le
-                            point d’entrée du parcours narratif, celui que le
-                            joueur verra au lancement.
+                            Choisissez la première scène du jeu. C’est le point d’entrée du parcours narratif, celui que
+                            le joueur verra au
+                            lancement.
                           </div>
                           <select id="metaStartScene"></select>
                         </div>
@@ -2305,10 +2297,9 @@
                           </div>
                           <div class="helpBubble" id="help-metaTotalSteps" role="note">
                             <strong>Nombre de scènes affichées</strong>
-                            Indiquez le nombre d’étapes visibles dans la jauge
-                            de progression du jeu. Cela structure la lecture
-                            du parcours, même si le scénario comporte des
-                            branches.
+                            Indiquez le nombre d’étapes visibles dans la jauge de progression du jeu. Cela structure la
+                            lecture du parcours, même si
+                            le scénario comporte des branches.
                           </div>
                           <input id="metaTotalSteps" type="number" min="1" />
                         </div>
@@ -2316,86 +2307,73 @@
                       <div class="fieldGrid two">
                         <div data-simple-hide="advanced">
                           <div class="fieldLabel">
-                            <label for="uiScoreLabel">Libellé pour la variable
-                              <code>score</code></label>
+                            <label for="uiScoreLabel">Libellé pour la variable <code>score</code></label>
                             <button type="button" class="helpIcon" data-help-toggle="help-uiScoreLabel"
                               aria-label="Aide sur le libellé de la variable score" aria-expanded="false">
                               ?
                             </button>
                           </div>
                           <div class="helpBubble" id="help-uiScoreLabel" role="note">
-                            <strong>Libellé pour la variable
-                              <code>score</code></strong>
-                            Ce champ permet de renommer, dans l’interface du
-                            jeu exporté, l’indicateur qui correspond à la
-                            variable interne
+                            <strong>Libellé pour la variable <code>score</code></strong>
+                            Ce champ permet de renommer, dans l’interface du jeu exporté, l’indicateur qui correspond à
+                            la variable interne
                             <code>score</code>. <br /><br />
                             <strong>Ce que cela désigne</strong>
                             Par défaut, la variable
-                            <code>score</code> représente la qualité globale
-                            du parcours du joueur. Elle augmente lorsque ses
-                            décisions renforcent la cohérence ou la qualité de
-                            la démarche, et diminue lorsque des choix
-                            affaiblissent cette cohérence. <br /><br />
+                            <code>score</code> représente la qualité globale du parcours du joueur. Elle augmente
+                            lorsque ses décisions renforcent
+                            la cohérence ou la qualité de la démarche, et diminue lorsque des choix affaiblissent cette
+                            cohérence. <br /><br />
                             <strong>Ce que change cette personnalisation</strong>
-                            Vous changez uniquement le mot affiché au joueur
-                            dans la barre de suivi. Le fonctionnement interne
-                            du jeu ne change pas : la variable utilisée reste
-                            <code>score</code>, avec les mêmes effets, les
-                            mêmes calculs et les mêmes usages dans la logique
-                            du projet. <br /><br />
+                            Vous changez uniquement le mot affiché au joueur dans la barre de suivi. Le fonctionnement
+                            interne du jeu ne change pas
+                            : la variable utilisée reste
+                            <code>score</code>, avec les mêmes effets, les mêmes calculs et les mêmes usages dans la
+                            logique du projet. <br /><br />
                             <strong>Bon usage</strong>
-                            Choisissez un terme compréhensible pour votre
-                            public, par exemple : qualité, robustesse,
-                            cohérence, maîtrise, fiabilité, etc.
+                            Choisissez un terme compréhensible pour votre public, par exemple : qualité, robustesse,
+                            cohérence, maîtrise, fiabilité,
+                            etc.
                             <br /><br />
                             <strong>Astuce</strong>
-                            Vous pouvez utiliser des emojis dans ce champ,
-                            laissez parler votre imagination.
+                            Vous pouvez utiliser des emojis dans ce champ, laissez parler votre imagination.
                           </div>
                           <input id="uiScoreLabel" type="text" />
                         </div>
 
                         <div data-simple-hide="advanced">
                           <div class="fieldLabel">
-                            <label for="uiRiskLabel">Libellé pour la variable
-                              <code>risk</code></label>
+                            <label for="uiRiskLabel">Libellé pour la variable <code>risk</code></label>
                             <button type="button" class="helpIcon" data-help-toggle="help-uiRiskLabel"
                               aria-label="Aide sur le libellé de la variable risk" aria-expanded="false">
                               ?
                             </button>
                           </div>
                           <div class="helpBubble" id="help-uiRiskLabel" role="note">
-                            <strong>Libellé pour la variable
-                              <code>risk</code></strong>
-                            Ce champ permet de renommer, dans l’interface du
-                            jeu exporté, l’indicateur qui correspond à la
-                            variable interne
+                            <strong>Libellé pour la variable <code>risk</code></strong>
+                            Ce champ permet de renommer, dans l’interface du jeu exporté, l’indicateur qui correspond à
+                            la variable interne
                             <code>risk</code>. <br /><br />
                             <strong>Ce que cela désigne</strong>
                             Par défaut, la variable
-                            <code>risk</code> représente l’accumulation des
-                            éléments qui affaiblissent progressivement le
-                            parcours du joueur. Cet indicateur augmente
-                            lorsque des décisions créent du flou, du risque,
-                            de l’instabilité ou une dégradation de la
+                            <code>risk</code> représente l’accumulation des éléments qui affaiblissent progressivement
+                            le parcours du joueur. Cet
+                            indicateur augmente lorsque des décisions créent du flou, du risque, de l’instabilité ou une
+                            dégradation de la
                             situation. <br /><br />
                             <strong>Ce que change cette personnalisation</strong>
-                            Vous changez uniquement le terme affiché dans la
-                            barre de suivi. Cela ne modifie pas la variable
-                            technique
-                            <code>risk</code>, ni les règles d’effondrement,
-                            ni les diagnostics, ni les effets déjà configurés
-                            dans les choix. <br /><br />
+                            Vous changez uniquement le terme affiché dans la barre de suivi. Cela ne modifie pas la
+                            variable technique
+                            <code>risk</code>, ni les règles d’effondrement, ni les diagnostics, ni les effets déjà
+                            configurés dans les choix.
+                            <br /><br />
                             <strong>Bon usage</strong>
-                            Adaptez le vocabulaire au domaine traité, par
-                            exemple : risques, alertes, dérives,
-                            vulnérabilités, tensions, points de vigilance,
-                            etc.
+                            Adaptez le vocabulaire au domaine traité, par exemple : risques, alertes, dérives,
+                            vulnérabilités, tensions, points de
+                            vigilance, etc.
                             <br /><br />
                             <strong>Astuce</strong>
-                            Vous pouvez utiliser des emojis dans ce champ,
-                            laissez parler votre imagination.
+                            Vous pouvez utiliser des emojis dans ce champ, laissez parler votre imagination.
                           </div>
                           <input id="uiRiskLabel" type="text" />
                         </div>
@@ -2410,31 +2388,27 @@
                           </div>
                           <div class="helpBubble" id="help-uiInventoryLabel" role="note">
                             <strong>Libellé de l'inventaire</strong>
-                            Ce champ permet de renommer, dans l’interface du
-                            jeu exporté, la zone qui affiche les éléments
-                            récoltés et mémorisés au fil du parcours.
+                            Ce champ permet de renommer, dans l’interface du jeu exporté, la zone qui affiche les
+                            éléments récoltés et mémorisés au
+                            fil du parcours.
                             <br /><br />
                             <strong>Ce que cela désigne</strong>
-                            Par défaut, cette zone regroupe les informations,
-                            traces, acquis ou éléments marquants conservés par
-                            le jeu dans l’inventaire narratif du joueur.
+                            Par défaut, cette zone regroupe les informations, traces, acquis ou éléments marquants
+                            conservés par le jeu dans
+                            l’inventaire narratif du joueur.
                             <br /><br />
                             <strong>Ce que change cette personnalisation</strong>
-                            Vous changez uniquement l’intitulé visible dans
-                            l’interface. Vous ne modifiez ni la structure des
-                            objets stockés dans
-                            <code>inventory</code>, ni les ajouts déjà définis
-                            dans les choix, ni la logique d’affichage du
-                            contenu. <br /><br />
+                            Vous changez uniquement l’intitulé visible dans l’interface. Vous ne modifiez ni la
+                            structure des objets stockés dans
+                            <code>inventory</code>, ni les ajouts déjà définis dans les choix, ni la logique d’affichage
+                            du contenu. <br /><br />
                             <strong>Bon usage</strong>
-                            Choisissez un terme qui reflète bien la nature des
-                            éléments conservés dans votre jeu, par exemple :
-                            repères acquis, éléments collectés, traces utiles,
-                            acquis, ressources, informations clés, etc.
+                            Choisissez un terme qui reflète bien la nature des éléments conservés dans votre jeu, par
+                            exemple : repères acquis,
+                            éléments collectés, traces utiles, acquis, ressources, informations clés, etc.
                             <br /><br />
                             <strong>Astuce</strong>
-                            Vous pouvez utiliser des emojis dans ce champ,
-                            laissez parler votre imagination.
+                            Vous pouvez utiliser des emojis dans ce champ, laissez parler votre imagination.
                           </div>
                           <input id="uiInventoryLabel" type="text" />
                         </div>
@@ -2449,8 +2423,7 @@
                         </div>
                         <div class="helpBubble" id="help-helpTitle" role="note">
                           <strong>Titre de l'aide</strong>
-                          Saisissez le titre qui apparaîtra en haut de la
-                          fenêtre d’aide. Il doit annoncer clairement la
+                          Saisissez le titre qui apparaîtra en haut de la fenêtre d’aide. Il doit annoncer clairement la
                           fonction de cette fenêtre.
                         </div>
                         <input id="helpTitle" type="text" />
@@ -2465,10 +2438,9 @@
                         </div>
                         <div class="helpBubble" id="help-helpContent" role="note">
                           <strong>Contenu de l'aide</strong>
-                          Rédigez ici le texte qui sera affiché dans la
-                          fenêtre d’aide du jeu. Utilisez des lignes vides
-                          pour séparer les paragraphes et améliorer la
-                          lisibilité.
+                          Rédigez ici le texte qui sera affiché dans la fenêtre d’aide du jeu. Utilisez des lignes vides
+                          pour séparer les
+                          paragraphes et améliorer la lisibilité.
                         </div>
                         <textarea id="helpContent"></textarea>
                       </div>
@@ -2487,9 +2459,7 @@
             <div class="centerCol">
               <section class="card" data-desktop-section="scenes">
                 <details class="editorSection">
-                  <summary class="editorSectionSummary">
-                    Sélecteur de scènes
-                  </summary>
+                  <summary class="editorSectionSummary">Sélecteur de scènes</summary>
                   <div class="section">
                     <div class="itemHead">
                       <div>
@@ -2502,29 +2472,23 @@
                         </div>
                         <div class="helpBubble" id="help-scenes-section" role="note">
                           <strong>Ce qu’est une scène</strong>
-                          Une scène est une unité de récit dans le jeu. Elle
-                          contient un contexte, un titre, un ou plusieurs
-                          paragraphes de texte, puis éventuellement des choix
-                          proposés au joueur.
+                          Une scène est une unité de récit dans le jeu. Elle contient un contexte, un titre, un ou
+                          plusieurs paragraphes de texte,
+                          puis éventuellement des choix proposés au joueur.
                           <br /><br />
                           <strong>Comment les utiliser</strong>
-                          Utilisez les scènes pour structurer le parcours
-                          étape par étape. Chaque scène peut faire avancer
-                          l’histoire, ouvrir une remédiation, conduire à une
-                          fin ou afficher un diagnostic. Les choix d’une scène
-                          permettent de relier cette scène à d’autres et de
-                          construire les embranchements du jeu.
+                          Utilisez les scènes pour structurer le parcours étape par étape. Chaque scène peut faire
+                          avancer l’histoire, ouvrir une
+                          remédiation, conduire à une fin ou afficher un diagnostic. Les choix d’une scène permettent de
+                          relier cette scène à
+                          d’autres et de construire les embranchements du jeu.
                           <br /><br />
                           <strong>Bon usage</strong>
-                          Découpez votre jeu en scènes suffisamment courtes
-                          pour rester lisibles, mais assez riches pour poser
-                          une vraie situation de décision. Donnez à chaque
-                          scène un rôle clair dans la progression globale.
+                          Découpez votre jeu en scènes suffisamment courtes pour rester lisibles, mais assez riches pour
+                          poser une vraie situation
+                          de décision. Donnez à chaque scène un rôle clair dans la progression globale.
                         </div>
-                        <p class="muted small">
-                          Créez les scènes, puis sélectionnez-en une pour
-                          l’éditer.
-                        </p>
+                        <p class="muted small">Créez les scènes, puis sélectionnez-en une pour l’éditer.</p>
                       </div>
                       <div class="inlineBtns">
                         <button id="addSceneBtn">➕ Ajouter une scène</button>
@@ -2596,131 +2560,109 @@
                         <div class="helpBubble" id="help-variables-section" role="note">
                           <strong>Ce que sont les variables</strong>
 
-                          Une variable est simplement une information que le
-                          jeu mémorise pendant la partie. Elle permet au jeu
-                          de se souvenir de ce que le joueur a fait et
-                          d’adapter la suite du parcours.
+                          Une variable est simplement une information que le jeu mémorise pendant la partie. Elle permet
+                          au jeu de se souvenir de ce
+                          que le joueur a fait et d’adapter la suite du parcours.
 
                           <br /><br />
 
                           <strong>Deux types simples</strong>
                           Une variable peut être :
                           <ul>
-                            <li>
-                              un état vrai ou faux (par exemple : les critères
-                              sont définis ou non),
-                            </li>
-                            <li>
-                              un compteur qui augmente ou diminue (par exemple
-                              : le niveau de risque ou le nombre d’erreurs).
-                            </li>
+                            <li>un état vrai ou faux (par exemple : les critères sont définis ou non),</li>
+                            <li>un compteur qui augmente ou diminue (par exemple : le niveau de risque ou le nombre
+                              d’erreurs).</li>
                           </ul>
                           <strong>Pourquoi c’est utile</strong>
-                          Ces informations permettent au jeu d’adapter la
-                          suite du parcours, de déclencher des diagnostics ou
-                          de produire une analyse finale cohérente avec les
-                          décisions prises.
+                          Ces informations permettent au jeu d’adapter la suite du parcours, de déclencher des
+                          diagnostics ou de produire une
+                          analyse finale cohérente avec les décisions prises.
                           <br /><br />
 
                           <strong>Personnalisation</strong>
 
-                          Vous pouvez créer vos propres variables pour
-                          modéliser votre situation pédagogique. Par exemple :
-                          confiance, expérience, satisfaction, etc. En plus de
-                          celles que vous créez, le moteur du jeu utilise
-                          trois variables internes qui structurent la
+                          Vous pouvez créer vos propres variables pour modéliser votre situation pédagogique. Par
+                          exemple : confiance, expérience,
+                          satisfaction, etc. En plus de celles que vous créez, le moteur du jeu utilise trois variables
+                          internes qui structurent la
                           simulation.
 
                           <br /><br />
 
                           <strong>Les 3 variables du moteur</strong>
 
-                          Ces variables sont utilisées par le fonctionnement
-                          interne du jeu. Elles ne peuvent pas être modifiées
-                          ou supprimées car elles assurent la cohérence
-                          générale de la simulation.
+                          Ces variables sont utilisées par le fonctionnement interne du jeu. Elles ne peuvent pas être
+                          modifiées ou supprimées car
+                          elles assurent la cohérence générale de la simulation.
 
                           <br /><br />
 
                           <strong>Score (score)</strong>
 
-                          Le score représente la solidité globale des réponses
-                          et décisions faites par le joueur. Il augmente
-                          lorsque les décisions renforcent la qualité de son
-                          travail, et diminue lorsque des fragilités
-                          apparaissent. Ce n’est pas une note, mais un
-                          indicateur global de cohérence de ce qu'accomplit le
-                          joueur dans sa progression.
+                          Le score représente la solidité globale des réponses et décisions faites par le joueur. Il
+                          augmente lorsque les décisions
+                          renforcent la qualité de son travail, et diminue lorsque des fragilités apparaissent. Ce n’est
+                          pas une note, mais un
+                          indicateur global de cohérence de ce qu'accomplit le joueur dans sa progression.
 
                           <br /><br />
 
-                          Il permet notamment d’évaluer la qualité globale du
-                          parcours, d’aider à produire certains diagnostics,
-                          de structurer les fins positives.
+                          Il permet notamment d’évaluer la qualité globale du parcours, d’aider à produire certains
+                          diagnostics, de structurer les
+                          fins positives.
 
                           <br /><br />
 
                           <strong>Risque (risk)</strong>
 
-                          Le risque représente l’accumulation progressive de
-                          fragilités dans le parcours du joueur. Contrairement
-                          au score, il ne traduit pas ce qui fonctionne bien
-                          mais ce qui peut provoquer une dégradation. Il
-                          augmente lorsque des raccourcis sont pris ou lorsque
-                          des éléments importants sont négligés.
+                          Le risque représente l’accumulation progressive de fragilités dans le parcours du joueur.
+                          Contrairement au score, il ne
+                          traduit pas ce qui fonctionne bien mais ce qui peut provoquer une dégradation. Il augmente
+                          lorsque des raccourcis sont
+                          pris ou lorsque des éléments importants sont négligés.
 
                           <br /><br />
 
-                          Il permet notamment : de déclencher des règles
-                          d’effondrement, de modéliser les dérives
-                          progressives, de rendre visibles les effets cumulés
-                          des décisions.
+                          Il permet notamment : de déclencher des règles d’effondrement, de modéliser les dérives
+                          progressives, de rendre visibles
+                          les effets cumulés des décisions.
 
                           <br /><br />
 
                           <strong>Progression (step)</strong>
 
-                          La progression représente l’avancement dans le
-                          parcours du joueur. Elle permet d’afficher une barre
-                          de progression et de structurer le parcours. Elle
-                          n’évalue pas la qualité des décisions, seulement
-                          l’avancement dans les étapes.
+                          La progression représente l’avancement dans le parcours du joueur. Elle permet d’afficher une
+                          barre de progression et de
+                          structurer le parcours. Elle n’évalue pas la qualité des décisions, seulement l’avancement
+                          dans les étapes.
 
                           <br /><br />
 
-                          Elle permet notamment : d’afficher l’étape actuelle,
-                          de donner un repère au joueur, de structurer la
-                          narration.
+                          Elle permet notamment : d’afficher l’étape actuelle, de donner un repère au joueur, de
+                          structurer la narration.
 
                           <br /><br />
 
-                          <strong>Pourquoi ces variables ne sont pas
-                            modifiables</strong>
+                          <strong>Pourquoi ces variables ne sont pas modifiables</strong>
 
-                          Ces trois variables assurent le fonctionnement
-                          technique du moteur de jeu. Les modifier pourrait
-                          rendre le jeu incohérent ou empêcher certaines
-                          mécaniques de fonctionner correctement. Elles
-                          servent de base commune à tous les jeux créés avec
-                          cet outil.
+                          Ces trois variables assurent le fonctionnement technique du moteur de jeu. Les modifier
+                          pourrait rendre le jeu incohérent
+                          ou empêcher certaines mécaniques de fonctionner correctement. Elles servent de base commune à
+                          tous les jeux créés avec cet
+                          outil.
 
                           <br /><br />
 
                           <strong>Conseil pratique</strong>
 
-                          Ne créez que les variables nécessaires pour
-                          représenter les éléments importants de votre
-                          parcours pédagogique. Chaque variable doit
-                          correspondre à quelque chose que vous voulez
-                          réellement observer dans le parcours.
+                          Ne créez que les variables nécessaires pour représenter les éléments importants de votre
+                          parcours pédagogique. Chaque
+                          variable doit correspondre à quelque chose que vous voulez réellement observer dans le
+                          parcours.
                         </div>
-                        <p class="muted small">
-                          États et compteurs utilisés par le jeu.
-                        </p>
+                        <p class="muted small">États et compteurs utilisés par le jeu.</p>
                       </div>
-                      <button id="addVariableBtn">
-                        Ajouter une variable
-                      </button>
+                      <button id="addVariableBtn">Ajouter une variable</button>
                     </div>
                     <div class="filterBar">
                       <input id="variablesFilterInput" class="filterInput" type="search"
@@ -2733,9 +2675,7 @@
 
               <section class="card" data-simple-hide="advanced" data-desktop-section="rules">
                 <details class="editorSection">
-                  <summary class="editorSectionSummary">
-                    Règles d'effondrement
-                  </summary>
+                  <summary class="editorSectionSummary">Règles d'effondrement</summary>
                   <div class="section">
                     <div class="itemHead">
                       <div>
@@ -2748,27 +2688,22 @@
                         </div>
                         <div class="helpBubble" id="help-rules-section" role="note">
                           <strong>Ce que sont les règles d’effondrement</strong>
-                          Les règles d’effondrement déterminent à quel moment
-                          le système considère que le parcours n’est plus
-                          suffisamment viable ou cohérent pour continuer
-                          normalement.
+                          Les règles d’effondrement déterminent à quel moment le système considère que le parcours n’est
+                          plus suffisamment viable ou
+                          cohérent pour continuer normalement.
                           <br /><br />
                           <strong>Comment les utiliser</strong>
-                          Chaque règle combine une ou plusieurs conditions
-                          portant sur l’état du jeu. Si la règle devient
-                          vraie, le jeu bascule vers une scène de diagnostic
-                          ou une autre scène de rupture.
+                          Chaque règle combine une ou plusieurs conditions portant sur l’état du jeu. Si la règle
+                          devient vraie, le jeu bascule vers
+                          une scène de diagnostic ou une autre scène de rupture.
                           <br /><br />
                           <strong>Bon usage</strong>
-                          Utilisez ces règles pour modéliser des dégradations
-                          progressives, pas pour punir arbitrairement un choix
-                          isolé. Une bonne règle d’effondrement traduit une
-                          logique de système.
+                          Utilisez ces règles pour modéliser des dégradations progressives, pas pour punir
+                          arbitrairement un choix isolé. Une bonne
+                          règle d’effondrement traduit une logique de système.
                         </div>
-                        <p class="muted small">
-                          Si l’une de ces règles devient vraie, le jeu bascule
-                          vers la scène de diagnostic.
-                        </p>
+                        <p class="muted small">Si l’une de ces règles devient vraie, le jeu bascule vers la scène de
+                          diagnostic.</p>
                       </div>
                       <button id="addRuleBtn">Ajouter</button>
                     </div>
@@ -2796,25 +2731,21 @@
                         </div>
                         <div class="helpBubble" id="help-diagnostics-section" role="note">
                           <strong>Ce que sont les diagnostics</strong>
-                          Les diagnostics sont les messages d’analyse affichés
-                          à la fin d’un parcours en difficulté. Ils expliquent
-                          au joueur quelles fragilités ont été activées dans
-                          le système.
+                          Les diagnostics sont les messages d’analyse affichés à la fin d’un parcours en difficulté. Ils
+                          expliquent au joueur
+                          quelles fragilités ont été activées dans le système.
                           <br /><br />
                           <strong>Comment les utiliser</strong>
-                          Chaque diagnostic est relié à une ou plusieurs
-                          conditions. Lorsqu’elles sont vraies, le diagnostic
-                          apparaît dans la scène finale de diagnostic.
+                          Chaque diagnostic est relié à une ou plusieurs conditions. Lorsqu’elles sont vraies, le
+                          diagnostic apparaît dans la scène
+                          finale de diagnostic.
                           <br /><br />
                           <strong>Bon usage</strong>
-                          Rédigez des diagnostics explicatifs et utiles, pas
-                          seulement des constats. Ils doivent aider à
-                          comprendre le cheminement qui a conduit à la
-                          dégradation du parcours réalisé.
+                          Rédigez des diagnostics explicatifs et utiles, pas seulement des constats. Ils doivent aider à
+                          comprendre le cheminement
+                          qui a conduit à la dégradation du parcours réalisé.
                         </div>
-                        <p class="muted small">
-                          Cartes affichées dans la scène de diagnostic final.
-                        </p>
+                        <p class="muted small">Cartes affichées dans la scène de diagnostic final.</p>
                       </div>
                       <button id="addDiagBtn">Ajouter</button>
                     </div>
@@ -2831,9 +2762,7 @@
             <div class="rightCol">
               <section class="card">
                 <details class="editorSection" open>
-                  <summary class="editorSectionSummary">
-                    Éditeur de scène
-                  </summary>
+                  <summary class="editorSectionSummary">Éditeur de scène</summary>
                   <div class="section">
                     <div class="itemHead">
                       <div>
@@ -2846,32 +2775,26 @@
                         </div>
                         <div class="helpBubble" id="help-scene-editor-section" role="note">
                           <strong>À quoi sert cet espace</strong>
-                          L’éditeur de scène permet de configurer en détail la
-                          scène sélectionnée : son identifiant, son chapitre,
-                          son titre, son texte, son type et l’ensemble de ses
-                          choix.
+                          L’éditeur de scène permet de configurer en détail la scène sélectionnée : son identifiant, son
+                          chapitre, son titre, son
+                          texte, son type et l’ensemble de ses choix.
                           <br /><br />
                           <strong>Comment l’utiliser</strong>
-                          Sélectionnez d’abord une scène dans le sélecteur de
-                          scènes, puis modifiez ici son contenu et ses
-                          embranchements. Chaque modification met à jour le
-                          projet.
+                          Sélectionnez d’abord une scène dans le sélecteur de scènes, puis modifiez ici son contenu et
+                          ses embranchements. Chaque
+                          modification met à jour le projet.
                           <br /><br />
                           <strong>Bon usage</strong>
-                          Travaillez scène par scène, en vérifiant à chaque
-                          fois son rôle dans le parcours, la cohérence de ses
-                          choix et sa place dans la progression globale.
+                          Travaillez scène par scène, en vérifiant à chaque fois son rôle dans le parcours, la cohérence
+                          de ses choix et sa place
+                          dans la progression globale.
                         </div>
-                        <p class="muted small">
-                          Sélectionnez une scène dans le sélecteur de scènes.
-                        </p>
+                        <p class="muted small">Sélectionnez une scène dans le sélecteur de scènes.</p>
                       </div>
                       <span id="selectedScenePill" class="pill" style="margin-top: 1em">Aucune scène</span>
                     </div>
 
-                    <div id="sceneEditorEmpty" class="notice">
-                      Aucune scène sélectionnée.
-                    </div>
+                    <div id="sceneEditorEmpty" class="notice">Aucune scène sélectionnée.</div>
 
                     <div id="sceneEditor" style="display: none" class="stack">
                       <div class="fieldGrid">
@@ -2885,9 +2808,9 @@
                           </div>
                           <div class="helpBubble" id="help-sceneId" role="note">
                             <strong>ID technique</strong>
-                            Donnez un identifiant unique à la scène. Il sert à
-                            créer les liens entre scènes via les choix. Il ne
-                            doit jamais être dupliqué.
+                            Donnez un identifiant unique à la scène. Il sert à créer les liens entre scènes via les
+                            choix. Il ne doit jamais être
+                            dupliqué.
                           </div>
                           <input id="sceneId" type="text" />
                         </div>
@@ -2901,16 +2824,14 @@
                           </div>
                           <div class="helpBubble" id="help-sceneChapter" role="note">
                             <strong>Chapitre</strong>
-                            Un chapitre correspond à une phase dans la
-                            progression. Il sert à regrouper plusieurs scènes
-                            dans une phase cohérente. C'est une information
-                            qui apparaît dans le jeu, en haut de chaque scène.
-                            Renseignez l’intitulé du chapitre ou de la phase
-                            dans laquelle s’inscrit cette scène. Cela aide à
-                            structurer le parcours et à repérer les grandes
-                            étapes. Conseil : si plusieurs scènes traitent
-                            d'un même événement, elles devraient généralement
-                            partager le même chapitre.
+                            Un chapitre correspond à une phase dans la progression. Il sert à regrouper plusieurs scènes
+                            dans une phase cohérente.
+                            C'est une information qui apparaît dans le jeu, en haut de chaque scène. Renseignez
+                            l’intitulé du chapitre ou de la
+                            phase dans laquelle s’inscrit cette scène. Cela aide à structurer le parcours et à repérer
+                            les grandes étapes. Conseil :
+                            si plusieurs scènes traitent d'un même événement, elles devraient généralement partager le
+                            même chapitre.
                           </div>
                           <input id="sceneChapter" type="text" />
                         </div>
@@ -2924,8 +2845,8 @@
                           </div>
                           <div class="helpBubble" id="help-sceneTitle" role="note">
                             <strong>Titre de la scène</strong>
-                            Donnez un titre lisible à la scène. C’est ce que
-                            verra le joueur dans l’interface du jeu exporté.
+                            Donnez un titre lisible à la scène. C’est ce que verra le joueur dans l’interface du jeu
+                            exporté.
                           </div>
                           <input id="sceneTitle" type="text" />
                         </div>
@@ -2940,14 +2861,12 @@
                             </div>
                             <div class="helpBubble" id="help-sceneType" role="note">
                               <strong>Type de scène</strong>
-                              Choisissez la fonction de la scène dans le
-                              parcours. Une scène normale fait avancer le
-                              récit, une finale clôt le jeu, une scène
-                              diagnostic affiche l’analyse des erreurs, une
-                              scène de remédiation permet au joueur de
-                              corriger une erreur ou de rééquilibrer son
-                              avancement après une décision qui a fragilisé la
-                              qualité de son parcours.
+                              Choisissez la fonction de la scène dans le parcours. Une scène normale fait avancer le
+                              récit, une finale clôt le jeu,
+                              une scène diagnostic affiche l’analyse des erreurs, une scène de remédiation permet au
+                              joueur de corriger une erreur
+                              ou de rééquilibrer son avancement après une décision qui a fragilisé la qualité de son
+                              parcours.
                             </div>
                             <select id="sceneType"></select>
                           </div>
@@ -2961,9 +2880,9 @@
                             </div>
                             <div class="helpBubble" id="help-sceneEnding" role="note">
                               <strong>Scène de fin ?</strong>
-                              Indiquez si cette scène clôt effectivement la
-                              partie. Une scène de fin n’affiche plus de choix
-                              ordinaires et propose en général un redémarrage.
+                              Indiquez si cette scène clôt effectivement la partie. Une scène de fin n’affiche plus de
+                              choix ordinaires et propose
+                              en général un redémarrage.
                             </div>
                             <select id="sceneEnding">
                               <option value="false">Non</option>
@@ -2981,36 +2900,29 @@
                           </div>
                           <div class="helpBubble" id="help-sceneText" role="note">
                             <strong>Texte de la scène</strong>
-                            Rédigez ici le récit affiché au joueur. Utilisez
-                            une ligne vide entre deux paragraphes pour
-                            structurer la narration et améliorer la
-                            lisibilité.
-                            <br /><br /><strong>Texte dynamique</strong> Vous
-                            pouvez afficher automatiquement la valeur actuelle
-                            d’une variable avec la syntaxe
-                            <code>{{nomVariable}}</code>. <br /><br />
+                            Rédigez ici le récit affiché au joueur. Utilisez une ligne vide entre deux paragraphes pour
+                            structurer la narration et
+                            améliorer la lisibilité.
+                            <br /><br /><strong>Texte dynamique</strong> Vous pouvez afficher automatiquement la valeur
+                            actuelle d’une variable avec
+                            la syntaxe <code>{{nomVariable}}</code>. <br /><br />
                             <strong>Exemples</strong>
-                            <code>{{score}}</code>, <code>{{risk}}</code>,
-                            <code>{{step}}</code>,
+                            <code>{{score}}</code>, <code>{{risk}}</code>, <code>{{step}}</code>,
                             <code>{{goalClarified}}</code>
                             <br /><br />
                             <strong>Condition simple</strong>
-                            <code>{{if goalClarified}}L’objectif est
-                                clarifié.{{endif}}</code>
+                            <code>{{if goalClarified}}L’objectif est clarifié.{{endif}}</code>
                             <br /><br />
                             <strong>Condition avec comparaison</strong>
-                            <code>{{if risk >= 3}}Le dispositif commence à
-                                accumuler des fragilités.{{endif}}</code>
+                            <code>{{if risk >= 3}}Le dispositif commence à accumuler des fragilités.{{endif}}</code>
                             <br /><br />
                             <strong>Bon usage</strong>
-                            Utilisez cette syntaxe pour adapter le récit à
-                            l’état réel du jeu et rendre les conséquences plus
-                            visibles pour le joueur.
+                            Utilisez cette syntaxe pour adapter le récit à l’état réel du jeu et rendre les conséquences
+                            plus visibles pour le
+                            joueur.
                           </div>
                           <textarea id="sceneText"></textarea>
-                          <div class="help">
-                            Un paragraphe par ligne vide.
-                          </div>
+                          <div class="help">Un paragraphe par ligne vide.</div>
                         </div>
                         <div class="sceneImagePanel">
                           <div class="fieldLabel">
@@ -3022,10 +2934,9 @@
                           </div>
                           <div class="helpBubble" id="help-sceneImage" role="note">
                             <strong>Image d’illustration</strong>
-                            Vous pouvez associer une image à cette scène. Elle
-                            sera redimensionnée automatiquement à 600 pixels
-                            de large maximum, stockée dans le projet, puis
-                            exportée dans le JSON et dans le HTML autonome.
+                            Vous pouvez associer une image à cette scène. Elle sera redimensionnée automatiquement à 600
+                            pixels de large maximum,
+                            stockée dans le projet, puis exportée dans le JSON et dans le HTML autonome.
                           </div>
 
                           <input id="sceneImageFile" type="file" accept="image/*" />
@@ -3042,9 +2953,7 @@
                           </div>
 
                           <div class="inlineBtns" style="margin-top: 10px">
-                            <button id="removeSceneImageBtn" type="button" class="secondary">
-                              Supprimer l’image
-                            </button>
+                            <button id="removeSceneImageBtn" type="button" class="secondary">Supprimer l’image</button>
                           </div>
                         </div>
                       </div>
@@ -3052,10 +2961,8 @@
                       <div class="itemHead">
                         <div>
                           <h3>Scènes d’origine</h3>
-                          <p class="muted small">
-                            Ajoutez ici une scène source qui mènera vers la
-                            scène actuellement ouverte.
-                          </p>
+                          <p class="muted small">Ajoutez ici une scène source qui mènera vers la scène actuellement
+                            ouverte.</p>
                         </div>
                       </div>
 
@@ -3065,9 +2972,7 @@
                           <select id="incomingSceneSelect"></select>
                         </div>
                         <div style="display: flex; align-items: end">
-                          <button id="addIncomingSceneBtn" type="button">
-                            Ajouter cette origine
-                          </button>
+                          <button id="addIncomingSceneBtn" type="button">Ajouter cette origine</button>
                         </div>
                       </div>
 
@@ -3076,9 +2981,7 @@
                       <div class="itemHead">
                         <div>
                           <h3>Choix</h3>
-                          <p class="muted small">
-                            Ajoutez autant de choix que nécessaire.
-                          </p>
+                          <p class="muted small">Ajoutez autant de choix que nécessaire.</p>
                         </div>
                         <button id="addChoiceBtn">Ajouter un choix</button>
                       </div>
@@ -3105,48 +3008,37 @@
                 </div>
                 <div class="helpBubble" id="help-preview-section" role="note">
                   <strong>À quoi sert cet espace</strong>
-                  La prévisualisation permet de tester immédiatement le jeu en
-                  cours de conception, sans l’exporter.
+                  La prévisualisation permet de tester immédiatement le jeu en cours de conception, sans l’exporter.
                   <br /><br />
                   <strong>Comment l’utiliser</strong>
-                  Utilisez cet aperçu pour vérifier le rendu, la navigation
-                  entre scènes, la cohérence des choix, l’ouverture de l’aide
-                  et le comportement général du jeu.
+                  Utilisez cet aperçu pour vérifier le rendu, la navigation entre scènes, la cohérence des choix,
+                  l’ouverture de l’aide et le
+                  comportement général du jeu.
                   <br /><br />
                   <strong>Bon usage</strong>
-                  Prévisualisez souvent. Cela permet de repérer rapidement les
-                  scènes manquantes, les liaisons erronées et les effets qui
-                  ne produisent pas le comportement attendu.
+                  Prévisualisez souvent. Cela permet de repérer rapidement les scènes manquantes, les liaisons erronées
+                  et les effets qui ne
+                  produisent pas le comportement attendu.
                 </div>
-                <p class="muted small">
-                  Le jeu est généré à partir des données courantes.
-                </p>
+                <p class="muted small">Le jeu est généré à partir des données courantes.</p>
               </div>
               <div class="inlineBtns">
                 <button id="refreshPreviewBtn">Rafraîchir l’aperçu</button>
-                <button id="openPreviewNewTabBtn" class="secondary">
-                  Ouvrir dans un nouvel onglet
-                </button>
+                <button id="openPreviewNewTabBtn" class="secondary">Ouvrir dans un nouvel onglet</button>
               </div>
             </div>
 
             <section class="card">
               <details class="editorSection">
-                <summary class="editorSectionSummary">
-                  Options visuelles
-                </summary>
+                <summary class="editorSectionSummary">Options visuelles</summary>
                 <div class="section">
                   <div class="itemHead">
                     <div>
-                      <p class="muted small">
-                        Les changements sont visibles immédiatement dans
-                        l’aperçu et seront repris à l’export.
-                      </p>
+                      <p class="muted small">Les changements sont visibles immédiatement dans l’aperçu et seront repris
+                        à l’export.</p>
                     </div>
                     <div class="inlineBtns">
-                      <button id="resetThemeBtn" type="button" class="secondary">
-                        Réinitialiser le thème
-                      </button>
+                      <button id="resetThemeBtn" type="button" class="secondary">Réinitialiser le thème</button>
                     </div>
                   </div>
 
@@ -3159,9 +3051,7 @@
                         <!--<option value="light">Clair</option>-->
                         <option value="corporate">Corporate</option>
                         <option value="pedagogical">Pédagogique</option>
-                        <option value="accessibility">
-                          Contraste renforcé
-                        </option>
+                        <option value="accessibility">Contraste renforcé</option>
                         <option value="forest">Forêt</option>
                         <option value="nature">Nature</option>
                         <option value="sunset">Crépuscule</option>
@@ -3183,9 +3073,7 @@
                         <option value="merriweather">Merriweather</option>
                         <option value="sourceSans3">Source Sans 3</option>
                         <option value="nunito">Nunito</option>
-                        <option value="playfairDisplay">
-                          Playfair Display
-                        </option>
+                        <option value="playfairDisplay">Playfair Display</option>
                         <option value="ubuntu">Ubuntu</option>
                       </select>
                     </div>
@@ -3279,29 +3167,24 @@
                 </div>
                 <div class="helpBubble" id="help-json-section" role="note">
                   <strong>À quoi sert cet espace</strong>
-                  Cette vue affiche la structure brute du projet sous forme de
-                  données JSON. Elle permet de voir exactement ce qui sera
-                  exporté ou sauvegardé.
+                  Cette vue affiche la structure brute du projet sous forme de données JSON. Elle permet de voir
+                  exactement ce qui sera exporté ou
+                  sauvegardé.
                   <br /><br />
                   <strong>Comment l’utiliser</strong>
-                  Utilisez cette vue pour contrôler la cohérence générale du
-                  projet, repérer des erreurs de structure et vérifier les
-                  identifiants, les scènes, les choix et les règles.
+                  Utilisez cette vue pour contrôler la cohérence générale du projet, repérer des erreurs de structure et
+                  vérifier les identifiants,
+                  les scènes, les choix et les règles.
                   <br /><br />
                   <strong>Bon usage</strong>
-                  Même si l’outil est conçu pour éviter le code, cette vue est
-                  très utile pour le contrôle qualité, l’archivage et le
-                  débogage.
+                  Même si l’outil est conçu pour éviter le code, cette vue est très utile pour le contrôle qualité,
+                  l’archivage et le débogage.
                 </div>
-                <p class="muted small">
-                  Vue utile pour contrôle, débogage ou archivage.
-                </p>
+                <p class="muted small">Vue utile pour contrôle, débogage ou archivage.</p>
               </div>
 
               <div class="graphControls">
-                <button id="refreshJsonAnalysisBtn" type="button" class="secondary">
-                  Mettre à jour
-                </button>
+                <button id="refreshJsonAnalysisBtn" type="button" class="secondary">Mettre à jour</button>
               </div>
             </div>
             <div id="validationBox" class="stack"></div>
@@ -3322,50 +3205,33 @@
                 </div>
                 <div class="helpBubble" id="help-graph-section" role="note">
                   <strong>À quoi sert cet espace</strong>
-                  Cette vue montre les liaisons entre les scènes qui sont
-                  réellement connectées entre elles.
+                  Cette vue montre les liaisons entre les scènes qui sont réellement connectées entre elles.
                   <br /><br />
                   <strong>Comment l’utiliser</strong>
-                  Faites glisser pour vous déplacer, utilisez la molette pour
-                  zoomer, puis cliquez sur une scène pour l’ouvrir dans
-                  l’éditeur.
+                  Faites glisser pour vous déplacer, utilisez la molette pour zoomer, puis cliquez sur une scène pour
+                  l’ouvrir dans l’éditeur.
                   <br /><br />
                   <strong>Bon usage</strong>
-                  Utilisez ce graphe pour vérifier rapidement la structure
-                  d’embranchement, les impasses et les scènes très
-                  sollicitées.
+                  Utilisez ce graphe pour vérifier rapidement la structure d’embranchement, les impasses et les scènes
+                  très sollicitées.
                 </div>
-                <p class="muted small">
-                  Seules les scènes reliées à au moins une autre scène sont
-                  affichées.
-                </p>
+                <p class="muted small">Seules les scènes reliées à au moins une autre scène sont affichées.</p>
               </div>
               <div class="graphControls">
-                <button id="refreshGraphBtn" type="button" class="secondary" style="display:none;">
-                  Mettre à jour
-                </button>
-                <button id="graphZoomOutBtn" type="button" class="secondary">
-                  Zoom -
-                </button>
-                <button id="graphResetViewBtn" type="button" class="secondary">
-                  Vue complète
-                </button>
-                <button id="graphZoomInBtn" type="button" class="secondary">
-                  Zoom +
-                </button>
+                <button id="refreshGraphBtn" type="button" class="secondary" style="display: none">Mettre à
+                  jour</button>
+                <button id="graphZoomOutBtn" type="button" class="secondary">Zoom -</button>
+                <button id="graphResetViewBtn" type="button" class="secondary">Vue complète</button>
+                <button id="graphZoomInBtn" type="button" class="secondary">Zoom +</button>
               </div>
             </div>
 
             <div id="graphViewport" class="graphViewport">
               <div id="graphEmptyState" class="graphEmpty" style="display: none">
                 <div>
-                  <div class="notice">
-                    Aucune liaison entre scènes à afficher pour le moment.
-                  </div>
-                  <p class="graphHint">
-                    Ajoutez au moins un choix menant vers une autre scène pour
-                    voir apparaître le graphe.
-                  </p>
+                  <div class="notice">Aucune liaison entre scènes à afficher pour le moment.</div>
+                  <p class="graphHint">Ajoutez au moins un choix menant vers une autre scène pour voir apparaître le
+                    graphe.</p>
                 </div>
               </div>
 
@@ -3457,23 +3323,19 @@
                 </div>
                 <div class="helpBubble" id="help-journal-section" role="note">
                   <strong>À quoi sert cet espace</strong>
-                  Ce journal permet de conserver deux types d’entrées sur
-                  l’avancement du projet : des notes (REM) et des tâches
-                  (TASK).
+                  Ce journal permet de conserver deux types d’entrées sur l’avancement du projet : des notes (REM) et
+                  des tâches (TASK).
                   <br /><br />
                   <strong>Comment l’utiliser</strong>
-                  Saisissez votre texte, puis choisissez si vous ajoutez une
-                  note ou une tâche. Cochez ensuite l’entrée lorsqu’elle a été
-                  lue ou traitée.
+                  Saisissez votre texte, puis choisissez si vous ajoutez une note ou une tâche. Cochez ensuite l’entrée
+                  lorsqu’elle a été lue ou
+                  traitée.
                   <br /><br />
                   <strong>Bon usage</strong>
-                  Utilisez les notes pour les points à ne pas oublier, et les
-                  tâches pour les actions concrètes à réaliser.
+                  Utilisez les notes pour les points à ne pas oublier, et les tâches pour les actions concrètes à
+                  réaliser.
                 </div>
-                <p class="muted small">
-                  Les notes et tâches les plus récentes apparaissent en haut
-                  de la liste.
-                </p>
+                <p class="muted small">Les notes et tâches les plus récentes apparaissent en haut de la liste.</p>
               </div>
             </div>
 
@@ -3516,26 +3378,16 @@
     <div class="sceneEditorModalDialog">
       <div class="sceneEditorModalHeader">
         <div>
-          <h2 id="sceneEditorModalTitle" style="margin: 0">
-            Édition de scène
-          </h2>
-          <p class="muted small" style="margin: 6px 0 0">
-            Travaillez sur la scène sélectionnée.
-          </p>
+          <h2 id="sceneEditorModalTitle" style="margin: 0">Édition de scène</h2>
+          <p class="muted small" style="margin: 6px 0 0">Travaillez sur la scène sélectionnée.</p>
         </div>
 
         <div class="itemActions sceneEditorMobileActions">
-          <button id="deleteSceneBtnMobile" type="button" class="bad">
-            Supprimer
-          </button>
+          <button id="deleteSceneBtnMobile" type="button" class="bad">Supprimer</button>
 
-          <button id="duplicateSceneBtnMobile" type="button" class="secondary">
-            Dupliquer
-          </button>
+          <button id="duplicateSceneBtnMobile" type="button" class="secondary">Dupliquer</button>
 
-          <button id="closeSceneEditorModalBtn" type="button" class="primary" style="margin-left: auto">
-            Fermer
-          </button>
+          <button id="closeSceneEditorModalBtn" type="button" class="primary" style="margin-left: auto">Fermer</button>
         </div>
       </div>
 
@@ -3550,22 +3402,16 @@
     <div class="sceneEditorModalDialog">
       <div class="sceneEditorModalHeader">
         <div>
-          <h2 id="graphScenePreviewModalTitle" style="margin: 0">
-            Aperçu de la scène
-          </h2>
+          <h2 id="graphScenePreviewModalTitle" style="margin: 0">Aperçu de la scène</h2>
           <p id="graphScenePreviewModalSubtitle" class="muted small" style="margin: 6px 0 0">
             Vérifiez les informations principales avant d’ouvrir l’éditeur.
           </p>
         </div>
 
         <div class="itemActions">
-          <button id="graphScenePreviewOpenEditorBtn" type="button" class="good">
-            Éditer la scène
-          </button>
+          <button id="graphScenePreviewOpenEditorBtn" type="button" class="good">Éditer la scène</button>
           <button id="closeGraphScenePreviewModalBtn" type="button" class="secondary"
-            data-action="closeGraphScenePreviewModal">
-            Fermer
-          </button>
+            data-action="closeGraphScenePreviewModal">Fermer</button>
         </div>
       </div>
 
@@ -3579,12 +3425,8 @@
   <div id="actionFeedbackModal" class="actionFeedbackModal" aria-hidden="true" role="status" aria-live="polite">
     <div class="actionFeedbackOverlay"></div>
     <div class="actionFeedbackBox">
-      <div id="actionFeedbackMessage" class="actionFeedbackMessage">
-        Opération réalisée.
-      </div>
-      <button id="actionFeedbackCloseBtn" type="button" class="secondary">
-        Fermer
-      </button>
+      <div id="actionFeedbackMessage" class="actionFeedbackMessage">Opération réalisée.</div>
+      <button id="actionFeedbackCloseBtn" type="button" class="secondary">Fermer</button>
     </div>
   </div>
 
@@ -4891,9 +4733,7 @@
         },
         help: {
           title: "Comment jouer",
-          content: [
-            "Complétez ce projet vide pour construire votre propre simulation.",
-          ],
+          content: ["Complétez ce projet vide pour construire votre propre simulation."],
         },
         variables: [],
         rules: {
@@ -4914,9 +4754,7 @@
           diagnostic_collapse: {
             chapter: "Diagnostic",
             title: "Diagnostic final",
-            text: [
-              "Cette scène s’affichera si une règle d’effondrement y redirige le jeu.",
-            ],
+            text: ["Cette scène s’affichera si une règle d’effondrement y redirige le jeu."],
             type: "diagnosis",
             ending: true,
             diagnosis: true,
@@ -4978,55 +4816,33 @@
       scenesList: document.getElementById("scenesList"),
       scenesFilterInput: document.getElementById("scenesFilterInput"),
       scenesSummaryTotal: document.getElementById("scenesSummaryTotal"),
-      scenesSummaryConnected: document.getElementById(
-        "scenesSummaryConnected",
-      ),
+      scenesSummaryConnected: document.getElementById("scenesSummaryConnected"),
       scenesSummaryIsolated: document.getElementById("scenesSummaryIsolated"),
-      scenesSummaryIsolatedCard: document.getElementById(
-        "scenesSummaryIsolatedCard",
-      ),
+      scenesSummaryIsolatedCard: document.getElementById("scenesSummaryIsolatedCard"),
       variablesList: document.getElementById("variablesList"),
       variablesFilterInput: document.getElementById("variablesFilterInput"),
       rulesList: document.getElementById("rulesList"),
       rulesFilterInput: document.getElementById("rulesFilterInput"),
       diagnosticsList: document.getElementById("diagnosticsList"),
-      diagnosticsFilterInput: document.getElementById(
-        "diagnosticsFilterInput",
-      ),
+      diagnosticsFilterInput: document.getElementById("diagnosticsFilterInput"),
       scenesFilterInput: document.getElementById("scenesFilterInput"),
       variablesFilterInput: document.getElementById("variablesFilterInput"),
       rulesFilterInput: document.getElementById("rulesFilterInput"),
-      diagnosticsFilterInput: document.getElementById(
-        "diagnosticsFilterInput",
-      ),
+      diagnosticsFilterInput: document.getElementById("diagnosticsFilterInput"),
 
       sceneEditor: document.getElementById("sceneEditor"),
       sceneEditorEmpty: document.getElementById("sceneEditorEmpty"),
       selectedScenePill: document.getElementById("selectedScenePill"),
       sceneEditorModal: document.getElementById("sceneEditorModal"),
-      sceneEditorModalContent: document.getElementById(
-        "sceneEditorModalContent",
-      ),
-      closeSceneEditorModalBtn: document.getElementById(
-        "closeSceneEditorModalBtn",
-      ),
-      duplicateSceneBtnMobile: document.getElementById(
-        "duplicateSceneBtnMobile",
-      ),
+      sceneEditorModalContent: document.getElementById("sceneEditorModalContent"),
+      closeSceneEditorModalBtn: document.getElementById("closeSceneEditorModalBtn"),
+      duplicateSceneBtnMobile: document.getElementById("duplicateSceneBtnMobile"),
       deleteSceneBtnMobile: document.getElementById("deleteSceneBtnMobile"),
       graphScenePreviewModal: document.getElementById("graphScenePreviewModal"),
-      graphScenePreviewContent: document.getElementById(
-        "graphScenePreviewContent",
-      ),
-      graphScenePreviewModalSubtitle: document.getElementById(
-        "graphScenePreviewModalSubtitle",
-      ),
-      graphScenePreviewOpenEditorBtn: document.getElementById(
-        "graphScenePreviewOpenEditorBtn",
-      ),
-      closeGraphScenePreviewModalBtn: document.getElementById(
-        "closeGraphScenePreviewModalBtn",
-      ),
+      graphScenePreviewContent: document.getElementById("graphScenePreviewContent"),
+      graphScenePreviewModalSubtitle: document.getElementById("graphScenePreviewModalSubtitle"),
+      graphScenePreviewOpenEditorBtn: document.getElementById("graphScenePreviewOpenEditorBtn"),
+      closeGraphScenePreviewModalBtn: document.getElementById("closeGraphScenePreviewModalBtn"),
       desktopEditorDivider: document.getElementById("desktopEditorDivider"),
 
       sceneId: document.getElementById("sceneId"),
@@ -5047,27 +4863,17 @@
 
       jsonPreview: document.getElementById("jsonPreview"),
       validationBox: document.getElementById("validationBox"),
-      refreshJsonAnalysisBtn: document.getElementById(
-        "refreshJsonAnalysisBtn",
-      ),
+      refreshJsonAnalysisBtn: document.getElementById("refreshJsonAnalysisBtn"),
       graphViewport: document.getElementById("graphViewport"),
       graphSvg: document.getElementById("graphSvg"),
       graphEmptyState: document.getElementById("graphEmptyState"),
       graphContextMenu: document.getElementById("graphContextMenu"),
       graphContextGotoBtn: document.getElementById("graphContextGotoBtn"),
       graphContextPreviewBtn: document.getElementById("graphContextPreviewBtn"),
-      graphContextHighlightFullBtn: document.getElementById(
-        "graphContextHighlightFullBtn",
-      ),
-      graphContextHighlightAncestorsBtn: document.getElementById(
-        "graphContextHighlightAncestorsBtn",
-      ),
-      graphContextHighlightDescendantsBtn: document.getElementById(
-        "graphContextHighlightDescendantsBtn",
-      ),
-      graphContextHighlightNearbyBtn: document.getElementById(
-        "graphContextHighlightNearbyBtn",
-      ),
+      graphContextHighlightFullBtn: document.getElementById("graphContextHighlightFullBtn"),
+      graphContextHighlightAncestorsBtn: document.getElementById("graphContextHighlightAncestorsBtn"),
+      graphContextHighlightDescendantsBtn: document.getElementById("graphContextHighlightDescendantsBtn"),
+      graphContextHighlightNearbyBtn: document.getElementById("graphContextHighlightNearbyBtn"),
       refreshGraphBtn: document.getElementById("refreshGraphBtn"),
       graphZoomInBtn: document.getElementById("graphZoomInBtn"),
       graphZoomOutBtn: document.getElementById("graphZoomOutBtn"),
@@ -5081,9 +4887,7 @@
       previewFrame: document.getElementById("previewFrame"),
       themePresetSelect: document.getElementById("themePresetSelect"),
       fontPresetSelect: document.getElementById("fontPresetSelect"),
-      sceneTransitionPresetSelect: document.getElementById(
-        "sceneTransitionPresetSelect",
-      ),
+      sceneTransitionPresetSelect: document.getElementById("sceneTransitionPresetSelect"),
       themeBg: document.getElementById("themeBg"),
       themeBg2: document.getElementById("themeBg2"),
       themePanel: document.getElementById("themePanel"),
@@ -5099,9 +4903,7 @@
       hiddenJsonImport: document.getElementById("hiddenJsonImport"),
       actionFeedbackModal: document.getElementById("actionFeedbackModal"),
       actionFeedbackMessage: document.getElementById("actionFeedbackMessage"),
-      actionFeedbackCloseBtn: document.getElementById(
-        "actionFeedbackCloseBtn",
-      ),
+      actionFeedbackCloseBtn: document.getElementById("actionFeedbackCloseBtn"),
     };
 
     function captureEditorSnapshot() {
@@ -5118,8 +4920,7 @@
 
       project = normalizeProject(clone(lastEditorSnapshot.project));
       selectedSceneId = lastEditorSnapshot.selectedSceneId;
-      currentDesktopEditorTab =
-        lastEditorSnapshot.currentDesktopEditorTab || currentDesktopEditorTab;
+      currentDesktopEditorTab = lastEditorSnapshot.currentDesktopEditorTab || currentDesktopEditorTab;
       lastEditorSnapshot = null;
       editorUndoFocusTarget = null;
 
@@ -5145,17 +4946,11 @@
     }
 
     function getAllVariableNames() {
-      return [
-        ...RESERVED_VARS.map((v) => v.name),
-        ...project.variables.map((v) => v.name),
-      ];
+      return [...RESERVED_VARS.map((v) => v.name), ...project.variables.map((v) => v.name)];
     }
 
     function getVariableDefinition(name) {
-      return (
-        RESERVED_VARS.find((v) => v.name === name) ||
-        project.variables.find((v) => v.name === name)
-      );
+      return RESERVED_VARS.find((v) => v.name === name) || project.variables.find((v) => v.name === name);
     }
 
     function normalizeProject(proj) {
@@ -5171,33 +4966,21 @@
       proj.journal = proj.journal
         .filter((note) => note && typeof note === "object")
         .map((note, index) => ({
-          id:
-            typeof note.id === "string" && note.id.trim()
-              ? note.id
-              : `note_${Date.now()}_${index}`,
+          id: typeof note.id === "string" && note.id.trim() ? note.id : `note_${Date.now()}_${index}`,
           text: typeof note.text === "string" ? note.text : "",
           done: Boolean(note.done),
           type: note.type === "task" ? "task" : "rem",
-          createdAt:
-            typeof note.createdAt === "string" && note.createdAt.trim()
-              ? note.createdAt
-              : new Date().toISOString(),
+          createdAt: typeof note.createdAt === "string" && note.createdAt.trim() ? note.createdAt : new Date().toISOString(),
         }))
         .filter((note) => note.text.trim());
       if (!proj.scenes) proj.scenes = {};
       proj.journal = proj.journal
         .filter((note) => note && typeof note === "object")
         .map((note, index) => ({
-          id:
-            typeof note.id === "string" && note.id.trim()
-              ? note.id
-              : `note_${Date.now()}_${index}`,
+          id: typeof note.id === "string" && note.id.trim() ? note.id : `note_${Date.now()}_${index}`,
           text: typeof note.text === "string" ? note.text : "",
           done: Boolean(note.done),
-          createdAt:
-            typeof note.createdAt === "string" && note.createdAt.trim()
-              ? note.createdAt
-              : new Date().toISOString(),
+          createdAt: typeof note.createdAt === "string" && note.createdAt.trim() ? note.createdAt : new Date().toISOString(),
         }))
         .filter((note) => note.text.trim());
       if (!proj.scenes) proj.scenes = {};
@@ -5219,10 +5002,8 @@
         }
 
         if (!Array.isArray(scene.choices)) scene.choices = [];
-        if (typeof scene.ending !== "boolean")
-          scene.ending = scene.type === "ending";
-        if (typeof scene.diagnosis !== "boolean")
-          scene.diagnosis = scene.type === "diagnosis";
+        if (typeof scene.ending !== "boolean") scene.ending = scene.type === "ending";
+        if (typeof scene.diagnosis !== "boolean") scene.diagnosis = scene.type === "diagnosis";
         scene.choices.forEach((choice) => {
           if (!choice.effects) choice.effects = {};
           choice.effects.score ??= 0;
@@ -5245,10 +5026,7 @@
 
       proj.help.title ??= "Comment jouer";
       if (!Array.isArray(proj.help.content)) {
-        proj.help.content =
-          typeof proj.help.content === "string"
-            ? splitParagraphs(proj.help.content)
-            : [];
+        proj.help.content = typeof proj.help.content === "string" ? splitParagraphs(proj.help.content) : [];
       }
 
       if (!proj.ui.theme) proj.ui.theme = {};
@@ -5277,8 +5055,7 @@
       proj.ui.labels.undo ??= "Revenir d’un pas";
       proj.ui.labels.inventoryEmpty ??= "Aucun élément récolté";
       proj.ui.labels.logEmpty ??= "Aucun événement notable pour le moment.";
-      proj.ui.labels.decisionEmpty ??=
-        "Aucune décision enregistrée pour le moment.";
+      proj.ui.labels.decisionEmpty ??= "Aucune décision enregistrée pour le moment.";
       proj.ui.labels.noWarning ??= "Aucune alerte majeure pour l’instant.";
       proj.ui.labels.progressLabel ??= "Progression";
       proj.ui.labels.scoreLabel ??= "Score";
@@ -5297,15 +5074,12 @@
       document.body.classList.toggle("simple-mode", simple);
 
       if (els.simpleModeToggleBtn) {
-        const nextLabel = simple
-          ? "Passer en mode expert"
-          : "Passer en mode simple";
+        const nextLabel = simple ? "Passer en mode expert" : "Passer en mode simple";
 
         els.simpleModeToggleBtn.setAttribute("aria-label", nextLabel);
         els.simpleModeToggleBtn.dataset.toolbarLabel = nextLabel;
 
-        const overlayLabel =
-          els.simpleModeToggleBtn.querySelector(".toolbarIconLabel");
+        const overlayLabel = els.simpleModeToggleBtn.querySelector(".toolbarIconLabel");
 
         if (overlayLabel) overlayLabel.textContent = nextLabel;
 
@@ -5314,41 +5088,39 @@
         if (icon) {
           if (simple) {
             icon.innerHTML = `
-<g transform="translate(12 12) scale(1.25) translate(-12 -12)">
-    <path d="M14.5 4.5
-             C12 5 9.8 7.2 9.3 9.7
-             L8.9 11.4
-             L12.6 15.1
-             L14.3 14.7
-             C16.8 14.2 19 12 19.5 9.5
-             C19.8 7.8 19.3 6.2 18 5
-             C16.8 3.7 15.9 4.2 14.5 4.5Z"/>
-    <path d="M10.1 10.1L6.5 9.5L8.1 13.9"/>
-    <path d="M13.9 13.9L14.5 17.5L10.1 15.9"/>
-    <circle cx="14.2" cy="9.8" r="1.2"/>
-    <path d="M8.3 16.2
-             C7.6 16.6 7 17.2 6.6 17.9
-             C6.3 18.5 6.1 19.1 6 20
-             C6.9 19.9 7.5 19.7 8.1 19.4
-             C8.8 19 9.4 18.4 9.8 17.7"/>
-  </g>
-`;
+              <g transform="translate(12 12) scale(1.25) translate(-12 -12)">
+                  <path d="M14.5 4.5
+                          C12 5 9.8 7.2 9.3 9.7
+                          L8.9 11.4
+                          L12.6 15.1
+                          L14.3 14.7
+                          C16.8 14.2 19 12 19.5 9.5
+                          C19.8 7.8 19.3 6.2 18 5
+                          C16.8 3.7 15.9 4.2 14.5 4.5Z"/>
+                  <path d="M10.1 10.1L6.5 9.5L8.1 13.9"/>
+                  <path d="M13.9 13.9L14.5 17.5L10.1 15.9"/>
+                  <circle cx="14.2" cy="9.8" r="1.2"/>
+                  <path d="M8.3 16.2
+                          C7.6 16.6 7 17.2 6.6 17.9
+                          C6.3 18.5 6.1 19.1 6 20
+                          C6.9 19.9 7.5 19.7 8.1 19.4
+                          C8.8 19 9.4 18.4 9.8 17.7"/>
+                </g>
+              `;
           } else {
             icon.innerHTML = `
-        <path d="M3 10l9-4 9 4-9 4-9-4z"/>
-        <path d="M7 12v4c2 1.5 8 1.5 10 0v-4"/>
-        <path d="M21 10v4"/>
-        <circle cx="21" cy="15.5" r="1"/>
-      `;
+                      <path d="M3 10l9-4 9 4-9 4-9-4z"/>
+                      <path d="M7 12v4c2 1.5 8 1.5 10 0v-4"/>
+                      <path d="M21 10v4"/>
+                      <circle cx="21" cy="15.5" r="1"/>
+                    `;
           }
         }
       }
 
       if (els.modeIndicator) {
         els.modeIndicator.textContent = simple ? "🐣" : "🦾";
-        els.modeIndicator.title = simple
-          ? "Mode simple actif"
-          : "Mode expert actif";
+        els.modeIndicator.title = simple ? "Mode simple actif" : "Mode expert actif";
       }
     }
     function updateEditorFullscreenButton() {
@@ -5357,28 +5129,18 @@
       const isFullscreen = Boolean(document.fullscreenElement);
 
       els.editorFullscreenBtn.classList.toggle("is-active", isFullscreen);
-      els.editorFullscreenBtn.setAttribute(
-        "aria-pressed",
-        isFullscreen ? "true" : "false",
-      );
+      els.editorFullscreenBtn.setAttribute("aria-pressed", isFullscreen ? "true" : "false");
 
-      const nextLabel = isFullscreen
-        ? "Quitter le plein écran"
-        : "Passer l’éditeur en plein écran";
+      const nextLabel = isFullscreen ? "Quitter le plein écran" : "Passer l’éditeur en plein écran";
 
       els.editorFullscreenBtn.setAttribute("aria-label", nextLabel);
       els.editorFullscreenBtn.setAttribute("title", nextLabel);
-      els.editorFullscreenBtn.dataset.toolbarLabel = isFullscreen
-        ? "Quitter plein écran"
-        : "Plein écran";
+      els.editorFullscreenBtn.dataset.toolbarLabel = isFullscreen ? "Quitter plein écran" : "Plein écran";
 
-      const overlayLabel =
-        els.editorFullscreenBtn.querySelector(".toolbarIconLabel");
+      const overlayLabel = els.editorFullscreenBtn.querySelector(".toolbarIconLabel");
 
       if (overlayLabel) {
-        overlayLabel.textContent = isFullscreen
-          ? "Quitter plein écran"
-          : "Plein écran";
+        overlayLabel.textContent = isFullscreen ? "Quitter plein écran" : "Plein écran";
       }
     }
 
@@ -5397,10 +5159,7 @@
           await document.exitFullscreen();
         }
       } catch (error) {
-        console.error(
-          "Impossible de basculer l’éditeur en plein écran.",
-          error,
-        );
+        console.error("Impossible de basculer l’éditeur en plein écran.", error);
         alert("Impossible d’activer le plein écran sur ce navigateur ou dans ce contexte.");
       }
     }
@@ -5415,9 +5174,7 @@
     }
 
     function initToolbarLongPressHints() {
-      const interactiveIconButtons = Array.from(
-        document.querySelectorAll(".toolbarIconBtn, .desktopSidebarIconBtn"),
-      );
+      const interactiveIconButtons = Array.from(document.querySelectorAll(".toolbarIconBtn, .desktopSidebarIconBtn"));
 
       interactiveIconButtons.forEach((button) => {
         button.addEventListener("contextmenu", (event) => {
@@ -5461,12 +5218,7 @@
           { value: "remediation", label: "Remédiation" },
         ];
 
-      return options
-        .map(
-          (opt) =>
-            `<option value="${escapeAttr(opt.value)}">${escapeHtml(opt.label)}</option>`,
-        )
-        .join("");
+      return options.map((opt) => `<option value="${escapeAttr(opt.value)}">${escapeHtml(opt.label)}</option>`).join("");
     }
 
     function splitParagraphs(text) {
@@ -5487,22 +5239,16 @@
         reader.onload = () => {
           const img = new Image();
           img.onload = () => resolve(img);
-          img.onerror = () =>
-            reject(new Error("Impossible de lire l’image."));
+          img.onerror = () => reject(new Error("Impossible de lire l’image."));
           img.src = reader.result;
         };
 
-        reader.onerror = () =>
-          reject(new Error("Impossible de lire le fichier."));
+        reader.onerror = () => reject(new Error("Impossible de lire le fichier."));
         reader.readAsDataURL(file);
       });
     }
 
-    async function resizeImageFileToDataUrl(
-      file,
-      maxWidth = 600,
-      quality = 0.82,
-    ) {
+    async function resizeImageFileToDataUrl(file, maxWidth = 600, quality = 0.82) {
       const img = await loadImageFromFile(file);
 
       const ratio = img.width > maxWidth ? maxWidth / img.width : 1;
@@ -5539,32 +5285,27 @@
       return {
         inter: {
           label: "Inter",
-          family:
-            '"Inter", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif',
+          family: '"Inter", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif',
           href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap",
         },
         roboto: {
           label: "Roboto",
-          family:
-            '"Roboto", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif',
+          family: '"Roboto", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif',
           href: "https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap",
         },
         openSans: {
           label: "Open Sans",
-          family:
-            '"Open Sans", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif',
+          family: '"Open Sans", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif',
           href: "https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&display=swap",
         },
         lato: {
           label: "Lato",
-          family:
-            '"Lato", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif',
+          family: '"Lato", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif',
           href: "https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&display=swap",
         },
         montserrat: {
           label: "Montserrat",
-          family:
-            '"Montserrat", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif',
+          family: '"Montserrat", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif',
           href: "https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap",
         },
         merriweather: {
@@ -5574,14 +5315,12 @@
         },
         sourceSans3: {
           label: "Source Sans 3",
-          family:
-            '"Source Sans 3", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif',
+          family: '"Source Sans 3", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif',
           href: "https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;800&display=swap",
         },
         nunito: {
           label: "Nunito",
-          family:
-            '"Nunito", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif',
+          family: '"Nunito", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif',
           href: "https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap",
         },
         playfairDisplay: {
@@ -5591,8 +5330,7 @@
         },
         ubuntu: {
           label: "Ubuntu",
-          family:
-            '"Ubuntu", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif',
+          family: '"Ubuntu", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif',
           href: "https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&display=swap",
         },
       };
@@ -5816,13 +5554,9 @@
     function renderThemeEditor() {
       const colors = getThemeColors(project);
 
-      if (els.themePresetSelect)
-        els.themePresetSelect.value = project.ui.theme.preset || "default";
-      if (els.fontPresetSelect)
-        els.fontPresetSelect.value = project.ui.typography?.preset || "inter";
-      if (els.sceneTransitionPresetSelect)
-        els.sceneTransitionPresetSelect.value =
-          project.ui.transitions?.preset || "fade";
+      if (els.themePresetSelect) els.themePresetSelect.value = project.ui.theme.preset || "default";
+      if (els.fontPresetSelect) els.fontPresetSelect.value = project.ui.typography?.preset || "inter";
+      if (els.sceneTransitionPresetSelect) els.sceneTransitionPresetSelect.value = project.ui.transitions?.preset || "fade";
       if (els.themeBg) els.themeBg.value = colors.bg;
       if (els.themeBg2) els.themeBg2.value = colors.bg2;
       if (els.themePanel) els.themePanel.value = colors.panel;
@@ -5871,23 +5605,16 @@
       if (!force && lastEditorSectionsResponsiveMode === mode) return;
       lastEditorSectionsResponsiveMode = mode;
 
-      document
-        .querySelectorAll("#editorTab details.editorSection")
-        .forEach((detailsEl) => {
-          detailsEl.open = mode === "desktop";
-        });
+      document.querySelectorAll("#editorTab details.editorSection").forEach((detailsEl) => {
+        detailsEl.open = mode === "desktop";
+      });
     }
 
     function applyDesktopPaneWidth(width) {
       const min = 320;
       const max = Math.min(window.innerWidth - 560, 760);
       desktopLeftPaneWidth = Math.max(min, Math.min(width, max));
-      document
-        .querySelector(".mainGrid")
-        ?.style.setProperty(
-          "--editor-left-pane-width",
-          `${desktopLeftPaneWidth}px`,
-        );
+      document.querySelector(".mainGrid")?.style.setProperty("--editor-left-pane-width", `${desktopLeftPaneWidth}px`);
     }
 
     function syncDesktopEditorTabs() {
@@ -5895,29 +5622,20 @@
       const buttons = document.querySelectorAll(".desktopEditorTabBtn");
 
       const advancedHidden = isSimpleMode();
-      const allowedTabs = advancedHidden
-        ? ["project", "scenes"]
-        : ["project", "scenes", "variables", "rules", "diagnostics"];
+      const allowedTabs = advancedHidden ? ["project", "scenes"] : ["project", "scenes", "variables", "rules", "diagnostics"];
 
       if (!allowedTabs.includes(currentDesktopEditorTab)) {
         currentDesktopEditorTab = "project";
       }
 
       sections.forEach((section) => {
-        section.classList.toggle(
-          "desktopSectionActive",
-          section.dataset.desktopSection === currentDesktopEditorTab,
-        );
+        section.classList.toggle("desktopSectionActive", section.dataset.desktopSection === currentDesktopEditorTab);
       });
 
       buttons.forEach((btn) => {
-        const isHiddenInSimple =
-          btn.dataset.simpleHide === "advanced" && advancedHidden;
+        const isHiddenInSimple = btn.dataset.simpleHide === "advanced" && advancedHidden;
         btn.style.display = isHiddenInSimple ? "none" : "";
-        btn.classList.toggle(
-          "active",
-          btn.dataset.desktopTab === currentDesktopEditorTab,
-        );
+        btn.classList.toggle("active", btn.dataset.desktopTab === currentDesktopEditorTab);
       });
     }
 
@@ -5997,78 +5715,74 @@
     }
 
     function renderGraphScenePreview(sceneId) {
-  if (!els.graphScenePreviewContent) return;
+      if (!els.graphScenePreviewContent) return;
 
-  const scene = project.scenes?.[sceneId];
-  if (!scene) {
-    els.graphScenePreviewContent.innerHTML = `
+      const scene = project.scenes?.[sceneId];
+      if (!scene) {
+        els.graphScenePreviewContent.innerHTML = `
       <div class="notice warn">
         Impossible d’afficher l’aperçu de cette scène.
       </div>
     `;
-    if (els.graphScenePreviewModalSubtitle) {
-      els.graphScenePreviewModalSubtitle.textContent =
-        "La scène demandée est introuvable.";
-    }
-    return;
-  }
+        if (els.graphScenePreviewModalSubtitle) {
+          els.graphScenePreviewModalSubtitle.textContent = "La scène demandée est introuvable.";
+        }
+        return;
+      }
 
-  const sceneName = (scene.title || sceneId || "").trim() || sceneId;
-  const sceneChapter = (scene.chapter || "").trim() || "Sans chapitre";
-  const sceneType = getSceneTypeLabel(scene.type);
-  const sceneText = Array.isArray(scene.text)
-    ? scene.text.filter(Boolean).join("\n\n")
-    : String(scene.text || "");
-  const choices = Array.isArray(scene.choices) ? scene.choices : [];
-  const incomingLinks = getIncomingLinks(sceneId);
+      const sceneName = (scene.title || sceneId || "").trim() || sceneId;
+      const sceneChapter = (scene.chapter || "").trim() || "Sans chapitre";
+      const sceneType = getSceneTypeLabel(scene.type);
+      const sceneText = Array.isArray(scene.text) ? scene.text.filter(Boolean).join("\n\n") : String(scene.text || "");
+      const choices = Array.isArray(scene.choices) ? scene.choices : [];
+      const incomingLinks = getIncomingLinks(sceneId);
 
-  const textHtml = sceneText
-    ? escapeHtml(sceneText).replace(/\n/g, "<br>")
-    : "<span class=\"muted\">Aucun texte.</span>";
+      const textHtml = sceneText ? escapeHtml(sceneText).replace(/\n/g, "<br>") : '<span class="muted">Aucun texte.</span>';
 
-  const choicesHtml = choices.length
-    ? `
+      const choicesHtml = choices.length
+        ? `
       <div class="row">
         <strong>Choix et destinations</strong>
         <div class="list" style="margin-top: 8px">
           ${choices
-            .map((choice, index) => {
-              const choiceName =
-                (choice?.title || "").trim() || `Choix ${index + 1}`;
-              const targetId = (choice?.goto || "").trim();
-              const targetScene = targetId ? project.scenes?.[targetId] : null;
-              const targetName = targetScene
-                ? ((targetScene.title || targetId).trim() || targetId)
-                : "";
-              const destinationHtml = targetId
-                ? `
+          .map((choice, index) => {
+            const choiceName = (choice?.title || "").trim() || `Choix ${index + 1}`;
+            const targetId = (choice?.goto || "").trim();
+            const targetScene = targetId ? project.scenes?.[targetId] : null;
+            const targetName = targetScene ? (targetScene.title || targetId).trim() || targetId : "";
+            const destinationHtml = targetId
+              ? `
                   <div class="muted small" style="margin-top: 6px">
                     Destination :
                     <code>${escapeHtml(targetId)}</code>
-                    ${targetName && targetName !== targetId
-                      ? ` — ${escapeHtml(targetName)}`
-                      : ""}
+                    ${targetName && targetName !== targetId ? ` — ${escapeHtml(targetName)}` : ""}
                   </div>
                 `
-                : `
+              : `
                   <div class="muted small" style="margin-top: 6px">
                     Destination non définie.
                   </div>
                 `;
 
-              return `
-                <div class="itemCard">
-                  <div><strong>Choix ${index + 1}</strong></div>
-                  <div style="margin-top: 6px">${escapeHtml(choiceName)}</div>
-                  ${destinationHtml}
-                </div>
-              `;
-            })
-            .join("")}
+            return `
+              <button
+                type="button"
+                class="itemCard graphPreviewLinkCard"
+                data-action="openPreviewSceneLink"
+                data-scene-id="${escapeAttr(sceneId)}"
+                data-choice-index="${index}"
+              >
+                <div><strong>Choix ${index + 1}</strong></div>
+                <div style="margin-top: 6px">${escapeHtml(choiceName)}</div>
+                ${destinationHtml}
+              </button>
+            `;
+          })
+          .join("")}
         </div>
       </div>
     `
-    : `
+        : `
       <div class="row">
         <strong>Choix et destinations</strong>
         <div class="muted small" style="margin-top: 8px">
@@ -6077,37 +5791,40 @@
       </div>
     `;
 
-  const incomingHtml = incomingLinks.length
-    ? `
+      const incomingHtml = incomingLinks.length
+        ? `
       <div class="row">
         <strong>Scènes d’origine</strong>
         <div class="list" style="margin-top: 8px">
           ${incomingLinks
-            .map((link) => {
-              const sourceScene = project.scenes?.[link.sourceSceneId];
-              const sourceName = sourceScene
-                ? ((sourceScene.title || link.sourceSceneId).trim() || link.sourceSceneId)
-                : link.sourceSceneId;
-              const choiceLabel =
-                (link.choiceTitle || "").trim() || `Choix ${link.choiceIndex + 1}`;
+          .map((link) => {
+            const sourceScene = project.scenes?.[link.sourceSceneId];
+            const sourceName = sourceScene ? (sourceScene.title || link.sourceSceneId).trim() || link.sourceSceneId : link.sourceSceneId;
+            const choiceLabel = (link.choiceTitle || "").trim() || `Choix ${link.choiceIndex + 1}`;
 
-              return `
-                <div class="itemCard">
-                  <div>
-                    <strong>${escapeHtml(sourceName)}</strong>
-                    <span class="muted small"> — <code>${escapeHtml(link.sourceSceneId)}</code></span>
-                  </div>
-                  <div class="muted small" style="margin-top: 6px">
-                    Choix ${link.choiceIndex + 1} — ${escapeHtml(choiceLabel)}
-                  </div>
-                </div>
-              `;
-            })
-            .join("")}
+            return `
+  <button
+    type="button"
+    class="itemCard graphPreviewLinkCard"
+    data-action="openPreviewSceneLink"
+    data-scene-id="${escapeAttr(link.sourceSceneId)}"
+    data-choice-index="${link.choiceIndex}"
+  >
+    <div>
+      <strong>${escapeHtml(sourceName)}</strong>
+      <span class="muted small"> — <code>${escapeHtml(link.sourceSceneId)}</code></span>
+    </div>
+    <div class="muted small" style="margin-top: 6px">
+      Choix ${link.choiceIndex + 1} — ${escapeHtml(choiceLabel)}
+    </div>
+  </button>
+`;
+          })
+          .join("")}
         </div>
       </div>
     `
-    : `
+        : `
       <div class="row">
         <strong>Scènes d’origine</strong>
         <div class="muted small" style="margin-top: 8px">
@@ -6116,7 +5833,7 @@
       </div>
     `;
 
-  els.graphScenePreviewContent.innerHTML = `
+      els.graphScenePreviewContent.innerHTML = `
     <div class="kv">
       <div class="row">
         <strong>Nom</strong>
@@ -6143,11 +5860,10 @@
     </div>
   `;
 
-  if (els.graphScenePreviewModalSubtitle) {
-    els.graphScenePreviewModalSubtitle.textContent =
-      `Aperçu rapide de la scène « ${sceneName} ».`;
-  }
-}
+      if (els.graphScenePreviewModalSubtitle) {
+        els.graphScenePreviewModalSubtitle.textContent = `Aperçu rapide de la scène « ${sceneName} ».`;
+      }
+    }
 
     function openGraphScenePreviewModal(sceneId) {
       if (!sceneId || !els.graphScenePreviewModal) return;
@@ -6186,8 +5902,7 @@
           els.sceneEditorModalContent.appendChild(els.sceneEditor);
         }
       } else {
-        const desktopHost =
-          document.getElementById("sceneEditorEmpty")?.parentElement;
+        const desktopHost = document.getElementById("sceneEditorEmpty")?.parentElement;
         if (desktopHost && els.sceneEditor.parentElement !== desktopHost) {
           desktopHost.appendChild(els.sceneEditor);
         }
@@ -6206,9 +5921,7 @@
         if (!cycleSteps.length) return;
 
         const cycleSignature = cycleSteps
-          .map(
-            (step) => `${step.sceneId}:${step.choiceIndex}->${step.targetId}`,
-          )
+          .map((step) => `${step.sceneId}:${step.choiceIndex}->${step.targetId}`)
           .sort((a, b) => a.localeCompare(b, "fr"))
           .join("|");
 
@@ -6220,13 +5933,9 @@
           targetId: step.targetId,
         }));
 
-        const orderedLabels = cycleSteps.map(
-          (step) => `${step.sceneId} (choix ${step.choiceIndex + 1})`,
-        );
+        const orderedLabels = cycleSteps.map((step) => `${step.sceneId} (choix ${step.choiceIndex + 1})`);
         const closesOn = cycleSteps[0]?.sceneId;
-        const pathLabel = closesOn
-          ? `${orderedLabels.join(" → ")} → ${closesOn}`
-          : orderedLabels.join(" → ");
+        const pathLabel = closesOn ? `${orderedLabels.join(" → ")} → ${closesOn}` : orderedLabels.join(" → ");
 
         uniqueCycles.set(cycleSignature, {
           scenes: scenesSummary,
@@ -6245,9 +5954,7 @@
           if (!targetId || !scenes[targetId]) return;
 
           const step = { sceneId, choiceIndex, targetId };
-          const cycleStartIndex = activePath.findIndex(
-            (entry) => entry.sceneId === targetId,
-          );
+          const cycleStartIndex = activePath.findIndex((entry) => entry.sceneId === targetId);
 
           if (cycleStartIndex !== -1) {
             registerCycle([...activePath.slice(cycleStartIndex), step]);
@@ -6270,9 +5977,7 @@
         visit(sceneId);
       });
 
-      return Array.from(uniqueCycles.values()).sort((a, b) =>
-        a.pathLabel.localeCompare(b.pathLabel, "fr"),
-      );
+      return Array.from(uniqueCycles.values()).sort((a, b) => a.pathLabel.localeCompare(b.pathLabel, "fr"));
     }
 
     function buildCycleAlertHighlight(cycle) {
@@ -6314,17 +6019,13 @@
       }
 
       if (!proj.scenes.diagnostic_collapse) {
-        warnings.push(
-          "La scène 'diagnostic_collapse' n’existe pas. Certaines règles peuvent pointer vers une scène absente.",
-        );
+        warnings.push("La scène 'diagnostic_collapse' n’existe pas. Certaines règles peuvent pointer vers une scène absente.");
       }
 
       const seenVarNames = new Set();
       proj.variables.forEach((v) => {
-        if (!v.name?.trim())
-          errors.push("Une variable a un nom technique vide.");
-        if (seenVarNames.has(v.name))
-          errors.push(`Nom de variable dupliqué : ${v.name}`);
+        if (!v.name?.trim()) errors.push("Une variable a un nom technique vide.");
+        if (seenVarNames.has(v.name)) errors.push(`Nom de variable dupliqué : ${v.name}`);
         seenVarNames.add(v.name);
       });
 
@@ -6335,24 +6036,18 @@
         }
         scene.choices.forEach((choice, idx) => {
           if (!choice.goto || !proj.scenes[choice.goto]) {
-            errors.push(
-              `La scène '${id}', choix ${idx + 1}, pointe vers une cible inexistante : '${choice.goto}'.`,
-            );
+            errors.push(`La scène '${id}', choix ${idx + 1}, pointe vers une cible inexistante : '${choice.goto}'.`);
           }
 
           Object.keys(choice.effects?.setFlags || {}).forEach((flagName) => {
             if (!varNames.includes(flagName)) {
-              errors.push(
-                `La scène '${id}', choix ${idx + 1}, définit une variable inconnue : '${flagName}'.`,
-              );
+              errors.push(`La scène '${id}', choix ${idx + 1}, définit une variable inconnue : '${flagName}'.`);
             }
           });
 
           Object.keys(choice.effects?.bumpFlags || {}).forEach((flagName) => {
             if (!varNames.includes(flagName)) {
-              errors.push(
-                `La scène '${id}', choix ${idx + 1}, incrémente une variable inconnue : '${flagName}'.`,
-              );
+              errors.push(`La scène '${id}', choix ${idx + 1}, incrémente une variable inconnue : '${flagName}'.`);
             }
           });
         });
@@ -6360,15 +6055,11 @@
 
       proj.rules.collapse.forEach((rule) => {
         if (!rule.goto || !proj.scenes[rule.goto]) {
-          errors.push(
-            `La règle d’effondrement '${rule.name}' pointe vers une scène inexistante : '${rule.goto}'.`,
-          );
+          errors.push(`La règle d’effondrement '${rule.name}' pointe vers une scène inexistante : '${rule.goto}'.`);
         }
         (rule.conditions || []).forEach((cond) => {
           if (!varNames.includes(cond.variable)) {
-            errors.push(
-              `La règle '${rule.name}' utilise une variable inconnue : '${cond.variable}'.`,
-            );
+            errors.push(`La règle '${rule.name}' utilise une variable inconnue : '${cond.variable}'.`);
           }
         });
       });
@@ -6376,9 +6067,7 @@
       proj.diagnostics.forEach((diag) => {
         (diag.conditions || []).forEach((cond) => {
           if (!varNames.includes(cond.variable)) {
-            errors.push(
-              `Le diagnostic '${diag.title}' utilise une variable inconnue : '${cond.variable}'.`,
-            );
+            errors.push(`Le diagnostic '${diag.title}' utilise une variable inconnue : '${cond.variable}'.`);
           }
         });
       });
@@ -6394,9 +6083,7 @@
 
       sceneIds.forEach((id) => {
         if (id !== proj.meta.startScene && incoming.get(id) === 0) {
-          warnings.push(
-            `La scène '${id}' semble inaccessible depuis la scène de départ.`,
-          );
+          warnings.push(`La scène '${id}' semble inaccessible depuis la scène de départ.`);
         }
       });
 
@@ -6406,11 +6093,7 @@
           const scene = cycle.scenes[0];
           message = `Boucle détectée sur la scène '${scene.sceneId}' via le choix ${scene.choiceNumber}.`;
         } else {
-          const detail = cycle.scenes
-            .map(
-              (scene) => `'${scene.sceneId}' : choix ${scene.choiceNumber}`,
-            )
-            .join(", ");
+          const detail = cycle.scenes.map((scene) => `'${scene.sceneId}' : choix ${scene.choiceNumber}`).join(", ");
           message = `Boucle détectée. Scènes et choix concernés : ${detail}. Parcours : ${cycle.pathLabel}.`;
         }
 
@@ -6483,12 +6166,7 @@
       renderThemeEditor();
 
       const sceneIds = Object.keys(project.scenes);
-      els.metaStartScene.innerHTML = sceneIds
-        .map(
-          (id) =>
-            `<option value="${escapeHtml(id)}">${escapeHtml(id)}</option>`,
-        )
-        .join("");
+      els.metaStartScene.innerHTML = sceneIds.map((id) => `<option value="${escapeHtml(id)}">${escapeHtml(id)}</option>`).join("");
       els.metaStartScene.value = project.meta.startScene;
     }
 
@@ -6496,12 +6174,7 @@
       els.variablesList.innerHTML = "";
       const filterValue = editorFilters.variables;
 
-      RESERVED_VARS.filter((v) =>
-        textMatchesFilter(
-          [v.label, v.name, v.type, String(v.initial)],
-          filterValue,
-        ),
-      ).forEach((v) => {
+      RESERVED_VARS.filter((v) => textMatchesFilter([v.label, v.name, v.type, String(v.initial)], filterValue)).forEach((v) => {
         const div = document.createElement("div");
         div.className = "varBlock";
         div.innerHTML = `
@@ -6525,19 +6198,7 @@
       });
 
       project.variables.forEach((v, idx) => {
-        if (
-          !textMatchesFilter(
-            [
-              v.name,
-              v.label,
-              v.type,
-              v.category,
-              v.description,
-              String(v.initial),
-            ],
-            filterValue,
-          )
-        ) {
+        if (!textMatchesFilter([v.name, v.label, v.type, v.category, v.description, String(v.initial)], filterValue)) {
           return;
         }
         const div = document.createElement("div");
@@ -6550,139 +6211,139 @@
             </div>
           </div>
           <div class="fieldGrid two">
-<div>
-  <div class="fieldLabel">
-    <label>Nom technique</label>
-    <button type="button" class="helpIcon" data-help-toggle="help-varName-${idx}" aria-label="Aide sur le nom technique de la variable" aria-expanded="false">?</button>
-  </div>
-  <div class="helpBubble" id="help-varName-${idx}" role="note">
-    <strong>Nom technique</strong>
-    Saisissez un identifiant technique unique et simple pour la variable. Il sera utilisé dans les effets, les règles et les diagnostics.
-  </div>
-  <input data-action="varName" data-index="${idx}" value="${escapeAttr(v.name)}" />
-</div>
-<div>
-  <div class="fieldLabel">
-    <label>Libellé</label>
-    <button type="button" class="helpIcon" data-help-toggle="help-varLabel-${idx}" aria-label="Aide sur le libellé de la variable" aria-expanded="false">?</button>
-  </div>
-  <div class="helpBubble" id="help-varLabel-${idx}" role="note">
-    <strong>Libellé</strong>
-    Renseignez un nom lisible par vous-même. Ce libellé aide à comprendre rapidement le rôle de la variable dans l’éditeur.
-  </div>
-  <input data-action="varLabel" data-index="${idx}" value="${escapeAttr(v.label || "")}" />
-</div>
-          <div>
-  <div class="fieldLabel">
-    <label>Type</label>
-    <button type="button" class="helpIcon" data-help-toggle="help-varType-${idx}" aria-label="Aide sur le type de variable" aria-expanded="false">?</button>
-  </div>
-  <div class="helpBubble" id="help-varType-${idx}" role="note">
-    <strong>Type</strong>
-    Choisissez booléen pour un état vrai ou faux, et nombre pour un compteur ou un niveau d’intensité.
-  </div>
-  <select data-action="varType" data-index="${idx}">
-                <option value="boolean" ${v.type === "boolean" ? "selected" : ""}>Booléen</option>
-                <option value="number" ${v.type === "number" ? "selected" : ""}>Nombre</option>
-              </select>
+            <div>
+              <div class="fieldLabel">
+                <label>Nom technique</label>
+                <button type="button" class="helpIcon" data-help-toggle="help-varName-${idx}" aria-label="Aide sur le nom technique de la variable" aria-expanded="false">?</button>
+              </div>
+              <div class="helpBubble" id="help-varName-${idx}" role="note">
+                <strong>Nom technique</strong>
+                Saisissez un identifiant technique unique et simple pour la variable. Il sera utilisé dans les effets, les règles et les diagnostics.
+              </div>
+              <input data-action="varName" data-index="${idx}" value="${escapeAttr(v.name)}" />
             </div>
-<div>
-  <div class="fieldLabel">
-    <label>Valeur initiale</label>
-    <button type="button" class="helpIcon" data-help-toggle="help-varInitial-${idx}" aria-label="Aide sur la valeur initiale" aria-expanded="false">?</button>
-  </div>
-  <div class="helpBubble" id="help-varInitial-${idx}" role="note">
-    <strong>Valeur initiale</strong>
-    Définissez la valeur de départ de la variable au lancement du jeu. Elle sert d’état initial avant toute décision du joueur.
-  </div>
-              ${v.type === "boolean"
+            <div>
+              <div class="fieldLabel">
+                <label>Libellé</label>
+                <button type="button" class="helpIcon" data-help-toggle="help-varLabel-${idx}" aria-label="Aide sur le libellé de la variable" aria-expanded="false">?</button>
+              </div>
+              <div class="helpBubble" id="help-varLabel-${idx}" role="note">
+                <strong>Libellé</strong>
+                Renseignez un nom lisible par vous-même. Ce libellé aide à comprendre rapidement le rôle de la variable dans l’éditeur.
+              </div>
+              <input data-action="varLabel" data-index="${idx}" value="${escapeAttr(v.label || "")}" />
+            </div>
+                      <div>
+              <div class="fieldLabel">
+                <label>Type</label>
+                <button type="button" class="helpIcon" data-help-toggle="help-varType-${idx}" aria-label="Aide sur le type de variable" aria-expanded="false">?</button>
+              </div>
+              <div class="helpBubble" id="help-varType-${idx}" role="note">
+                <strong>Type</strong>
+                Choisissez booléen pour un état vrai ou faux, et nombre pour un compteur ou un niveau d’intensité.
+              </div>
+              <select data-action="varType" data-index="${idx}">
+                            <option value="boolean" ${v.type === "boolean" ? "selected" : ""}>Booléen</option>
+                            <option value="number" ${v.type === "number" ? "selected" : ""}>Nombre</option>
+                          </select>
+                        </div>
+            <div>
+              <div class="fieldLabel">
+                <label>Valeur initiale</label>
+                <button type="button" class="helpIcon" data-help-toggle="help-varInitial-${idx}" aria-label="Aide sur la valeur initiale" aria-expanded="false">?</button>
+              </div>
+              <div class="helpBubble" id="help-varInitial-${idx}" role="note">
+                <strong>Valeur initiale</strong>
+                Définissez la valeur de départ de la variable au lancement du jeu. Elle sert d’état initial avant toute décision du joueur.
+              </div>
+                          ${v.type === "boolean"
             ? `<select data-action="varInitialBool" data-index="${idx}">
-                    <option value="true" ${v.initial === true ? "selected" : ""}>true</option>
-                    <option value="false" ${v.initial === false ? "selected" : ""}>false</option>
-                  </select>`
+                                <option value="true" ${v.initial === true ? "selected" : ""}>true</option>
+                                <option value="false" ${v.initial === false ? "selected" : ""}>false</option>
+                              </select>`
             : `<input type="number" data-action="varInitialNumber" data-index="${idx}" value="${Number(v.initial || 0)}" />`
           }
+                        </div>
+            <div>
+              <div class="fieldLabel">
+                <label>Catégorie</label>
+                <button
+                  type="button"
+                  class="helpIcon"
+                  data-help-toggle="help-varCategory-${idx}"
+                  aria-label="Aide sur la catégorie"
+                  aria-expanded="false"
+                >
+                  ?
+                </button>
+              </div>
+
+              <div class="helpBubble" id="help-varCategory-${idx}" role="note">
+                <strong>À quoi sert la catégorie</strong>
+
+                La catégorie permet simplement de regrouper les variables qui parlent du même aspect du parcours.
+
+                <br><br>
+
+                <strong>Pourquoi c’est utile</strong>
+
+                Cela permet de garder un projet lisible lorsque le nombre de variables augmente, et d’identifier rapidement ce que chaque variable représente.
+
+                <br><br>
+
+                <strong>Conseil pratique</strong>
+
+                Si votre jeu reste simple, vous pouvez laisser ce champ vide. Il devient utile surtout lorsque votre simulation devient plus complexe.
+              </div>
+
+              <input data-action="varCategory" data-index="${idx}" value="${escapeAttr(v.category || "")}" />
             </div>
-<div>
-  <div class="fieldLabel">
-    <label>Catégorie</label>
-    <button
-      type="button"
-      class="helpIcon"
-      data-help-toggle="help-varCategory-${idx}"
-      aria-label="Aide sur la catégorie"
-      aria-expanded="false"
-    >
-      ?
-    </button>
-  </div>
+            <div>
+              <div class="fieldLabel">
+                <label>Description</label>
+                <button
+                  type="button"
+                  class="helpIcon"
+                  data-help-toggle="help-varDescription-${idx}"
+                  aria-label="Aide sur la description"
+                  aria-expanded="false"
+                >
+                  ?
+                </button>
+              </div>
 
-  <div class="helpBubble" id="help-varCategory-${idx}" role="note">
-    <strong>À quoi sert la catégorie</strong>
+              <div class="helpBubble" id="help-varDescription-${idx}" role="note">
+                <strong>À quoi sert la description</strong>
 
-    La catégorie permet simplement de regrouper les variables qui parlent du même aspect du parcours.
+                La description permet d’expliquer clairement ce que représente cette variable dans votre simulation.
 
-    <br><br>
+                <br><br>
 
-    <strong>Pourquoi c’est utile</strong>
+                <strong>Pourquoi c’est important</strong>
 
-    Cela permet de garder un projet lisible lorsque le nombre de variables augmente, et d’identifier rapidement ce que chaque variable représente.
+                Lorsque vous reviendrez plus tard sur votre projet, ou si quelqu’un d’autre l’utilise, cette description permettra de comprendre immédiatement le rôle de la variable.
 
-    <br><br>
+                <br><br>
 
-    <strong>Conseil pratique</strong>
+                <strong>Exemple</strong>
 
-    Si votre jeu reste simple, vous pouvez laisser ce champ vide. Il devient utile surtout lorsque votre simulation devient plus complexe.
-  </div>
+                Au lieu d’écrire seulement :
 
-  <input data-action="varCategory" data-index="${idx}" value="${escapeAttr(v.category || "")}" />
-</div>
-<div>
-  <div class="fieldLabel">
-    <label>Description</label>
-    <button
-      type="button"
-      class="helpIcon"
-      data-help-toggle="help-varDescription-${idx}"
-      aria-label="Aide sur la description"
-      aria-expanded="false"
-    >
-      ?
-    </button>
-  </div>
+                biasRisk
 
-  <div class="helpBubble" id="help-varDescription-${idx}" role="note">
-    <strong>À quoi sert la description</strong>
+                vous pouvez préciser :
 
-    La description permet d’expliquer clairement ce que représente cette variable dans votre simulation.
+                Niveau de risque lié à des jugements trop rapides.
 
-    <br><br>
+                <br><br>
 
-    <strong>Pourquoi c’est important</strong>
+                <strong>Conseil pratique</strong>
 
-    Lorsque vous reviendrez plus tard sur votre projet, ou si quelqu’un d’autre l’utilise, cette description permettra de comprendre immédiatement le rôle de la variable.
+                Décrivez toujours la variable comme si vous expliquiez à un collègue ce qu’elle représente dans la situation pédagogique.
+              </div>
 
-    <br><br>
-
-    <strong>Exemple</strong>
-
-    Au lieu d’écrire seulement :
-
-    biasRisk
-
-    vous pouvez préciser :
-
-    Niveau de risque lié à des jugements trop rapides.
-
-    <br><br>
-
-    <strong>Conseil pratique</strong>
-
-    Décrivez toujours la variable comme si vous expliquiez à un collègue ce qu’elle représente dans la situation pédagogique.
-  </div>
-
-  <input data-action="varDescription" data-index="${idx}" value="${escapeAttr(v.description || "")}" />
-</div>
+              <input data-action="varDescription" data-index="${idx}" value="${escapeAttr(v.description || "")}" />
+            </div>
           </div>
         `;
         els.variablesList.appendChild(div);
@@ -6697,16 +6358,7 @@
       els.rulesList.innerHTML = project.rules.collapse
         .filter((rule) =>
           textMatchesFilter(
-            [
-              rule.name,
-              rule.goto,
-              rule.operator,
-              ...(rule.conditions || []).flatMap((cond) => [
-                cond.variable,
-                cond.operator,
-                String(cond.value),
-              ]),
-            ],
+            [rule.name, rule.goto, rule.operator, ...(rule.conditions || []).flatMap((cond) => [cond.variable, cond.operator, String(cond.value)])],
             filterValue,
           ),
         )
@@ -6722,45 +6374,45 @@
           </div>
 
           <div class="fieldGrid two">
-<div>
-  <div class="fieldLabel">
-    <label>Nom</label>
-    <button type="button" class="helpIcon" data-help-toggle="help-ruleName-${idx}" aria-label="Aide sur le nom de la règle" aria-expanded="false">?</button>
-  </div>
-  <div class="helpBubble" id="help-ruleName-${idx}" role="note">
-    <strong>Nom de la règle</strong>
-    Donnez un nom clair à la règle d’effondrement. Cela aide à comprendre rapidement la logique de bascule vers le diagnostic.
-  </div>
-  <input data-action="ruleName" data-index="${idx}" value="${escapeAttr(rule.name || "")}" />
-</div>
             <div>
-  <div class="fieldLabel">
-    <label>Combinaison des conditions</label>
-    <button type="button" class="helpIcon" data-help-toggle="help-ruleOperator-${idx}" aria-label="Aide sur la combinaison des conditions" aria-expanded="false">?</button>
-  </div>
-  <div class="helpBubble" id="help-ruleOperator-${idx}" role="note">
-    <strong>Combinaison des conditions</strong>
-    Vous pouvez décider que cet effondrement se produit en raison de plusieurs conditions. Choisissez ET si toutes les conditions doivent être vraies ensemble. Choisissez OU si une seule condition vraie parmi les différentes conditions suffit à déclencher la règle.
-  </div>
-  <select data-action="ruleOperator" data-index="${idx}">
+              <div class="fieldLabel">
+                <label>Nom</label>
+                <button type="button" class="helpIcon" data-help-toggle="help-ruleName-${idx}" aria-label="Aide sur le nom de la règle" aria-expanded="false">?</button>
+              </div>
+              <div class="helpBubble" id="help-ruleName-${idx}" role="note">
+                <strong>Nom de la règle</strong>
+                Donnez un nom clair à la règle d’effondrement. Cela aide à comprendre rapidement la logique de bascule vers le diagnostic.
+              </div>
+              <input data-action="ruleName" data-index="${idx}" value="${escapeAttr(rule.name || "")}" />
+            </div>
+          <div>
+          <div class="fieldLabel">
+            <label>Combinaison des conditions</label>
+            <button type="button" class="helpIcon" data-help-toggle="help-ruleOperator-${idx}" aria-label="Aide sur la combinaison des conditions" aria-expanded="false">?</button>
+          </div>
+          <div class="helpBubble" id="help-ruleOperator-${idx}" role="note">
+            <strong>Combinaison des conditions</strong>
+            Vous pouvez décider que cet effondrement se produit en raison de plusieurs conditions. Choisissez ET si toutes les conditions doivent être vraies ensemble. Choisissez OU si une seule condition vraie parmi les différentes conditions suffit à déclencher la règle.
+          </div>
+              <select data-action="ruleOperator" data-index="${idx}">
                 <option value="AND" ${rule.operator === "AND" ? "selected" : ""}>ET</option>
                 <option value="OR" ${rule.operator === "OR" ? "selected" : ""}>OU</option>
               </select>
-            </div>
-            <div>
-  <div class="fieldLabel">
-    <label>Scène de destination</label>
-    <button type="button" class="helpIcon" data-help-toggle="help-ruleGoto-${idx}" aria-label="Aide sur la scène de destination de la règle" aria-expanded="false">?</button>
-  </div>
-  <div class="helpBubble" id="help-ruleGoto-${idx}" role="note">
-    <strong>Ce qui est attendu</strong>
-    Sélectionnez la scène vers laquelle le jeu basculera si cette règle devient vraie. Il s’agit généralement d’une scène de diagnostic.
-  </div>
-  <select data-action="ruleGoto" data-index="${idx}">
-                ${sceneIds.map((id) => `<option value="${escapeAttr(id)}" ${rule.goto === id ? "selected" : ""}>${escapeHtml(id)}</option>`).join("")}
-              </select>
-            </div>
           </div>
+          <div>
+          <div class="fieldLabel">
+            <label>Scène de destination</label>
+            <button type="button" class="helpIcon" data-help-toggle="help-ruleGoto-${idx}" aria-label="Aide sur la scène de destination de la règle" aria-expanded="false">?</button>
+          </div>
+          <div class="helpBubble" id="help-ruleGoto-${idx}" role="note">
+            <strong>Ce qui est attendu</strong>
+            Sélectionnez la scène vers laquelle le jeu basculera si cette règle devient vraie. Il s’agit généralement d’une scène de diagnostic.
+          </div>
+          <select data-action="ruleGoto" data-index="${idx}">
+            ${sceneIds.map((id) => `<option value="${escapeAttr(id)}" ${rule.goto === id ? "selected" : ""}>${escapeHtml(id)}</option>`).join("")}
+          </select>
+        </div>
+      </div>
 
           <div class="stack" style="margin-top:10px;">
             ${(rule.conditions || [])
@@ -6855,11 +6507,7 @@
               diag.title,
               diag.text,
               diag.operator,
-              ...(diag.conditions || []).flatMap((cond) => [
-                cond.variable,
-                cond.operator,
-                String(cond.value),
-              ]),
+              ...(diag.conditions || []).flatMap((cond) => [cond.variable, cond.operator, String(cond.value)]),
             ],
             filterValue,
           ),
@@ -7019,15 +6667,7 @@
         .filter((id) => {
           const scene = project.scenes[id];
           return textMatchesFilter(
-            [
-              id,
-              scene.title,
-              scene.chapter,
-              scene.type,
-              scene.text,
-              scene.ending ? "fin" : "",
-              scene.diagnosis ? "diagnostic" : "",
-            ],
+            [id, scene.title, scene.chapter, scene.type, scene.text, scene.ending ? "fin" : "", scene.diagnosis ? "diagnostic" : ""],
             filterValue,
           );
         })
@@ -7115,11 +6755,7 @@
       els.sceneChapter.value = scene.chapter || "";
       els.sceneTitle.value = scene.title || "";
       els.sceneType.innerHTML = buildSceneTypeOptionsHtml();
-      els.sceneType.value =
-        isSimpleMode() &&
-          !["normal", "ending"].includes(scene.type || "normal")
-          ? ""
-          : scene.type || "normal";
+      els.sceneType.value = isSimpleMode() && !["normal", "ending"].includes(scene.type || "normal") ? "" : scene.type || "normal";
       els.sceneEnding.value = String(!!scene.ending);
       els.sceneText.value = joinParagraphs(scene.text || []);
 
@@ -7477,11 +7113,7 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
     function getValidationResult(proj, force = false) {
       const signature = getProjectValidationSignature(proj);
 
-      if (
-        !force &&
-        cachedValidationResult &&
-        cachedValidationSignature === signature
-      ) {
+      if (!force && cachedValidationResult && cachedValidationSignature === signature) {
         return cachedValidationResult;
       }
 
@@ -7502,33 +7134,23 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
       const blocks = [];
 
       if (result.errors.length === 0 && result.warnings.length === 0) {
-        blocks.push(
-          `<div class="notice">Projet valide. Aucun problème détecté.</div>`,
-        );
+        blocks.push(`<div class="notice">Projet valide. Aucun problème détecté.</div>`);
       }
 
       result.errors.forEach((err) => {
-        blocks.push(
-          `<div class="notice warn"><strong>Erreur</strong><br>${escapeHtml(err)}</div>`,
-        );
+        blocks.push(`<div class="notice warn"><strong>Erreur</strong><br>${escapeHtml(err)}</div>`);
       });
 
       result.warnings.forEach((warn) => {
-        const cycleIndex = validationCycleAlerts.findIndex(
-          (entry) => entry.message === warn,
-        );
+        const cycleIndex = validationCycleAlerts.findIndex((entry) => entry.message === warn);
 
         if (cycleIndex === -1) {
-          blocks.push(
-            `<div class="notice"><strong>Alerte</strong><br>${escapeHtml(warn)}</div>`,
-          );
+          blocks.push(`<div class="notice"><strong>Alerte</strong><br>${escapeHtml(warn)}</div>`);
           return;
         }
 
         const alertEntry = validationCycleAlerts[cycleIndex];
-        const isActive =
-          graphHighlightState?.type === "cycle" &&
-          graphHighlightState?.signature === alertEntry.highlight.signature;
+        const isActive = graphHighlightState?.type === "cycle" && graphHighlightState?.signature === alertEntry.highlight.signature;
 
         blocks.push(`
         <div class="notice ${isActive ? "warn" : ""}">
@@ -7581,9 +7203,7 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
 
       const isFirstDisplay = !hasValidatedAtLeastOnce && !lastValidationHtml;
       const previousAnalysisBlock =
-        !isFirstDisplay && lastValidationHtml
-          ? `<div id="staleValidationContent" class="stack">${lastValidationHtml}</div>`
-          : "";
+        !isFirstDisplay && lastValidationHtml ? `<div id="staleValidationContent" class="stack">${lastValidationHtml}</div>` : "";
 
       if (isFirstDisplay) {
         els.validationBox.innerHTML = `
@@ -7632,12 +7252,7 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
     };
 
     function updateTabLoadingProgress(tabName, value) {
-      const root =
-        tabName === "json"
-          ? els.validationBox
-          : tabName === "graph"
-            ? els.graphEmptyState
-            : null;
+      const root = tabName === "json" ? els.validationBox : tabName === "graph" ? els.graphEmptyState : null;
 
       if (!root) return;
 
@@ -7734,10 +7349,7 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
     }
 
     function clampGraphScale(scale) {
-      return Math.max(
-        graphView.minScale,
-        Math.min(graphView.maxScale, scale),
-      );
+      return Math.max(graphView.minScale, Math.min(graphView.maxScale, scale));
     }
 
     function resetStructureGraphView() {
@@ -7750,10 +7362,7 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
     function applyGraphTransform() {
       const graphInner = document.getElementById("graphInner");
       if (!graphInner) return;
-      graphInner.setAttribute(
-        "transform",
-        `translate(${graphView.x} ${graphView.y}) scale(${graphView.scale})`,
-      );
+      graphInner.setAttribute("transform", `translate(${graphView.x} ${graphView.y}) scale(${graphView.scale})`);
     }
 
     function truncateGraphText(text, maxLength) {
@@ -7785,11 +7394,7 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
               type: scene.type,
               choices: (scene.choices || []).map((choice, index) => ({
                 goto: choice.goto,
-                label:
-                  choice.title ||
-                  choice.desc ||
-                  choice.decisionLog ||
-                  `Choix ${index + 1}`,
+                label: choice.title || choice.desc || choice.decisionLog || `Choix ${index + 1}`,
               })),
             },
           ]),
@@ -7800,11 +7405,7 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
     function getCachedGraphBundle() {
       const signature = getProjectGraphSignature(project);
 
-      if (
-        cachedGraphData &&
-        cachedGraphLayout &&
-        cachedGraphSignature === signature
-      ) {
+      if (cachedGraphData && cachedGraphLayout && cachedGraphSignature === signature) {
         return {
           data: cachedGraphData,
           layout: cachedGraphLayout,
@@ -7859,12 +7460,7 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
             id: `${sourceId}__${choiceIndex}__${targetId}`,
             source: sourceId,
             target: targetId,
-            label: getGraphLabelPreview(
-              choice.title ||
-              choice.desc ||
-              choice.decisionLog ||
-              `Choix ${choiceIndex + 1}`,
-            ),
+            label: getGraphLabelPreview(choice.title || choice.desc || choice.decisionLog || `Choix ${choiceIndex + 1}`),
           });
         });
       });
@@ -7900,19 +7496,14 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
         .map((node) => node.id)
         .sort((a, b) => a.localeCompare(b, "fr"));
 
-      if (
-        project.meta.startScene &&
-        data.nodes.some((node) => node.id === project.meta.startScene)
-      ) {
+      if (project.meta.startScene && data.nodes.some((node) => node.id === project.meta.startScene)) {
         roots.unshift(project.meta.startScene);
       }
 
       const queue = [];
       const queuedIds = new Set();
 
-      [
-        ...new Set(roots.length ? roots : data.nodes.map((node) => node.id)),
-      ].forEach((id) => {
+      [...new Set(roots.length ? roots : data.nodes.map((node) => node.id))].forEach((id) => {
         queue.push(id);
         queuedIds.add(id);
         levelById.set(id, 0);
@@ -7923,10 +7514,7 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
         const nextLevel = (levelById.get(currentId) || 0) + 1;
 
         (adjacency.get(currentId) || []).forEach((targetId) => {
-          if (
-            !levelById.has(targetId) ||
-            nextLevel > levelById.get(targetId)
-          ) {
+          if (!levelById.has(targetId) || nextLevel > levelById.get(targetId)) {
             levelById.set(targetId, nextLevel);
           }
 
@@ -7967,11 +7555,7 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
         nodes: positionedNodes,
         edges: data.edges,
         width: Math.max(1200, 240 + columns.length * columnGap),
-        height: Math.max(
-          900,
-          220 +
-          Math.max(...columns.map((col) => (col?.length || 0) * rowGap), 0),
-        ),
+        height: Math.max(900, 220 + Math.max(...columns.map((col) => (col?.length || 0) * rowGap), 0)),
       };
     }
 
@@ -7994,10 +7578,7 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
       const clickX = clientX - rect.left;
       const clickY = clientY - rect.top;
 
-      const left = Math.min(
-        Math.max(margin, clickX + offset),
-        Math.max(margin, rect.width - menuWidth - margin),
-      );
+      const left = Math.min(Math.max(margin, clickX + offset), Math.max(margin, rect.width - menuWidth - margin));
 
       const spaceBelow = rect.height - clickY - margin;
       const spaceAbove = clickY - margin;
@@ -8008,10 +7589,7 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
       } else if (spaceAbove >= menuHeight + offset) {
         top = clickY - menuHeight - offset;
       } else {
-        top = Math.min(
-          Math.max(margin, clickY + offset),
-          Math.max(margin, rect.height - menuHeight - margin),
-        );
+        top = Math.min(Math.max(margin, clickY + offset), Math.max(margin, rect.height - menuHeight - margin));
       }
 
       graphContextMenuState = {
@@ -8025,15 +7603,42 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
       els.graphContextMenu.style.display = "grid";
     }
 
-    function openGraphScene(sceneId) {
+    function openSceneInEditor(sceneId, choiceIndex = null) {
       if (!sceneId) return;
+
       selectedSceneId = sceneId;
       closeGraphContextMenu();
       renderAll();
       switchTab("editor");
+
       if (isMobileSceneEditorMode()) {
         openSceneEditorModal();
       }
+
+      requestAnimationFrame(() => {
+        if (!els.choicesList || choiceIndex === null || choiceIndex === undefined) {
+          return;
+        }
+
+        const detail = els.choicesList.querySelector(
+          `details.choiceBlock[data-choice-index="${choiceIndex}"]`,
+        );
+
+        if (!detail) return;
+
+        detail.open = true;
+
+        const summary = detail.querySelector("summary");
+        if (summary) {
+          summary.scrollIntoView({ behavior: "smooth", block: "center" });
+        } else {
+          detail.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
+      });
+    }
+
+    function openGraphScene(sceneId) {
+      openSceneInEditor(sceneId);
     }
 
     function toggleCycleAlertHighlight(cycleIndex) {
@@ -8044,9 +7649,7 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
       const alertEntry = validationCycleAlerts[cycleIndex];
       if (!alertEntry?.highlight) return;
 
-      const isActive =
-        graphHighlightState?.type === "cycle" &&
-        graphHighlightState?.signature === alertEntry.highlight.signature;
+      const isActive = graphHighlightState?.type === "cycle" && graphHighlightState?.signature === alertEntry.highlight.signature;
       graphHighlightState = isActive ? null : { ...alertEntry.highlight };
       closeGraphContextMenu();
       renderValidation(true);
@@ -8096,11 +7699,7 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
       return { forwardMap, reverseMap };
     }
 
-    function collectReachableSceneIdsWithDepth(
-      startId,
-      adjacencyMap,
-      maxDepth = Infinity,
-    ) {
+    function collectReachableSceneIdsWithDepth(startId, adjacencyMap, maxDepth = Infinity) {
       const visited = new Set();
       const queue = [{ id: startId, depth: 0 }];
 
@@ -8145,48 +7744,24 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
       let highlightedNodeIds = new Set();
 
       if (mode === "full") {
-        const ancestors = collectReachableSceneIdsWithDepth(
-          sceneId,
-          reverseMap,
-        );
-        const descendants = collectReachableSceneIdsWithDepth(
-          sceneId,
-          forwardMap,
-        );
+        const ancestors = collectReachableSceneIdsWithDepth(sceneId, reverseMap);
+        const descendants = collectReachableSceneIdsWithDepth(sceneId, forwardMap);
         highlightedNodeIds = new Set([...ancestors, ...descendants, sceneId]);
       } else if (mode === "ancestors") {
-        highlightedNodeIds = collectReachableSceneIdsWithDepth(
-          sceneId,
-          reverseMap,
-        );
+        highlightedNodeIds = collectReachableSceneIdsWithDepth(sceneId, reverseMap);
         highlightedNodeIds.add(sceneId);
       } else if (mode === "descendants") {
-        highlightedNodeIds = collectReachableSceneIdsWithDepth(
-          sceneId,
-          forwardMap,
-        );
+        highlightedNodeIds = collectReachableSceneIdsWithDepth(sceneId, forwardMap);
         highlightedNodeIds.add(sceneId);
       } else if (mode === "nearby") {
-        const ancestors = collectReachableSceneIdsWithDepth(
-          sceneId,
-          reverseMap,
-          2,
-        );
-        const descendants = collectReachableSceneIdsWithDepth(
-          sceneId,
-          forwardMap,
-          2,
-        );
+        const ancestors = collectReachableSceneIdsWithDepth(sceneId, reverseMap, 2);
+        const descendants = collectReachableSceneIdsWithDepth(sceneId, forwardMap, 2);
         highlightedNodeIds = new Set([...ancestors, ...descendants, sceneId]);
       }
 
       const highlightedEdgeKeys = new Set(
         data.edges
-          .filter(
-            (edge) =>
-              highlightedNodeIds.has(edge.source) &&
-              highlightedNodeIds.has(edge.target),
-          )
+          .filter((edge) => highlightedNodeIds.has(edge.source) && highlightedNodeIds.has(edge.target))
           .map((edge) => `${edge.source}=>${edge.target}`),
       );
 
@@ -8210,10 +7785,7 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
       els.graphEmptyState.style.display = "none";
 
       const nodeMap = new Map(layout.nodes.map((node) => [node.id, node]));
-      const highlightState = buildGraphHighlightState(
-        data,
-        graphHighlightState,
-      );
+      const highlightState = buildGraphHighlightState(data, graphHighlightState);
       const defs = `
           <defs>
             <marker id="graphArrow" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
@@ -8230,9 +7802,7 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
 
           const edgeKey = `${edge.source}=>${edge.target}`;
           const hasActiveHighlight = !!highlightState.highlightedEdgeKeys;
-          const isHighlighted =
-            hasActiveHighlight &&
-            highlightState.highlightedEdgeKeys.has(edgeKey);
+          const isHighlighted = hasActiveHighlight && highlightState.highlightedEdgeKeys.has(edgeKey);
           const edgeHighlightClass = isHighlighted
             ? highlightState.highlightType === "cycle"
               ? " is-cycle-highlighted"
@@ -8243,12 +7813,8 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
               ? " is-cycle-highlighted"
               : " is-highlighted"
             : " is-dimmed";
-          const edgeClass = hasActiveHighlight
-            ? `graphEdge${edgeHighlightClass}`
-            : "graphEdge";
-          const labelClass = hasActiveHighlight
-            ? `graphEdgeLabel${labelHighlightClass}`
-            : "graphEdgeLabel";
+          const edgeClass = hasActiveHighlight ? `graphEdge${edgeHighlightClass}` : "graphEdge";
+          const labelClass = hasActiveHighlight ? `graphEdgeLabel${labelHighlightClass}` : "graphEdgeLabel";
 
           const startX = source.x + source.width;
           const startY = source.y + source.height / 2;
@@ -8257,10 +7823,7 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
           const midX = (startX + endX) / 2;
           const midY = (startY + endY) / 2;
           const curve = Math.max(50, Math.abs(endX - startX) * 0.35);
-          const labelWidth = Math.max(
-            56,
-            Math.min(120, edge.label.length * 7.4 + 18),
-          );
+          const labelWidth = Math.max(56, Math.min(120, edge.label.length * 7.4 + 18));
 
           return `
       <g class="${edgeClass}" data-source="${escapeAttr(edge.source)}" data-target="${escapeAttr(edge.target)}">
@@ -8291,9 +7854,7 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
 
           const activeClass = selectedSceneId === node.id ? " active" : "";
           const hasActiveHighlight = !!highlightState.highlightedNodeIds;
-          const isHighlighted =
-            hasActiveHighlight &&
-            highlightState.highlightedNodeIds.has(node.id);
+          const isHighlighted = hasActiveHighlight && highlightState.highlightedNodeIds.has(node.id);
           const visibilityClass = hasActiveHighlight
             ? isHighlighted
               ? highlightState.highlightType === "cycle"
@@ -8301,8 +7862,7 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
                 : " is-highlighted"
               : " is-dimmed"
             : "";
-          const focusClass =
-            graphHighlightState?.sceneId === node.id ? " is-focus" : "";
+          const focusClass = graphHighlightState?.sceneId === node.id ? " is-focus" : "";
 
           return `
      <g class="graphNode ${typeClass}${activeClass}${visibilityClass}${focusClass}" data-scene="${escapeAttr(node.id)}" transform="translate(${node.x} ${node.y})">
@@ -8315,10 +7875,7 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
         })
         .join("");
 
-      els.graphSvg.setAttribute(
-        "viewBox",
-        `0 0 ${layout.width} ${layout.height}`,
-      );
+      els.graphSvg.setAttribute("viewBox", `0 0 ${layout.width} ${layout.height}`);
       els.graphSvg.innerHTML = `${defs}<g id="graphInner">${edgesMarkup}${nodesMarkup}</g>`;
       applyGraphTransform();
     }
@@ -8328,11 +7885,7 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
         return;
       }
 
-      setTabLoading(
-        "graph",
-        true,
-        "Construction et mise en page du graphe des scènes...",
-      );
+      setTabLoading("graph", true, "Construction et mise en page du graphe des scènes...");
 
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
@@ -8360,9 +7913,7 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
       const RESIZE_HOLD_DELAY = 300;
       const MIN_HEIGHT = 90;
 
-      const textareas = root.querySelectorAll(
-        "#helpContent, #sceneText, textarea[data-long-text='true']",
-      );
+      const textareas = root.querySelectorAll("#helpContent, #sceneText, textarea[data-long-text='true']");
 
       textareas.forEach((textarea) => {
         if (textarea.dataset.resizeReady === "true") return;
@@ -8422,8 +7973,7 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
         }
 
         function movePress(event) {
-          if (activePointerId !== null && event.pointerId !== activePointerId)
-            return;
+          if (activePointerId !== null && event.pointerId !== activePointerId) return;
 
           if (!armed && !resizing) {
             const deltaBeforeArm = Math.abs(event.clientY - startY);
@@ -8479,8 +8029,7 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
     }
 
     function getSceneEditorScrollContainer() {
-      if (!els.sceneEditor)
-        return document.scrollingElement || document.documentElement;
+      if (!els.sceneEditor) return document.scrollingElement || document.documentElement;
 
       return (
         els.sceneEditor.closest(".sceneEditorModalContent") ||
@@ -8495,9 +8044,7 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
       const sceneId = selectedSceneId;
       if (!sceneId || !els.choicesList) return null;
 
-      const openChoiceIndexes = Array.from(
-        els.choicesList.querySelectorAll("details.choiceBlock"),
-      )
+      const openChoiceIndexes = Array.from(els.choicesList.querySelectorAll("details.choiceBlock"))
         .map((detail, index) => (detail.open ? index : null))
         .filter((value) => value !== null);
 
@@ -8513,9 +8060,7 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
       if (state.sceneId !== selectedSceneId) return;
       if (!els.choicesList) return;
 
-      const detailsBlocks = els.choicesList.querySelectorAll(
-        "details.choiceBlock",
-      );
+      const detailsBlocks = els.choicesList.querySelectorAll("details.choiceBlock");
 
       detailsBlocks.forEach((detail, index) => {
         detail.open = state.openChoiceIndexes.includes(index);
@@ -8545,10 +8090,7 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
       if (!project.scenes[selectedSceneId]) {
         selectedSceneId = sceneIds[0] || null;
       }
-      if (
-        project.meta.startScene &&
-        !project.scenes[project.meta.startScene]
-      ) {
+      if (project.meta.startScene && !project.scenes[project.meta.startScene]) {
         project.meta.startScene = sceneIds[0] || "";
       }
 
@@ -8610,8 +8152,7 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
           } else {
             if (value === "true") value = true;
             else if (value === "false") value = false;
-            else if (!Number.isNaN(Number(value)) && value !== "")
-              value = Number(value);
+            else if (!Number.isNaN(Number(value)) && value !== "") value = Number(value);
             obj[key] = value;
           }
         });
@@ -8645,10 +8186,7 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
       if (name === "score") return state.score;
       if (name === "risk") return state.risk;
       if (name === "step") return state.step;
-      if (
-        state.flags &&
-        Object.prototype.hasOwnProperty.call(state.flags, name)
-      ) {
+      if (state.flags && Object.prototype.hasOwnProperty.call(state.flags, name)) {
         return state.flags[name];
       }
       return undefined;
@@ -8664,12 +8202,7 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
       return value;
     }
 
-    function evaluateInlineCondition(
-      variableName,
-      operator,
-      rawValue,
-      state,
-    ) {
+    function evaluateInlineCondition(variableName, operator, rawValue, state) {
       const normalizedOperator = normalizeInlineOperator(operator);
       const left = getStateValue(variableName, state);
       const right = parseLiteralValue(rawValue);
@@ -8696,21 +8229,11 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
       return String(text ?? "").replace(/\{\{(.*?)\}\}/g, (_, expr) => {
         const content = String(expr).trim();
 
-        const conditionalMatch = content.match(
-          /^([a-zA-Z_][\w]*)\s*(==|!=|>=|<=|>|<)\s*(.+?)\s*:(.*)$/,
-        );
+        const conditionalMatch = content.match(/^([a-zA-Z_][\w]*)\s*(==|!=|>=|<=|>|<)\s*(.+?)\s*:(.*)$/);
 
         if (conditionalMatch) {
-          const [, variableName, operator, rawValue, conditionalText] =
-            conditionalMatch;
-          return evaluateInlineCondition(
-            variableName,
-            operator,
-            rawValue,
-            state,
-          )
-            ? conditionalText
-            : "";
+          const [, variableName, operator, rawValue, conditionalText] = conditionalMatch;
+          return evaluateInlineCondition(variableName, operator, rawValue, state) ? conditionalText : "";
         }
 
         const value = getStateValue(content, state);
@@ -8802,11 +8325,7 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
       els.journalNoteInput.value = "";
       clearEditorUndoFocusTarget();
       renderJournal();
-      showActionFeedback(
-        normalizedType === "task"
-          ? "La tâche a bien été ajoutée au journal."
-          : "Le rappel a bien été ajouté au journal.",
-      );
+      showActionFeedback(normalizedType === "task" ? "La tâche a bien été ajoutée au journal." : "Le rappel a bien été ajouté au journal.");
     }
 
     function switchTab(tab) {
@@ -8818,16 +8337,11 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
       document.querySelectorAll(".tabBtn").forEach((btn) => {
         btn.classList.toggle("active", btn.dataset.tab === tab);
       });
-      document.getElementById("editorTab").style.display =
-        tab === "editor" ? "block" : "none";
-      document.getElementById("previewTab").style.display =
-        tab === "preview" ? "block" : "none";
-      document.getElementById("jsonTab").style.display =
-        tab === "json" ? "block" : "none";
-      document.getElementById("graphTab").style.display =
-        tab === "graph" ? "block" : "none";
-      document.getElementById("journalTab").style.display =
-        tab === "journal" ? "block" : "none";
+      document.getElementById("editorTab").style.display = tab === "editor" ? "block" : "none";
+      document.getElementById("previewTab").style.display = tab === "preview" ? "block" : "none";
+      document.getElementById("jsonTab").style.display = tab === "json" ? "block" : "none";
+      document.getElementById("graphTab").style.display = tab === "graph" ? "block" : "none";
+      document.getElementById("journalTab").style.display = tab === "journal" ? "block" : "none";
 
       if (tab === "preview") {
         renderPreview();
@@ -8885,10 +8399,7 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
       delete project.scenes[selectedSceneId];
       const nextId = Object.keys(project.scenes)[0];
       selectedSceneId = nextId;
-      if (
-        project.meta.startScene &&
-        !project.scenes[project.meta.startScene]
-      ) {
+      if (project.meta.startScene && !project.scenes[project.meta.startScene]) {
         project.meta.startScene = nextId;
       }
       Object.values(project.scenes).forEach((scene) => {
@@ -8954,20 +8465,18 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
     function getIncomingLinks(targetSceneId) {
       const links = [];
 
-      Object.entries(project.scenes).forEach(
-        ([sourceSceneId, sourceScene]) => {
-          (sourceScene.choices || []).forEach((choice, choiceIndex) => {
-            if (choice.goto === targetSceneId) {
-              links.push({
-                sourceSceneId,
-                sourceSceneTitle: sourceScene.title || sourceSceneId,
-                choiceIndex,
-                choiceTitle: choice.title || `Choix ${choiceIndex + 1}`,
-              });
-            }
-          });
-        },
-      );
+      Object.entries(project.scenes).forEach(([sourceSceneId, sourceScene]) => {
+        (sourceScene.choices || []).forEach((choice, choiceIndex) => {
+          if (choice.goto === targetSceneId) {
+            links.push({
+              sourceSceneId,
+              sourceSceneTitle: sourceScene.title || sourceSceneId,
+              choiceIndex,
+              choiceTitle: choice.title || `Choix ${choiceIndex + 1}`,
+            });
+          }
+        });
+      });
 
       return links;
     }
@@ -8975,9 +8484,7 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
     function addIncomingScene(sourceSceneId, targetSceneId) {
       if (!sourceSceneId || !targetSceneId) return;
       if (sourceSceneId === targetSceneId) {
-        alert(
-          "Une scène ne peut pas être ajoutée comme origine d’elle-même.",
-        );
+        alert("Une scène ne peut pas être ajoutée comme origine d’elle-même.");
         return;
       }
 
@@ -9002,17 +8509,10 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
         return;
       }
 
-      const availableSceneIds = Object.keys(project.scenes).filter(
-        (id) => id !== selectedSceneId,
-      );
+      const availableSceneIds = Object.keys(project.scenes).filter((id) => id !== selectedSceneId);
 
       els.incomingSceneSelect.innerHTML = availableSceneIds.length
-        ? availableSceneIds
-          .map(
-            (id) =>
-              `<option value="${escapeAttr(id)}">${escapeHtml(id)}</option>`,
-          )
-          .join("")
+        ? availableSceneIds.map((id) => `<option value="${escapeAttr(id)}">${escapeHtml(id)}</option>`).join("")
         : `<option value="">Aucune autre scène disponible</option>`;
 
       const incomingLinks = getIncomingLinks(selectedSceneId);
@@ -9052,10 +8552,7 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
       if (targetIndex < 0 || targetIndex >= ids.length) return;
 
       const reorderedIds = [...ids];
-      [reorderedIds[currentIndex], reorderedIds[targetIndex]] = [
-        reorderedIds[targetIndex],
-        reorderedIds[currentIndex],
-      ];
+      [reorderedIds[currentIndex], reorderedIds[targetIndex]] = [reorderedIds[targetIndex], reorderedIds[currentIndex]];
 
       const reorderedScenes = {};
       reorderedIds.forEach((id) => {
@@ -9114,10 +8611,7 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
 
     function buildPlayableHtml(proj) {
       const data = buildPlayableData(proj);
-      const serialized = JSON.stringify(data).replace(
-        /<\/script/gi,
-        "<\\/script",
-      );
+      const serialized = JSON.stringify(data).replace(/<\/script/gi, "<\\/script");
       const simpleMode = proj?.ui?.mode === "simple";
       const theme = getThemeColors(proj);
       const fontPreset = getSelectedFontPreset(proj);
@@ -10551,11 +10045,7 @@ if (document.readyState === "loading") {
       );
     }
 
-    function downloadFile(
-      filename,
-      content,
-      type = "text/plain;charset=utf-8",
-    ) {
+    function downloadFile(filename, content, type = "text/plain;charset=utf-8") {
       const blob = new Blob([content], { type });
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
@@ -10617,12 +10107,7 @@ if (document.readyState === "loading") {
     });
 
     document.getElementById("newProjectBtn").addEventListener("click", () => {
-      if (
-        !confirm(
-          "Charger l'exemple de projet générique ? Le projet courant sera remplacé, sauvegardez d'abord !",
-        )
-      )
-        return;
+      if (!confirm("Charger l'exemple de projet générique ? Le projet courant sera remplacé, sauvegardez d'abord !")) return;
       captureEditorSnapshot();
       project = defaultProject();
       selectedSceneId = "intro";
@@ -10631,62 +10116,41 @@ if (document.readyState === "loading") {
       showActionFeedback("L’exemple de projet a bien été chargé.");
     });
 
-    document
-      .getElementById("emptyProjectBtn")
-      .addEventListener("click", () => {
-        if (
-          !confirm(
-            "Démarrer un projet vide ? Le projet courant sera remplacé, pensez d'abord à sauvegarder !",
-          )
-        )
-          return;
-        captureEditorSnapshot();
-        project = emptyProject();
-        selectedSceneId = "intro";
-        clearEditorUndoFocusTarget();
-        renderAll();
-        showActionFeedback("Un nouveau projet vide a bien été chargé.");
-      });
+    document.getElementById("emptyProjectBtn").addEventListener("click", () => {
+      if (!confirm("Démarrer un projet vide ? Le projet courant sera remplacé, pensez d'abord à sauvegarder !")) return;
+      captureEditorSnapshot();
+      project = emptyProject();
+      selectedSceneId = "intro";
+      clearEditorUndoFocusTarget();
+      renderAll();
+      showActionFeedback("Un nouveau projet vide a bien été chargé.");
+    });
 
-    document
-      .getElementById("addVariableBtn")
-      .addEventListener("click", () => {
-        captureEditorSnapshot();
-        project.variables.push(variableTemplate());
-        clearEditorUndoFocusTarget();
-        renderAll();
-      });
+    document.getElementById("addVariableBtn").addEventListener("click", () => {
+      captureEditorSnapshot();
+      project.variables.push(variableTemplate());
+      clearEditorUndoFocusTarget();
+      renderAll();
+    });
 
     document.getElementById("addRuleBtn").addEventListener("click", () => {
       captureEditorSnapshot();
-      project.rules.collapse.push(
-        ruleTemplate(getAllVariableNames()[0] || "risk"),
-      );
+      project.rules.collapse.push(ruleTemplate(getAllVariableNames()[0] || "risk"));
       clearEditorUndoFocusTarget();
       renderAll();
     });
 
     document.getElementById("addDiagBtn").addEventListener("click", () => {
       captureEditorSnapshot();
-      project.diagnostics.push(
-        diagTemplate(getAllVariableNames()[0] || "risk"),
-      );
+      project.diagnostics.push(diagTemplate(getAllVariableNames()[0] || "risk"));
       clearEditorUndoFocusTarget();
       renderAll();
     });
 
-    document
-      .getElementById("addSceneBtn")
-      .addEventListener("click", addScene);
-    document
-      .getElementById("duplicateSceneBtn")
-      ?.addEventListener("click", duplicateScene);
-    document
-      .getElementById("deleteSceneBtn")
-      ?.addEventListener("click", deleteScene);
-    document
-      .getElementById("addChoiceBtn")
-      .addEventListener("click", addChoice);
+    document.getElementById("addSceneBtn").addEventListener("click", addScene);
+    document.getElementById("duplicateSceneBtn")?.addEventListener("click", duplicateScene);
+    document.getElementById("deleteSceneBtn")?.addEventListener("click", deleteScene);
+    document.getElementById("addChoiceBtn").addEventListener("click", addChoice);
 
     els.addIncomingSceneBtn?.addEventListener("click", () => {
       if (!selectedSceneId) return;
@@ -10697,10 +10161,7 @@ if (document.readyState === "loading") {
       clearEditorUndoFocusTarget();
     });
 
-    els.closeSceneEditorModalBtn?.addEventListener(
-      "click",
-      closeSceneEditorModal,
-    );
+    els.closeSceneEditorModalBtn?.addEventListener("click", closeSceneEditorModal);
 
     els.actionFeedbackCloseBtn?.addEventListener("click", hideActionFeedback);
 
@@ -10731,10 +10192,7 @@ if (document.readyState === "loading") {
     });
 
     document.addEventListener("keydown", (event) => {
-      if (
-        event.key === "Escape" &&
-        els.sceneEditorModal?.classList.contains("open")
-      ) {
+      if (event.key === "Escape" && els.sceneEditorModal?.classList.contains("open")) {
         closeSceneEditorModal();
       }
     });
@@ -10746,9 +10204,7 @@ if (document.readyState === "loading") {
       renderAll();
     });
 
-    document
-      .getElementById("refreshPreviewBtn")
-      .addEventListener("click", renderPreview);
+    document.getElementById("refreshPreviewBtn").addEventListener("click", renderPreview);
 
     els.refreshJsonAnalysisBtn?.addEventListener("click", () => {
       invalidatePerformanceCaches();
@@ -10762,12 +10218,8 @@ if (document.readyState === "loading") {
       renderStructureGraphIfNeeded(true);
     });
 
-    els.graphZoomInBtn?.addEventListener("click", () =>
-      zoomStructureGraph(1.12),
-    );
-    els.graphZoomOutBtn?.addEventListener("click", () =>
-      zoomStructureGraph(1 / 1.12),
-    );
+    els.graphZoomInBtn?.addEventListener("click", () => zoomStructureGraph(1.12));
+    els.graphZoomOutBtn?.addEventListener("click", () => zoomStructureGraph(1 / 1.12));
     els.graphResetViewBtn?.addEventListener("click", resetStructureGraphView);
 
     els.validationBox?.addEventListener("click", (event) => {
@@ -10840,9 +10292,7 @@ if (document.readyState === "loading") {
       closeGraphScenePreviewModal();
     });
 
-    document
-      .getElementById("openPreviewNewTabBtn")
-      .addEventListener("click", openPreviewInNewTab);
+    document.getElementById("openPreviewNewTabBtn").addEventListener("click", openPreviewInNewTab);
     els.previewFrame?.addEventListener("load", applyThemeToPreviewFrame);
 
     els.themePresetSelect?.addEventListener("change", () => {
@@ -10864,8 +10314,7 @@ if (document.readyState === "loading") {
 
     els.sceneTransitionPresetSelect?.addEventListener("change", () => {
       captureEditorSnapshot();
-      project.ui.transitions.preset =
-        els.sceneTransitionPresetSelect.value || "fade";
+      project.ui.transitions.preset = els.sceneTransitionPresetSelect.value || "fade";
       clearEditorUndoFocusTarget();
       renderPreview();
     });
@@ -10877,47 +10326,21 @@ if (document.readyState === "loading") {
       renderPreview();
     });
 
-    els.themeBg?.addEventListener("input", () =>
-      updateThemeColor("bg", els.themeBg.value),
-    );
-    els.themeBg2?.addEventListener("input", () =>
-      updateThemeColor("bg2", els.themeBg2.value),
-    );
-    els.themePanel?.addEventListener("input", () =>
-      updateThemeColor("panel", els.themePanel.value),
-    );
-    els.themePanel2?.addEventListener("input", () =>
-      updateThemeColor("panel2", els.themePanel2.value),
-    );
-    els.themeText?.addEventListener("input", () =>
-      updateThemeColor("text", els.themeText.value),
-    );
-    els.themeMuted?.addEventListener("input", () =>
-      updateThemeColor("muted", els.themeMuted.value),
-    );
-    els.themeAccent?.addEventListener("input", () =>
-      updateThemeColor("accent", els.themeAccent.value),
-    );
-    els.themeGood?.addEventListener("input", () =>
-      updateThemeColor("good", els.themeGood.value),
-    );
-    els.themeWarn?.addEventListener("input", () =>
-      updateThemeColor("warn", els.themeWarn.value),
-    );
-    els.themeBad?.addEventListener("input", () =>
-      updateThemeColor("bad", els.themeBad.value),
-    );
-    els.themeBorder?.addEventListener("input", () =>
-      updateThemeColor("border", els.themeBorder.value),
-    );
+    els.themeBg?.addEventListener("input", () => updateThemeColor("bg", els.themeBg.value));
+    els.themeBg2?.addEventListener("input", () => updateThemeColor("bg2", els.themeBg2.value));
+    els.themePanel?.addEventListener("input", () => updateThemeColor("panel", els.themePanel.value));
+    els.themePanel2?.addEventListener("input", () => updateThemeColor("panel2", els.themePanel2.value));
+    els.themeText?.addEventListener("input", () => updateThemeColor("text", els.themeText.value));
+    els.themeMuted?.addEventListener("input", () => updateThemeColor("muted", els.themeMuted.value));
+    els.themeAccent?.addEventListener("input", () => updateThemeColor("accent", els.themeAccent.value));
+    els.themeGood?.addEventListener("input", () => updateThemeColor("good", els.themeGood.value));
+    els.themeWarn?.addEventListener("input", () => updateThemeColor("warn", els.themeWarn.value));
+    els.themeBad?.addEventListener("input", () => updateThemeColor("bad", els.themeBad.value));
+    els.themeBorder?.addEventListener("input", () => updateThemeColor("border", els.themeBorder.value));
 
     document.getElementById("exportJsonBtn").addEventListener("click", () => {
       const filename = buildProjectFilename(project) + ".json";
-      downloadFile(
-        filename,
-        JSON.stringify(project, null, 2),
-        "application/json;charset=utf-8",
-      );
+      downloadFile(filename, JSON.stringify(project, null, 2), "application/json;charset=utf-8");
       showActionFeedback("Le projet a bien été sauvegardé au format JSON.");
     });
 
@@ -10937,17 +10360,11 @@ if (document.readyState === "loading") {
     document.getElementById("exportHtmlBtn").addEventListener("click", () => {
       const result = validateProject(project);
       if (result.errors.length) {
-        alert(
-          "Le projet contient des erreurs bloquantes. Consultez l’onglet JSON pour les voir.",
-        );
+        alert("Le projet contient des erreurs bloquantes. Consultez l’onglet JSON pour les voir.");
         switchTab("json");
         return;
       }
-      downloadFile(
-        "game.html",
-        buildPlayableHtml(project),
-        "text/html;charset=utf-8",
-      );
+      downloadFile("game.html", buildPlayableHtml(project), "text/html;charset=utf-8");
       showActionFeedback("Le jeu a bien été exporté en HTML.");
     });
 
@@ -10961,10 +10378,7 @@ if (document.readyState === "loading") {
 
     document.addEventListener("fullscreenchange", () => {
       const isFullscreen = Boolean(document.fullscreenElement);
-      document.documentElement.classList.toggle(
-        "is-editor-fullscreen",
-        isFullscreen,
-      );
+      document.documentElement.classList.toggle("is-editor-fullscreen", isFullscreen);
       document.body.classList.toggle("is-editor-fullscreen", isFullscreen);
       updateEditorFullscreenButton();
     });
@@ -10983,8 +10397,7 @@ if (document.readyState === "loading") {
 
         captureEditorSnapshot();
         project = normalizeProject(parsed);
-        selectedSceneId =
-          project.meta.startScene || Object.keys(project.scenes)[0] || null;
+        selectedSceneId = project.meta.startScene || Object.keys(project.scenes)[0] || null;
         clearEditorUndoFocusTarget();
 
         invalidatePerformanceCaches();
@@ -11044,10 +10457,7 @@ if (document.readyState === "loading") {
 
     els.metaTotalSteps.addEventListener("input", () => {
       captureEditorSnapshotOncePerFocus(els.metaTotalSteps);
-      project.meta.totalSteps = Math.max(
-        1,
-        Number(els.metaTotalSteps.value) || 1,
-      );
+      project.meta.totalSteps = Math.max(1, Number(els.metaTotalSteps.value) || 1);
       renderAll();
     });
 
@@ -11123,8 +10533,7 @@ if (document.readyState === "loading") {
     els.sceneEnding.addEventListener("change", () => {
       if (!project.scenes[selectedSceneId]) return;
       captureEditorSnapshot();
-      project.scenes[selectedSceneId].ending =
-        els.sceneEnding.value === "true";
+      project.scenes[selectedSceneId].ending = els.sceneEnding.value === "true";
       clearEditorUndoFocusTarget();
       renderAll();
     });
@@ -11132,9 +10541,7 @@ if (document.readyState === "loading") {
     els.sceneText.addEventListener("input", () => {
       if (!project.scenes[selectedSceneId]) return;
       captureEditorSnapshotOncePerFocus(els.sceneText);
-      project.scenes[selectedSceneId].text = splitParagraphs(
-        els.sceneText.value,
-      );
+      project.scenes[selectedSceneId].text = splitParagraphs(els.sceneText.value);
       renderJsonPreview();
       renderValidation();
     });
@@ -11178,8 +10585,7 @@ if (document.readyState === "loading") {
 
         els.sceneImagePreviewWrap.style.display = "block";
         els.sceneImagePreview.src = dataUrl;
-        els.sceneImagePreview.alt =
-          project.scenes[selectedSceneId].image.alt || "";
+        els.sceneImagePreview.alt = project.scenes[selectedSceneId].image.alt || "";
 
         clearEditorUndoFocusTarget();
         renderJsonPreview();
@@ -11263,11 +10669,7 @@ if (document.readyState === "loading") {
 
       if (action === "duplicateRule") {
         captureEditorSnapshot();
-        project.rules.collapse.splice(
-          idx + 1,
-          0,
-          clone(project.rules.collapse[idx]),
-        );
+        project.rules.collapse.splice(idx + 1, 0, clone(project.rules.collapse[idx]));
         project.rules.collapse[idx + 1].id = uid("rule");
         clearEditorUndoFocusTarget();
         renderAll();
@@ -11282,9 +10684,7 @@ if (document.readyState === "loading") {
 
       if (action === "addRuleCondition") {
         captureEditorSnapshot();
-        project.rules.collapse[idx].conditions.push(
-          conditionTemplate(getAllVariableNames()[0] || "risk"),
-        );
+        project.rules.collapse[idx].conditions.push(conditionTemplate(getAllVariableNames()[0] || "risk"));
         clearEditorUndoFocusTarget();
         renderAll();
       }
@@ -11298,11 +10698,7 @@ if (document.readyState === "loading") {
 
       if (action === "duplicateDiag") {
         captureEditorSnapshot();
-        project.diagnostics.splice(
-          idx + 1,
-          0,
-          clone(project.diagnostics[idx]),
-        );
+        project.diagnostics.splice(idx + 1, 0, clone(project.diagnostics[idx]));
         project.diagnostics[idx + 1].id = uid("diag");
         clearEditorUndoFocusTarget();
         renderAll();
@@ -11317,9 +10713,7 @@ if (document.readyState === "loading") {
 
       if (action === "addDiagCondition") {
         captureEditorSnapshot();
-        project.diagnostics[idx].conditions.push(
-          conditionTemplate(getAllVariableNames()[0] || "risk"),
-        );
+        project.diagnostics[idx].conditions.push(conditionTemplate(getAllVariableNames()[0] || "risk"));
         clearEditorUndoFocusTarget();
         renderAll();
       }
@@ -11378,6 +10772,17 @@ if (document.readyState === "loading") {
 
       if (action === "closeGraphScenePreviewModal") {
         closeGraphScenePreviewModal();
+      }
+
+      if (action === "openPreviewSceneLink") {
+        const targetSceneId = btn.dataset.sceneId;
+        const targetChoiceIndex = Number(btn.dataset.choiceIndex);
+
+        closeGraphScenePreviewModal();
+        openSceneInEditor(
+          targetSceneId,
+          Number.isNaN(targetChoiceIndex) ? null : targetChoiceIndex,
+        );
       }
 
       if (action === "moveChoiceUp") {
@@ -11468,19 +10873,15 @@ if (document.readyState === "loading") {
 
         if (action === "choiceTitle") choice.title = el.value;
         else if (action === "choiceDesc") choice.desc = el.value;
-        else if (action === "choiceDecisionLog")
-          choice.decisionLog = el.value;
+        else if (action === "choiceDecisionLog") choice.decisionLog = el.value;
         else if (action === "choiceGoto") {
           choice.goto = el.value;
           needsFullRender = true;
         } else if (action === "choiceShowIf") {
           choice.showIf = el.value;
-        } else if (action === "choiceScore")
-          choice.effects.score = Number(el.value) || 0;
-        else if (action === "choiceRisk")
-          choice.effects.risk = Number(el.value) || 0;
-        else if (action === "choiceStepDelta")
-          choice.effects.stepDelta = Number(el.value) || 0;
+        } else if (action === "choiceScore") choice.effects.score = Number(el.value) || 0;
+        else if (action === "choiceRisk") choice.effects.risk = Number(el.value) || 0;
+        else if (action === "choiceStepDelta") choice.effects.stepDelta = Number(el.value) || 0;
         else if (action === "choiceLogs") {
           choice.effects.logs = String(el.value)
             .split("\n")
@@ -11528,8 +10929,7 @@ if (document.readyState === "loading") {
     });
 
     document.addEventListener("keydown", (event) => {
-      const isUndoShortcut =
-        (event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "z";
+      const isUndoShortcut = (event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "z";
 
       if (!isUndoShortcut) return;
       if (currentTab !== "editor") return;
@@ -11642,8 +11042,7 @@ if (document.readyState === "loading") {
 
       window.addEventListener("pointermove", (event) => {
         if (!graphDragActive) return;
-        if (graphPointerId !== null && event.pointerId !== graphPointerId)
-          return;
+        if (graphPointerId !== null && event.pointerId !== graphPointerId) return;
 
         const dx = event.clientX - graphDragStartX;
         const dy = event.clientY - graphDragStartY;
@@ -11663,16 +11062,13 @@ if (document.readyState === "loading") {
 
       window.addEventListener("pointerup", (event) => {
         if (!graphDragActive) return;
-        if (graphPointerId !== null && event.pointerId !== graphPointerId)
-          return;
+        if (graphPointerId !== null && event.pointerId !== graphPointerId) return;
 
         const releasedOnMenu = event.target.closest("#graphContextMenu");
         const clickedSceneId = graphPointerDownNode?.dataset.scene || null;
 
-        const shouldHandleNodeClick =
-          !graphDragMoved && !!clickedSceneId && !releasedOnMenu;
-        const shouldResetHighlight =
-          !graphDragMoved && !clickedSceneId && !releasedOnMenu;
+        const shouldHandleNodeClick = !graphDragMoved && !!clickedSceneId && !releasedOnMenu;
+        const shouldResetHighlight = !graphDragMoved && !clickedSceneId && !releasedOnMenu;
 
         els.graphViewport.releasePointerCapture?.(event.pointerId);
         stopGraphDrag();
@@ -11690,8 +11086,7 @@ if (document.readyState === "loading") {
       });
 
       window.addEventListener("pointercancel", (event) => {
-        if (graphPointerId !== null && event.pointerId !== graphPointerId)
-          return;
+        if (graphPointerId !== null && event.pointerId !== graphPointerId) return;
         stopGraphDrag();
       });
 
@@ -11726,9 +11121,7 @@ if (document.readyState === "loading") {
       const toolbarCard = document.getElementById("toolbarCard");
       if (!topbarCard || !toolbarCard) return;
 
-      const toolbar =
-        document.querySelector("#topbarCard > .toolbar") ||
-        document.querySelector("#toolbarCard > .toolbar");
+      const toolbar = document.querySelector("#topbarCard > .toolbar") || document.querySelector("#toolbarCard > .toolbar");
       if (!toolbar) return;
 
       const isDesktop = window.innerWidth > 1170;
