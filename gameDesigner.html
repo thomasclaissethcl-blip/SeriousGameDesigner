@@ -2791,7 +2791,12 @@
                         </div>
                         <p class="muted small">Sélectionnez une scène dans le sélecteur de scènes.</p>
                       </div>
-                      <span id="selectedScenePill" class="pill" style="margin-top: 1em">Aucune scène</span>
+                      <div class="itemActions" style="align-items: center; margin-top: 1em">
+                        <span id="selectedScenePill" class="pill">Aucune scène</span>
+                        <button id="viewSceneInGraphBtn" type="button" class="secondary">
+                          Voir dans le graphe
+                        </button>
+                      </div>
                     </div>
 
                     <div id="sceneEditorEmpty" class="notice">Aucune scène sélectionnée.</div>
@@ -4833,6 +4838,7 @@
       sceneEditor: document.getElementById("sceneEditor"),
       sceneEditorEmpty: document.getElementById("sceneEditorEmpty"),
       selectedScenePill: document.getElementById("selectedScenePill"),
+      viewSceneInGraphBtn: document.getElementById("viewSceneInGraphBtn"),
       sceneEditorModal: document.getElementById("sceneEditorModal"),
       sceneEditorModalContent: document.getElementById("sceneEditorModalContent"),
       closeSceneEditorModalBtn: document.getElementById("closeSceneEditorModalBtn"),
@@ -6740,16 +6746,23 @@
     function renderSceneEditor() {
       const scene = project.scenes[selectedSceneId];
       syncSceneEditorPlacement();
+
       if (!scene) {
         els.sceneEditor.style.display = "none";
         els.sceneEditorEmpty.style.display = "block";
         els.selectedScenePill.textContent = "Aucune scène";
+        if (els.viewSceneInGraphBtn) {
+          els.viewSceneInGraphBtn.disabled = true;
+        }
         return;
       }
 
       els.sceneEditor.style.display = "grid";
       els.sceneEditorEmpty.style.display = "none";
       els.selectedScenePill.textContent = selectedSceneId;
+      if (els.viewSceneInGraphBtn) {
+        els.viewSceneInGraphBtn.disabled = window.innerWidth < 1170;
+      }
 
       els.sceneId.value = selectedSceneId;
       els.sceneChapter.value = scene.chapter || "";
@@ -7639,6 +7652,22 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
 
     function openGraphScene(sceneId) {
       openSceneInEditor(sceneId);
+    }
+
+    function openCurrentSceneInGraph() {
+      if (!selectedSceneId) return;
+      if (window.innerWidth < 1170) return;
+
+      closeGraphContextMenu();
+      graphHighlightState = {
+        sceneId: selectedSceneId,
+      };
+
+      switchTab("graph");
+
+      requestAnimationFrame(() => {
+        renderStructureGraphIfNeeded(true);
+      });
     }
 
     function toggleCycleAlertHighlight(cycleIndex) {
@@ -10234,6 +10263,10 @@ if (document.readyState === "loading") {
     els.graphContextGotoBtn?.addEventListener("click", () => {
       if (!graphContextMenuState?.sceneId) return;
       openGraphScene(graphContextMenuState.sceneId);
+    });
+
+    els.viewSceneInGraphBtn?.addEventListener("click", () => {
+      openCurrentSceneInGraph();
     });
 
     els.graphContextPreviewBtn?.addEventListener("click", () => {
