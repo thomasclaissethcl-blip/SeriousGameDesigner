@@ -1911,6 +1911,64 @@
       line-height: 1.5;
     }
 
+    .journalNoteActions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .journalMiniBtn {
+      padding: 7px 10px;
+      font-size: 0.82rem;
+      line-height: 1.2;
+    }
+
+    .journalMiniBtn.pinBtn {
+      background: rgba(124, 200, 255, 0.16);
+      border-color: rgba(124, 200, 255, 0.38);
+      color: #d9efff;
+    }
+
+    .journalMiniBtn.pinBtn:hover,
+    .journalMiniBtn.pinBtn:focus {
+      background: rgba(124, 200, 255, 0.24);
+    }
+
+    .journalMiniBtn.editBtn {
+      background: rgba(116, 213, 163, 0.14);
+      border-color: rgba(116, 213, 163, 0.32);
+      color: #d7ffea;
+    }
+
+    .journalMiniBtn.editBtn:hover,
+    .journalMiniBtn.editBtn:focus {
+      background: rgba(116, 213, 163, 0.22);
+    }
+
+    .journalMiniBtn.deleteBtn {
+      background: rgba(255, 128, 128, 0.12);
+      border-color: rgba(255, 128, 128, 0.32);
+      color: #ffd6d6;
+    }
+
+    .journalMiniBtn.deleteBtn:hover,
+    .journalMiniBtn.deleteBtn:focus {
+      background: rgba(255, 128, 128, 0.2);
+    }
+
+    .journalPinnedBadge {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 8px;
+      border-radius: 999px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      border: 1px solid rgba(124, 200, 255, 0.38);
+      background: rgba(124, 200, 255, 0.16);
+      color: #d9efff;
+    }
+
     .journalEmpty {
       padding: 14px;
       border: 1px dashed var(--border);
@@ -4969,24 +5027,18 @@
       if (!Array.isArray(proj.rules.collapse)) proj.rules.collapse = [];
       if (!Array.isArray(proj.diagnostics)) proj.diagnostics = [];
       if (!Array.isArray(proj.journal)) proj.journal = [];
-      proj.journal = proj.journal
+           proj.journal = proj.journal
         .filter((note) => note && typeof note === "object")
         .map((note, index) => ({
           id: typeof note.id === "string" && note.id.trim() ? note.id : `note_${Date.now()}_${index}`,
           text: typeof note.text === "string" ? note.text : "",
           done: Boolean(note.done),
+          pinned: Boolean(note.pinned),
           type: note.type === "task" ? "task" : "rem",
           createdAt: typeof note.createdAt === "string" && note.createdAt.trim() ? note.createdAt : new Date().toISOString(),
-        }))
-        .filter((note) => note.text.trim());
-      if (!proj.scenes) proj.scenes = {};
-      proj.journal = proj.journal
-        .filter((note) => note && typeof note === "object")
-        .map((note, index) => ({
-          id: typeof note.id === "string" && note.id.trim() ? note.id : `note_${Date.now()}_${index}`,
-          text: typeof note.text === "string" ? note.text : "",
-          done: Boolean(note.done),
-          createdAt: typeof note.createdAt === "string" && note.createdAt.trim() ? note.createdAt : new Date().toISOString(),
+          linkedCycleSignature: typeof note.linkedCycleSignature === "string" ? note.linkedCycleSignature : "",
+          sourceIssueKind: typeof note.sourceIssueKind === "string" ? note.sourceIssueKind : "",
+          sourceIssueKey: typeof note.sourceIssueKey === "string" ? note.sourceIssueKey : "",
         }))
         .filter((note) => note.text.trim());
       if (!proj.scenes) proj.scenes = {};
@@ -7188,6 +7240,7 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
         id: `note_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`,
         text: issueText,
         done: false,
+        pinned: false,
         type: "task",
         createdAt: new Date().toISOString(),
         sourceIssueKind: normalizedKind,
@@ -8468,11 +8521,21 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
 
       els.journalList.innerHTML = notes
         .slice()
-        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+        .sort((a, b) => {
+          const aPinned = Boolean(a.pinned);
+          const bPinned = Boolean(b.pinned);
+
+          if (aPinned !== bPinned) {
+            return aPinned ? -1 : 1;
+          }
+
+          return new Date(b.createdAt) - new Date(a.createdAt);
+        })
         .map((note) => {
           const type = note.type === "task" ? "task" : "rem";
           const typeLabel = getJournalTypeLabel(type);
           const hasCycleLink = type === "task" && note.linkedCycleSignature;
+          const isPinned = Boolean(note.pinned);
 
           return `
             <div class="journalNoteCard type-${type} ${note.done ? "done" : ""}">
@@ -8480,6 +8543,7 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
                 <div class="journalNoteMeta">
                   <div class="journalNoteTopline">
                     <span class="journalTypeBadge type-${type}">${typeLabel}</span>
+                    ${isPinned ? `<span class="journalPinnedBadge">📌</span>` : ""}
                   </div>
                   <div class="journalNoteDate">${escapeHtml(formatJournalDate(note.createdAt))}</div>
                 </div>
@@ -8504,6 +8568,32 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
               : ""}
 
               <div class="journalNoteText">${escapeHtml(note.text)}</div>
+
+                            <div class="journalNoteActions">
+                <button
+                  type="button"
+                  class="journalMiniBtn pinBtn"
+                  data-journal-pin="${escapeAttr(note.id)}"
+                >
+                  ${isPinned ? "Désépingler" : "Épingler"}
+                </button>
+
+                <button
+                  type="button"
+                  class="journalMiniBtn editBtn"
+                  data-journal-edit="${escapeAttr(note.id)}"
+                >
+                  Éditer
+                </button>
+
+                <button
+                  type="button"
+                  class="journalMiniBtn deleteBtn"
+                  data-journal-delete="${escapeAttr(note.id)}"
+                >
+                  Supprimer
+                </button>
+              </div>
             </div>
           `;
         })
@@ -8526,6 +8616,7 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
         id: `note_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`,
         text,
         done: false,
+        pinned: false,
         type: normalizedType,
         createdAt: new Date().toISOString(),
       });
@@ -10293,7 +10384,67 @@ if (document.readyState === "loading") {
       }
     });
 
-    els.journalList?.addEventListener("click", (event) => {
+       els.journalList?.addEventListener("click", (event) => {
+      const deleteBtn = event.target.closest("[data-journal-delete]");
+      if (deleteBtn) {
+        const noteId = deleteBtn.dataset.journalDelete;
+        const note = project.journal.find((item) => item.id === noteId);
+        if (!note) return;
+
+        const preview = String(note.text || "").trim().slice(0, 80);
+        const message = preview
+          ? `Supprimer cette entrée du journal ?\n\n"${preview}${note.text.length > 80 ? "..." : ""}"`
+          : "Supprimer cette entrée du journal ?";
+
+        if (!confirm(message)) return;
+
+        captureEditorSnapshot();
+        project.journal = project.journal.filter((item) => item.id !== noteId);
+        clearEditorUndoFocusTarget();
+        renderJournal();
+        showActionFeedback("L’entrée a bien été supprimée du journal.");
+        return;
+      }
+
+      const pinBtn = event.target.closest("[data-journal-pin]");
+      if (pinBtn) {
+        const noteId = pinBtn.dataset.journalPin;
+        const note = project.journal.find((item) => item.id === noteId);
+        if (!note) return;
+
+        captureEditorSnapshot();
+        note.pinned = !Boolean(note.pinned);
+        clearEditorUndoFocusTarget();
+        renderJournal();
+        showActionFeedback(note.pinned ? "L’entrée a bien été épinglée." : "L’entrée a bien été désépinglée.");
+        return;
+      }
+
+      const editBtn = event.target.closest("[data-journal-edit]");
+      if (editBtn) {
+        const noteId = editBtn.dataset.journalEdit;
+        const note = project.journal.find((item) => item.id === noteId);
+        if (!note) return;
+
+        const newText = prompt("Modifier cette entrée du journal :", note.text || "");
+        if (newText === null) return;
+
+        const trimmedText = newText.trim();
+        if (!trimmedText) {
+          alert("Le texte de l’entrée ne peut pas être vide.");
+          return;
+        }
+
+        if (trimmedText === String(note.text || "").trim()) return;
+
+        captureEditorSnapshot();
+        note.text = trimmedText;
+        clearEditorUndoFocusTarget();
+        renderJournal();
+        showActionFeedback("L’entrée a bien été modifiée.");
+        return;
+      }
+
       const cycleBtn = event.target.closest("[data-journal-open-cycle]");
       if (!cycleBtn) return;
 
