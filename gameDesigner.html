@@ -1805,12 +1805,105 @@
       background: rgba(243, 202, 112, 0.24);
     }
 
+    .journalBoard {
+      display: grid;
+      gap: 10px;
+    }
+
     .journalList {
       display: grid;
       gap: 10px;
       max-height: 560px;
       overflow: auto;
       padding-right: 4px;
+    }
+
+    .journalDesktopGrid {
+      display: none;
+    }
+
+    .journalColumn {
+      min-height: 0;
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr);
+      gap: 10px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 12px;
+    }
+
+    .journalColumnHead {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .journalColumnTitle {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin: 0;
+      font-size: 0.95rem;
+    }
+
+    .journalColumnCount {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 28px;
+      height: 28px;
+      padding: 0 8px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      border: 1px solid var(--border);
+      background: #222c50;
+      color: #dfe7ff;
+    }
+
+    .journalColumnList {
+      min-height: 0;
+      overflow: auto;
+      display: grid;
+      gap: 10px;
+      padding-right: 4px;
+      align-content: start;
+      align-items: start;
+    }
+
+    .journalColumnList:empty::before {
+      content: "Aucune entrée dans cette colonne.";
+      padding: 14px;
+      border: 1px dashed var(--border);
+      border-radius: 12px;
+      color: var(--muted);
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    @media (min-width: 1170px) {
+      .journalDesktopGrid {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        gap: 12px;
+        align-items: stretch;
+        min-height: 560px;
+      }
+
+      .journalList.mobileOnly {
+        display: none;
+      }
+    }
+
+    @media (max-width: 1169.98px) {
+      .journalDesktopGrid {
+        display: none;
+      }
+
+      .journalList.mobileOnly {
+        display: grid;
+      }
     }
 
     .journalNoteCard {
@@ -3427,7 +3520,7 @@
               </div>
             </div>
 
-            <div id="journalList" class="journalList"></div>
+            <div id="journalList" class="journalBoard"></div>
           </div>
         </div>
       </div>
@@ -5027,7 +5120,7 @@
       if (!Array.isArray(proj.rules.collapse)) proj.rules.collapse = [];
       if (!Array.isArray(proj.diagnostics)) proj.diagnostics = [];
       if (!Array.isArray(proj.journal)) proj.journal = [];
-           proj.journal = proj.journal
+      proj.journal = proj.journal
         .filter((note) => note && typeof note === "object")
         .map((note, index) => ({
           id: typeof note.id === "string" && note.id.trim() ? note.id : `note_${Date.now()}_${index}`,
@@ -8519,7 +8612,7 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
         return;
       }
 
-      els.journalList.innerHTML = notes
+      const sortedNotes = notes
         .slice()
         .sort((a, b) => {
           const aPinned = Boolean(a.pinned);
@@ -8530,74 +8623,115 @@ Utilisez l’inventaire pour matérialiser les éléments que vous voulez que le
           }
 
           return new Date(b.createdAt) - new Date(a.createdAt);
-        })
-        .map((note) => {
-          const type = note.type === "task" ? "task" : "rem";
-          const typeLabel = getJournalTypeLabel(type);
-          const hasCycleLink = type === "task" && note.linkedCycleSignature;
-          const isPinned = Boolean(note.pinned);
+        });
 
-          return `
-            <div class="journalNoteCard type-${type} ${note.done ? "done" : ""}">
-              <div class="journalNoteHead">
-                <div class="journalNoteMeta">
-                  <div class="journalNoteTopline">
-                    <span class="journalTypeBadge type-${type}">${typeLabel}</span>
-                    ${isPinned ? `<span class="journalPinnedBadge">📌</span>` : ""}
+      const remNotes = sortedNotes.filter((note) => (note.type === "task" ? "task" : "rem") === "rem");
+      const taskNotes = sortedNotes.filter((note) => (note.type === "task" ? "task" : "rem") === "task");
+
+      function renderJournalCards(list) {
+        return list
+          .map((note) => {
+            const type = note.type === "task" ? "task" : "rem";
+            const typeLabel = getJournalTypeLabel(type);
+            const hasCycleLink = type === "task" && note.linkedCycleSignature;
+            const isPinned = Boolean(note.pinned);
+
+            return `
+              <div class="journalNoteCard type-${type} ${note.done ? "done" : ""}">
+                <div class="journalNoteHead">
+                  <div class="journalNoteMeta">
+                    <div class="journalNoteTopline">
+                      <span class="journalTypeBadge type-${type}">${typeLabel}</span>
+                      ${isPinned ? `<span class="journalPinnedBadge">Épinglée</span>` : ""}
+                    </div>
+                    <div class="journalNoteDate">${escapeHtml(formatJournalDate(note.createdAt))}</div>
                   </div>
-                  <div class="journalNoteDate">${escapeHtml(formatJournalDate(note.createdAt))}</div>
+                  <label class="journalNoteStatus">
+                    <input type="checkbox" data-journal-toggle="${escapeAttr(note.id)}" ${note.done ? "checked" : ""} />
+                    Traitée / lue
+                  </label>
                 </div>
-                <label class="journalNoteStatus">
-                  <input type="checkbox" data-journal-toggle="${escapeAttr(note.id)}" ${note.done ? "checked" : ""} />
-                  Traitée / lue
-                </label>
-              </div>
 
-              ${hasCycleLink
-              ? `
-                <div>
+                ${hasCycleLink
+                ? `
+                  <div>
+                    <button
+                      type="button"
+                      class="secondary"
+                      data-journal-open-cycle="${escapeAttr(note.linkedCycleSignature)}"
+                    >
+                      Afficher la boucle dans le graphe
+                    </button>
+                  </div>
+                `
+                : ""}
+
+                <div class="journalNoteText">${escapeHtml(note.text)}</div>
+
+                <div class="journalNoteActions">
                   <button
                     type="button"
-                    class="secondary"
-                    data-journal-open-cycle="${escapeAttr(note.linkedCycleSignature)}"
+                    class="journalMiniBtn pinBtn"
+                    data-journal-pin="${escapeAttr(note.id)}"
                   >
-                    Afficher la boucle dans le graphe
+                    ${isPinned ? "Désépingler" : "Épingler"}
+                  </button>
+
+                  <button
+                    type="button"
+                    class="journalMiniBtn editBtn"
+                    data-journal-edit="${escapeAttr(note.id)}"
+                  >
+                    Éditer
+                  </button>
+
+                  <button
+                    type="button"
+                    class="journalMiniBtn deleteBtn"
+                    data-journal-delete="${escapeAttr(note.id)}"
+                  >
+                    Supprimer
                   </button>
                 </div>
-              `
-              : ""}
-
-              <div class="journalNoteText">${escapeHtml(note.text)}</div>
-
-                            <div class="journalNoteActions">
-                <button
-                  type="button"
-                  class="journalMiniBtn pinBtn"
-                  data-journal-pin="${escapeAttr(note.id)}"
-                >
-                  ${isPinned ? "Désépingler" : "Épingler"}
-                </button>
-
-                <button
-                  type="button"
-                  class="journalMiniBtn editBtn"
-                  data-journal-edit="${escapeAttr(note.id)}"
-                >
-                  Éditer
-                </button>
-
-                <button
-                  type="button"
-                  class="journalMiniBtn deleteBtn"
-                  data-journal-delete="${escapeAttr(note.id)}"
-                >
-                  Supprimer
-                </button>
               </div>
+            `;
+          })
+          .join("");
+      }
+
+      els.journalList.innerHTML = `
+        <div class="journalList mobileOnly">
+          ${renderJournalCards(sortedNotes)}
+        </div>
+
+        <div class="journalDesktopGrid">
+          <section class="journalColumn">
+            <div class="journalColumnHead">
+              <h3 class="journalColumnTitle">
+                <span class="journalTypeBadge type-rem">REM</span>
+                <span>Notes</span>
+              </h3>
+              <span class="journalColumnCount">${remNotes.length}</span>
             </div>
-          `;
-        })
-        .join("");
+            <div class="journalColumnList">
+              ${renderJournalCards(remNotes)}
+            </div>
+          </section>
+
+          <section class="journalColumn">
+            <div class="journalColumnHead">
+              <h3 class="journalColumnTitle">
+                <span class="journalTypeBadge type-task">TASK</span>
+                <span>Tâches</span>
+              </h3>
+              <span class="journalColumnCount">${taskNotes.length}</span>
+            </div>
+            <div class="journalColumnList">
+              ${renderJournalCards(taskNotes)}
+            </div>
+          </section>
+        </div>
+      `;
     }
 
     function addJournalEntry(type) {
@@ -10384,7 +10518,7 @@ if (document.readyState === "loading") {
       }
     });
 
-       els.journalList?.addEventListener("click", (event) => {
+    els.journalList?.addEventListener("click", (event) => {
       const deleteBtn = event.target.closest("[data-journal-delete]");
       if (deleteBtn) {
         const noteId = deleteBtn.dataset.journalDelete;
